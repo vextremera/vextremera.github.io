@@ -1,0 +1,179 @@
+---
+import SectionHeading from './SectionHeading.astro';
+import { getDict } from '../i18n/utils';
+import { techByGroup, SPRITE_URL } from '../data/tech';
+import type { Locale } from '../i18n/types';
+
+interface Props {
+	locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = getDict(locale).stack;
+const g = t.gravity;
+---
+
+<section id="stack" class="shell py-24 md:py-32">
+	<SectionHeading n={t.n} title={t.title} lead={t.lead} />
+
+	{/* Aquí se inyecta el sprite de logos. Va vacío en el HTML: son 120 KB
+	    que viajan en su propio fichero cacheable en vez de en cada página. */}
+	<div id="logo-sprite" hidden aria-hidden="true"></div>
+
+	<div class="mt-12 md:mt-16" data-reveal>
+		{/* --------------------------------------------------------------
+		    En reposo es una rejilla agrupada y legible; al soltarla, las
+		    etiquetas se desvanecen, las fichas crecen y todo se mezcla.
+		    -------------------------------------------------------------- */}
+		<div
+			data-gravity
+			class="gravity relative min-h-[clamp(24rem,62vh,34rem)] cursor-pointer overflow-hidden border border-line bg-raise"
+		>
+			<div class="flex min-h-[inherit] flex-col justify-center gap-4 p-5 sm:gap-5 md:p-8">
+				{
+					t.groups.map((group) => (
+						<div class="flex flex-col gap-2 sm:flex-row sm:items-center sm:gap-6">
+							<div class="gravity-label sm:w-40 sm:shrink-0">
+								<p class="label text-ink">{group.title}</p>
+								<p class="mt-1 hidden text-[0.7rem] leading-tight text-faint sm:block">
+									{group.note}
+								</p>
+							</div>
+
+							<ul class="flex flex-wrap items-center gap-2 sm:gap-2.5">
+								{techByGroup(group.id).map((item) => (
+									<li
+										data-chip
+										class:list={[
+											'chip',
+											item.kind === 'color' && 'chip-art',
+											item.invertOnDark && 'chip-invert-dark',
+											item.invertOnLight && 'chip-invert-light',
+										]}
+										style={[
+											`--brand:${item.hex}`,
+											`--brand-dark:${item.hexDark}`,
+											`--tip-bg:${item.tipBg}`,
+											`--tip-fg:${item.tipFg}`,
+											`--tip-bg-dark:${item.tipBgDark}`,
+											`--tip-fg-dark:${item.tipFgDark}`,
+										].join(';')}
+										data-name={item.name}
+									>
+										<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+											<use href={`#${item.kind === 'mono' ? 'm' : 't'}-${item.id}`} />
+										</svg>
+										{/* Solo se ve si el sprite no llega a cargar. */}
+										<span class="chip-word" aria-hidden="true">
+											{item.name}
+										</span>
+										<span class="sr-only">{item.name}</span>
+									</li>
+								))}
+							</ul>
+						</div>
+					))
+				}
+			</div>
+
+			{/* Pastilla de arranque. No cubre la caja — antes era una capa a
+			    pantalla completa y se comía el hover de las fichas. El clic lo
+			    recoge la caja entera. */}
+			<button type="button" data-gravity-start class="gravity-start" aria-label={g.activate}>
+				<span class="gravity-hint">
+					{g.hint}
+					<span aria-hidden="true">↓</span>
+				</span>
+			</button>
+
+			<button type="button" data-gravity-reset hidden class="gravity-reset">
+				{g.reset}
+			</button>
+
+			{/* Etiqueta única en vez de una por ficha: cuando están sueltas el
+			    motor les escribe un rotate() en el transform, y una etiqueta
+			    dentro de la ficha giraría con ella. */}
+			<span class="gravity-tip" data-gravity-tip aria-hidden="true"></span>
+
+			<p class="gravity-drag label" aria-hidden="true">{g.drag}</p>
+			<p class="gravity-calm label">{g.calm}</p>
+		</div>
+	</div>
+
+	{/* Lo que no tiene logo porque no es una herramienta */}
+	<div class="mt-8 flex flex-wrap items-baseline gap-x-4 gap-y-2" data-reveal>
+		<h3 class="label text-faint">{t.alsoLabel}</h3>
+		<ul class="flex flex-wrap items-baseline gap-x-2 gap-y-1">
+			{
+				t.also.map((item, i) => (
+					<li class="text-sm font-medium">
+						{item}
+						{i < t.also.length - 1 && (
+							<span class="ml-2 text-faint" aria-hidden="true">
+								·
+							</span>
+						)}
+					</li>
+				))
+			}
+		</ul>
+	</div>
+
+	{/* Lo que aún no maneja, en su propia línea y con el acento: así se lee
+	    como intención, no como stack. */}
+	<div class="mt-4 flex flex-wrap items-baseline gap-x-4 gap-y-2" data-reveal>
+		<h3 class="label text-accent">{t.nextLabel}</h3>
+		<ul class="flex flex-wrap items-baseline gap-x-2 gap-y-1">
+			{
+				t.next.map((item, i) => (
+					<li class="text-sm font-medium text-muted">
+						{item}
+						{i < t.next.length - 1 && (
+							<span class="ml-2 text-faint" aria-hidden="true">
+								·
+							</span>
+						)}
+					</li>
+				))
+			}
+		</ul>
+	</div>
+
+	<p class="mt-12 max-w-[52ch] border-t border-line pt-5 text-sm text-faint text-pretty" data-reveal>
+		{t.footnote}
+	</p>
+</section>
+
+<script define:vars={{ SPRITE_URL }}>
+	// ------------------------------------------------------------------
+	// Sprite de logos: una petición cacheable en vez de 120 KB incrustados
+	// en el HTML de cada página.
+	//
+	// Se descarga y se inyecta en el documento en lugar de referenciarlo
+	// desde fuera con <use href="/logos.svg#id">: esa forma externa no es
+	// fiable en Safari, que la ignora sin dar error. Descargado e inyectado,
+	// la referencia pasa a ser interna y funciona en todas partes.
+	// ------------------------------------------------------------------
+	const host = document.getElementById('logo-sprite');
+
+	if (host && !host.dataset.loaded) {
+		fetch(SPRITE_URL)
+			.then((r) => (r.ok ? r.text() : Promise.reject(new Error(String(r.status)))))
+			.then((svg) => {
+				host.innerHTML = svg;
+				host.dataset.loaded = '1';
+			})
+			.catch(() => {
+				// Sin sprite, cada ficha enseña su nombre escrito.
+				document
+					.querySelectorAll('[data-gravity]')
+					.forEach((box) => box.setAttribute('data-nosprite', ''));
+			});
+	}
+</script>
+
+<script>
+	import { initGravity } from '../scripts/gravity';
+
+	document.querySelectorAll<HTMLElement>('[data-gravity]').forEach((box) => initGravity(box));
+</script>
