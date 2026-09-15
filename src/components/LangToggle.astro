@@ -1,0 +1,50 @@
+---
+import { getDict } from '../i18n/utils';
+import type { Locale } from '../i18n/types';
+
+interface Props {
+	locale: Locale;
+	altPath: string;
+}
+
+const { locale, altPath } = Astro.props;
+const t = getDict(locale);
+---
+
+<div class="label flex items-center text-faint" role="group" aria-label={t.a11y.lang}>
+	{
+		locale === 'es' ? (
+			<>
+				<span class="px-1.5 py-1 text-ink" aria-current="true">
+					ES
+				</span>
+				<span aria-hidden="true">/</span>
+				<a
+					href={altPath}
+					hreflang="en"
+					lang="en"
+					class="px-1.5 py-1 transition-colors duration-300 hover:text-ink"
+					title={t.a11y.lang}
+				>
+					EN
+				</a>
+			</>
+		) : (
+			<>
+				<a
+					href={altPath}
+					hreflang="es"
+					lang="es"
+					class="px-1.5 py-1 transition-colors duration-300 hover:text-ink"
+					title={t.a11y.lang}
+				>
+					ES
+				</a>
+				<span aria-hidden="true">/</span>
+				<span class="px-1.5 py-1 text-ink" aria-current="true">
+					EN
+				</span>
+			</>
+		)
+	}
+</div>

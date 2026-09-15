@@ -1,0 +1,307 @@
+---
+import ThemeToggle from './ThemeToggle.astro';
+import LangToggle from './LangToggle.astro';
+import { getDict, homePath } from '../i18n/utils';
+import type { Locale } from '../i18n/types';
+
+interface Props {
+	locale: Locale;
+	altPath: string;
+	sectionNav?: boolean;
+}
+
+const { locale, altPath, sectionNav = true } = Astro.props;
+const t = getDict(locale);
+const home = homePath(locale);
+---
+
+<header
+	id="site-header"
+	class="fixed inset-x-0 top-0 z-50 transition-colors duration-500 ease-out-expo data-[scrolled]:border-b data-[scrolled]:border-line data-[scrolled]:bg-bg/90 data-[scrolled]:backdrop-blur-md"
+>
+	<div class="shell flex h-16 items-center justify-between gap-6 md:h-20">
+		<a
+			href={home}
+			class="group -m-2 flex items-baseline gap-2.5 p-2"
+			aria-label={locale === 'es' ? 'Inicio' : 'Home'}
+		>
+			<span class="label text-ink">Victor Extremera</span>
+			<span
+				class="label hidden text-faint transition-colors duration-300 group-hover:text-accent sm:inline"
+				aria-hidden="true">/ Full-stack</span
+			>
+		</a>
+
+		{
+			sectionNav && (
+				<nav class="hidden lg:block" aria-label={t.a11y.nav}>
+					<ul class="flex items-center gap-7">
+						{t.nav.map((item) => (
+							<li>
+								<a
+									href={`${home}#${item.id}`}
+									data-nav-link={item.id}
+									class="label relative block py-2 text-muted transition-colors duration-300 hover:text-ink aria-[current=true]:text-ink"
+								>
+									<span
+										class="absolute top-1/2 -left-3 size-1 -translate-y-1/2 rounded-full bg-accent opacity-0 transition-opacity duration-300"
+										data-nav-dot
+										aria-hidden="true"
+									/>
+									{item.label}
+								</a>
+							</li>
+						))}
+					</ul>
+				</nav>
+			)
+		}
+
+		{
+			!sectionNav && (
+				<a href={home} class="label link-underline hidden text-muted hover:text-ink lg:inline-block">
+					← {t.projects.labels.back}
+				</a>
+			)
+		}
+
+		<div class="flex items-center gap-1.5">
+			<LangToggle locale={locale} altPath={altPath} />
+			<ThemeToggle label={t.a11y.theme} />
+			<button
+				type="button"
+				id="menu-open"
+				class="label -mr-2 cursor-pointer p-2 text-ink lg:hidden"
+				aria-haspopup="dialog"
+			>
+				{locale === 'es' ? 'Menú' : 'Menu'}
+			</button>
+		</div>
+	</div>
+
+	{/* Progreso de lectura: 1px, sin peso visual, informativo */}
+	<div
+		id="scroll-progress"
+		class="absolute inset-x-0 bottom-0 h-px origin-left scale-x-0 bg-accent"
+		aria-hidden="true"
+	>
+	</div>
+</header>
+
+{/* Titulillo: mientras lees una sección, su número y su título se quedan
+    justo bajo la cabecera. Sin esto el encabezado se va por detrás y pierdes
+    de vista en qué sección estás. */}
+<div id="running-head" class="running-head" aria-hidden="true">
+	<div class="shell">
+		<p class="running-head-pill">
+			<span class="text-accent tabular-nums" data-rh-n></span>
+			<span data-rh-t></span>
+		</p>
+	</div>
+</div>
+
+<dialog
+	id="menu"
+	class="m-0 h-dvh max-h-none w-full max-w-none bg-bg text-ink backdrop:bg-ink/40 lg:hidden"
+	aria-label={t.a11y.nav}
+>
+	<div class="flex h-full flex-col">
+		<div class="shell flex h-16 shrink-0 items-center justify-between">
+			<span class="label text-faint">{locale === 'es' ? 'Índice' : 'Index'}</span>
+			<button type="button" id="menu-close" class="label -mr-2 cursor-pointer p-2">
+				{locale === 'es' ? 'Cerrar' : 'Close'}
+			</button>
+		</div>
+
+		{/* Sin aria-label propio: el diálogo que lo contiene ya lo tiene, y en
+		    cada viewport solo uno de los dos <nav> está en el árbol de
+		    accesibilidad (el otro queda en display:none). */}
+		<nav class="shell flex flex-1 flex-col justify-center">
+			<ul class="flex flex-col gap-1">
+				{
+					t.nav.map((item, i) => (
+						<li class="border-t border-line">
+							<a
+								href={`${home}#${item.id}`}
+								data-menu-link
+								class="group flex items-baseline gap-4 py-4 text-[clamp(1.75rem,9vw,2.75rem)] leading-none font-medium tracking-tight"
+							>
+								<span class="label text-faint">{String(i + 1).padStart(2, '0')}</span>
+								<span class="transition-transform duration-500 ease-out-expo group-hover:translate-x-1">
+									{item.label}
+								</span>
+							</a>
+						</li>
+					))
+				}
+			</ul>
+		</nav>
+
+		<div class="shell flex shrink-0 items-center justify-between border-t border-line py-5">
+			<a href={`mailto:${t.contact.email}`} class="label link-underline text-muted">
+				{t.contact.email}
+			</a>
+			<span class="label text-faint">ES / EN</span>
+		</div>
+	</div>
+</dialog>
+
+<script>
+	const header = document.getElementById('site-header')!;
+	const progress = document.getElementById('scroll-progress')!;
+	const menu = document.getElementById('menu') as HTMLDialogElement | null;
+	const openBtn = document.getElementById('menu-open');
+	const closeBtn = document.getElementById('menu-close');
+
+	// ------------------------------------------------------------------
+	// Estado de la cabecera + progreso de lectura.
+	// Un solo listener pasivo y todo el trabajo dentro de rAF.
+	// ------------------------------------------------------------------
+	let ticking = false;
+
+	function onScroll() {
+		if (ticking) return;
+		ticking = true;
+
+		requestAnimationFrame(() => {
+			const y = window.scrollY;
+			const max = document.documentElement.scrollHeight - window.innerHeight;
+
+			if (y > 8) header.setAttribute('data-scrolled', '');
+			else header.removeAttribute('data-scrolled');
+
+			progress.style.transform = `scaleX(${max > 0 ? Math.min(y / max, 1) : 0})`;
+			ticking = false;
+		});
+	}
+
+	window.addEventListener('scroll', onScroll, { passive: true });
+	onScroll();
+
+	// ------------------------------------------------------------------
+	// Sección activa en el índice.
+	// ------------------------------------------------------------------
+	const links = Array.from(document.querySelectorAll<HTMLAnchorElement>('[data-nav-link]'));
+
+	if (links.length) {
+		const sections = links
+			.map((l) => document.getElementById(l.dataset.navLink!))
+			.filter((el): el is HTMLElement => Boolean(el));
+
+		const setActive = (id: string | null) => {
+			links.forEach((link) => {
+				const on = link.dataset.navLink === id;
+				link.setAttribute('aria-current', on ? 'true' : 'false');
+				const dot = link.querySelector<HTMLElement>('[data-nav-dot]');
+				if (dot) dot.style.opacity = on ? '1' : '0';
+			});
+		};
+
+		const visible = new Set<string>();
+
+		const io = new IntersectionObserver(
+			(entries) => {
+				entries.forEach((e) => {
+					if (e.isIntersecting) visible.add(e.target.id);
+					else visible.delete(e.target.id);
+				});
+				// El primero en orden de documento gana: evita parpadeos
+				// cuando dos secciones se solapan.
+				const current = sections.find((s) => visible.has(s.id));
+				setActive(current ? current.id : null);
+			},
+			{ rootMargin: '-45% 0px -50% 0px' }
+		);
+
+		sections.forEach((s) => io.observe(s));
+	}
+
+	// ------------------------------------------------------------------
+	// Titulillo de sección.
+	//
+	// Se decide por posición y no solo con IntersectionObserver: hay que
+	// saber si el título grande ya pasó por detrás de la cabecera, que es un
+	// dato de scroll, no de visibilidad.
+	// ------------------------------------------------------------------
+	const rh = document.getElementById('running-head');
+	const rhN = rh?.querySelector<HTMLElement>('[data-rh-n]');
+	const rhT = rh?.querySelector<HTMLElement>('[data-rh-t]');
+
+	if (rh && rhN && rhT) {
+		const heads = Array.from(document.querySelectorAll<HTMLElement>('[data-head-title]'))
+			.map((title) => {
+				const section = title.closest<HTMLElement>('section');
+				const n = section?.querySelector<HTMLElement>('[data-head-n]');
+				return section && n ? { section, title, n } : null;
+			})
+			.filter((h): h is { section: HTMLElement; title: HTMLElement; n: HTMLElement } => h !== null);
+
+		let shown = '';
+
+		const updateHead = () => {
+			const limit = header.getBoundingClientRect().height;
+			let match: (typeof heads)[number] | null = null;
+
+			for (const h of heads) {
+				const box = h.section.getBoundingClientRect();
+				// La sección ocupa la franja bajo la cabecera y su título ya
+				// se ha ido por arriba.
+				if (box.top < limit && box.bottom > limit + 40 && h.title.getBoundingClientRect().bottom < limit) {
+					match = h;
+				}
+			}
+
+			if (!match) {
+				rh.classList.remove('is-on');
+				shown = '';
+				return;
+			}
+
+			const key = match.section.id || match.title.textContent || '';
+			if (key !== shown) {
+				rhN.textContent = match.n.textContent;
+				rhT.textContent = match.title.textContent;
+				shown = key;
+			}
+			rh.classList.add('is-on');
+		};
+
+		if (heads.length) {
+			// Listener propio y directo. Son doce lecturas de geometría en un
+			// único flush, y el navegador ya agrupa los eventos de scroll por
+			// frame: meterlo en un rAF no ahorraba nada medible.
+			window.addEventListener('scroll', updateHead, { passive: true });
+			window.addEventListener('resize', updateHead, { passive: true });
+			updateHead();
+		}
+	}
+
+	// ------------------------------------------------------------------
+	// Menú móvil sobre <dialog>: foco atrapado y Escape gratis.
+	// ------------------------------------------------------------------
+	if (menu && openBtn && closeBtn) {
+		const open = () => {
+			menu.showModal();
+			document.documentElement.style.overflow = 'hidden';
+		};
+		const close = () => {
+			menu.close();
+		};
+
+		openBtn.addEventListener('click', open);
+		closeBtn.addEventListener('click', close);
+		menu.addEventListener('close', () => {
+			document.documentElement.style.overflow = '';
+			openBtn.focus();
+		});
+		menu.querySelectorAll('[data-menu-link]').forEach((link) => {
+			link.addEventListener('click', close);
+		});
+
+		// Si se llega al ancho de escritorio con el menú abierto, el diálogo
+		// pasa a display:none y el scroll se quedaría bloqueado.
+		window.matchMedia('(min-width: 64rem)').addEventListener('change', (e) => {
+			if (e.matches && menu.open) close();
+		});
+	}
+</script>

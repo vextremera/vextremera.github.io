@@ -1,0 +1,65 @@
+---
+interface Props {
+	label: string;
+}
+const { label } = Astro.props;
+---
+
+<button
+	type="button"
+	id="theme-toggle"
+	class="group -m-1 cursor-pointer p-2.5 text-muted transition-colors duration-300 hover:text-ink"
+	aria-label={label}
+	aria-pressed="false"
+	title={label}
+>
+	<svg
+		viewBox="0 0 16 16"
+		class="size-4 rotate-0 transition-transform duration-[600ms] ease-out-expo group-aria-pressed:rotate-180"
+		aria-hidden="true"
+	>
+		<circle cx="8" cy="8" r="6.25" fill="none" stroke="currentColor" stroke-width="1.4"></circle>
+		<path d="M8 1.75 A 6.25 6.25 0 0 1 8 14.25 Z" fill="currentColor"></path>
+	</svg>
+</button>
+
+<script>
+	const root = document.documentElement;
+	const btn = document.getElementById('theme-toggle');
+
+	if (btn) {
+		const sync = () => btn.setAttribute('aria-pressed', String(root.dataset.theme === 'dark'));
+		sync();
+
+		btn.addEventListener('click', () => {
+			const next = root.dataset.theme === 'dark' ? 'light' : 'dark';
+
+			// La transición de color solo se activa durante el cambio, así
+			// nada se anima en la carga inicial.
+			root.classList.add('theme-anim');
+			root.dataset.theme = next;
+			sync();
+
+			try {
+				localStorage.setItem('theme', next);
+			} catch (e) {
+				/* almacenamiento bloqueado: el cambio vale para esta sesión */
+			}
+
+			window.setTimeout(() => root.classList.remove('theme-anim'), 500);
+		});
+
+		// Si el usuario nunca ha elegido, seguimos al sistema en vivo.
+		window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+			let stored: string | null = null;
+			try {
+				stored = localStorage.getItem('theme');
+			} catch {
+				/* ignorado */
+			}
+			if (stored) return;
+			root.dataset.theme = e.matches ? 'dark' : 'light';
+			sync();
+		});
+	}
+</script>
