@@ -1,0 +1,54 @@
+---
+import SectionHeading from './SectionHeading.astro';
+import { getDict } from '../i18n/utils';
+import type { Locale } from '../i18n/types';
+
+interface Props {
+	locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = getDict(locale).about;
+---
+
+<section id="about" class="shell py-24 md:py-32">
+	<SectionHeading n={t.n} title={t.title} />
+
+	<div class="mt-14 grid grid-cols-12 gap-x-6 gap-y-14 md:mt-20">
+		{/* Declaración: se queda fija mientras se lee el texto al lado. */}
+		<div class="col-span-12 lg:col-span-5">
+			<p
+				class="font-display text-[clamp(1.9rem,4.2vw,3.1rem)] leading-[1.08] tracking-[-0.015em] text-balance lg:sticky lg:top-32"
+				data-reveal
+			>
+				{t.statement}
+			</p>
+		</div>
+
+		<div class="col-span-12 lg:col-span-6 lg:col-start-7">
+			<div class="max-w-[62ch] space-y-6" data-reveal-group>
+				{
+					t.body.map((paragraph) => (
+						<p class="text-lead text-muted text-pretty" data-reveal>
+							{paragraph}
+						</p>
+					))
+				}
+			</div>
+
+			<div class="mt-12" data-reveal>
+				<h3 class="label text-faint">{t.factsTitle}</h3>
+				<dl class="mt-4 max-w-[46ch]">
+					{
+						t.facts.map((fact) => (
+							<div class="flex items-baseline justify-between gap-6 border-t border-line py-3">
+								<dt class="label text-faint">{fact.k}</dt>
+								<dd class="text-right text-sm font-medium">{fact.v}</dd>
+							</div>
+						))
+					}
+				</dl>
+			</div>
+		</div>
+	</div>
+</section>

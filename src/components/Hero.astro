@@ -1,0 +1,185 @@
+---
+import { getDict } from '../i18n/utils';
+import type { Locale } from '../i18n/types';
+
+interface Props {
+	locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = getDict(locale);
+const name = t.hero.name.split(' ');
+---
+
+<section class="relative flex min-h-dvh flex-col justify-between overflow-hidden pt-24 pb-8 md:pt-28">
+	{/* Retícula de 12 columnas apenas visible: la estructura del diseño,
+	    a la vista de quien se fije. */}
+	<div
+		class="pointer-events-none absolute inset-0 hidden md:block [mask-image:linear-gradient(to_bottom,transparent,black_20%,black_72%,transparent)]"
+		aria-hidden="true"
+	>
+		<div class="shell h-full">
+			<div class="grid h-full grid-cols-12">
+				{
+					Array.from({ length: 12 }).map((_, i) => (
+						<div class:list={['border-l border-line/70', i === 11 && 'border-r']} />
+					))
+				}
+			</div>
+		</div>
+	</div>
+
+	<div class="shell relative flex justify-start sm:justify-end">
+		<div class="label flex flex-col gap-2 text-muted sm:items-end sm:text-right" data-reveal>
+			<span class="flex items-center gap-2">
+				<span class="dot-live" aria-hidden="true"></span>
+				<span class="hidden sm:inline">{t.hero.status}</span>
+				<span class="sm:hidden">{locale === 'es' ? 'Disponible' : 'Available'}</span>
+			</span>
+			<span class="text-faint">
+				{t.hero.location}
+				<span aria-hidden="true"> · </span>
+				<time id="local-time" datetime="">--:--</time>
+			</span>
+		</div>
+	</div>
+
+	<div class="shell relative">
+		<h1
+			id="hero-name"
+			class="relative -ml-[0.06em] cursor-default text-display font-semibold text-balance select-none"
+			data-reveal
+		>
+			{name[0]}<br />{name.slice(1).join(' ')}
+			{/* Capa de acento revelada por el puntero. Decorativa: el nombre
+			    accesible es el de debajo. */}
+			<span
+				data-spot
+				aria-hidden="true"
+				class="pointer-events-none absolute inset-0 text-accent opacity-0 transition-opacity duration-500 ease-out-expo"
+			>
+				{name[0]}<br />{name.slice(1).join(' ')}
+			</span>
+		</h1>
+	</div>
+
+	<div class="shell relative">
+		<div class="grid grid-cols-12 items-end gap-x-6 gap-y-10 border-t border-line pt-8">
+			<p
+				class="col-span-12 text-h3 font-medium text-pretty lg:col-span-6 xl:col-span-5"
+				data-reveal
+			>
+				{t.hero.statementLead}<em class="font-display text-[1.18em] font-normal italic"
+					>{t.hero.statementEm}</em
+				>{t.hero.statementTail}
+			</p>
+
+			<div class="col-span-12 lg:col-span-6 lg:col-start-7 xl:col-span-5 xl:col-start-8" data-reveal>
+				<p class="text-muted text-pretty">{t.hero.support}</p>
+
+				<div class="mt-7 flex flex-wrap items-center gap-x-3 gap-y-3">
+					<a
+						href="#projects"
+						data-magnetic
+						class="group inline-flex items-center gap-2.5 bg-ink px-5 py-3.5 text-sm font-medium text-bg transition-colors duration-300 hover:bg-accent hover:text-on-accent"
+					>
+						{t.hero.ctaPrimary}
+						<span
+							class="transition-transform duration-500 ease-out-expo group-hover:translate-x-1"
+							aria-hidden="true">→</span
+						>
+					</a>
+					<a
+						href="#contact"
+						class="group inline-flex items-center gap-2.5 border border-line px-5 py-3.5 text-sm font-medium transition-colors duration-300 hover:border-ink"
+					>
+						{t.hero.ctaSecondary}
+					</a>
+				</div>
+			</div>
+		</div>
+
+		<div class="mt-10 flex items-center justify-between md:mt-12">
+			<span class="label flex items-center gap-2 text-faint">
+				<span class="scroll-cue" aria-hidden="true"></span>
+				{t.hero.scroll}
+			</span>
+			<span class="label hidden text-faint sm:inline">{t.hero.timeLabel}</span>
+		</div>
+	</div>
+</section>
+
+<script>
+	// ------------------------------------------------------------------
+	// Reloj local. Da una señal de "hay alguien detrás de esto" y le dice
+	// al reclutador a qué hora estoy disponible.
+	// Zona horaria fija: la web es estática y quien la lee puede estar
+	// en cualquier parte.
+	// ------------------------------------------------------------------
+	const timeEl = document.getElementById('local-time') as HTMLTimeElement | null;
+
+	if (timeEl) {
+		const tz = 'Europe/Madrid';
+		const fmt = new Intl.DateTimeFormat(document.documentElement.lang || 'es', {
+			hour: '2-digit',
+			minute: '2-digit',
+			hour12: false,
+			timeZone: tz,
+		});
+
+		const tick = () => {
+			const now = new Date();
+			timeEl.textContent = fmt.format(now);
+			timeEl.dateTime = now.toISOString();
+		};
+
+		tick();
+		window.setInterval(tick, 20_000);
+	}
+
+	// ------------------------------------------------------------------
+	// Foco de acento sobre el nombre.
+	// Solo con puntero fino y sin reducción de movimiento. Usa máscara +
+	// una custom property registrada: se compone en GPU y no reflowea.
+	// ------------------------------------------------------------------
+	const heading = document.getElementById('hero-name');
+	const spot = heading?.querySelector<HTMLElement>('[data-spot]');
+
+	const fine = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+	const calm = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+	if (heading && spot && fine && !calm) {
+		let raf = 0;
+		let box: DOMRect | null = null;
+
+		const measure = () => {
+			box = heading.getBoundingClientRect();
+		};
+
+		const move = (e: PointerEvent) => {
+			if (raf) return;
+			raf = requestAnimationFrame(() => {
+				if (!box) measure();
+				spot.style.setProperty('--spot-x', `${e.clientX - box!.left}px`);
+				spot.style.setProperty('--spot-y', `${e.clientY - box!.top}px`);
+				raf = 0;
+			});
+		};
+
+		heading.addEventListener('pointerenter', (e) => {
+			measure();
+			move(e);
+			spot.style.opacity = '1';
+			spot.style.setProperty('--spot-r', '190px');
+		});
+
+		heading.addEventListener('pointermove', move);
+
+		heading.addEventListener('pointerleave', () => {
+			spot.style.opacity = '0';
+			spot.style.setProperty('--spot-r', '0px');
+		});
+
+		window.addEventListener('resize', measure, { passive: true });
+	}
+</script>

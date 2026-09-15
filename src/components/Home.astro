@@ -1,0 +1,28 @@
+---
+import Hero from './Hero.astro';
+import About from './About.astro';
+import Stack from './Stack.astro';
+import Method from './Method.astro';
+import Projects from './Projects.astro';
+import Experience from './Experience.astro';
+import Education from './Education.astro';
+import Contact from './Contact.astro';
+import type { Locale } from '../i18n/types';
+
+interface Props {
+	locale: Locale;
+}
+
+const { locale } = Astro.props;
+---
+
+{/* El orden de la página es el mismo en los dos idiomas: una sola fuente
+    de verdad evita que las traducciones se desincronicen. */}
+<Hero locale={locale} />
+<About locale={locale} />
+<Stack locale={locale} />
+<Method locale={locale} />
+<Projects locale={locale} />
+<Experience locale={locale} />
+<Education locale={locale} />
+<Contact locale={locale} />

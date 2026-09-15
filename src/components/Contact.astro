@@ -1,0 +1,156 @@
+---
+import { getDict } from '../i18n/utils';
+import type { Locale } from '../i18n/types';
+
+interface Props {
+	locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = getDict(locale).contact;
+
+// La última palabra va en serif cursiva: el mismo recurso que en el hero,
+// para que la página abra y cierre con la misma voz.
+const words = t.title.split(' ');
+const lastWord = words.pop() ?? '';
+const firstWords = words.join(' ');
+---
+
+<section id="contact" class="shell pt-24 pb-24 md:pt-32 md:pb-32">
+	<div class="border-t border-ink pt-6">
+		<span class="label text-accent tabular-nums" aria-hidden="true">{t.n}</span>
+	</div>
+
+	<h2
+		class="mt-8 text-[clamp(2.6rem,8.5vw,6.75rem)] leading-[0.92] font-semibold tracking-[-0.04em] text-balance"
+		data-reveal
+	>
+		{firstWords}{' '}<em class="font-display text-[1.1em] font-normal italic">{lastWord}</em>
+	</h2>
+
+	<div class="mt-12 grid grid-cols-12 gap-x-6 gap-y-12 md:mt-16">
+		<p class="col-span-12 max-w-[44ch] text-lead text-muted text-pretty lg:col-span-5" data-reveal>
+			{t.lead}
+		</p>
+
+		<div class="col-span-12 lg:col-span-6 lg:col-start-7">
+			<div data-reveal>
+				<p class="label text-faint">{t.emailLabel}</p>
+
+				<div class="mt-3 flex flex-wrap items-center gap-x-5 gap-y-3">
+					<a
+						href={`mailto:${t.email}`}
+						data-magnetic
+						class="group inline-flex items-center gap-3 text-h3 font-medium tracking-tight transition-colors duration-300 hover:text-accent"
+					>
+						{t.email}
+						<span
+							class="text-[0.7em] transition-transform duration-500 ease-out-expo group-hover:translate-x-1"
+							aria-hidden="true">→</span
+						>
+					</a>
+
+					<button
+						type="button"
+						id="copy-email"
+						data-email={t.email}
+						data-copy={t.copy}
+						data-copied={t.copied}
+						class="label cursor-pointer border border-line px-3 py-2 text-muted transition-colors duration-300 hover:border-ink hover:text-ink"
+					>
+						{t.copy}
+					</button>
+					<span id="copy-status" class="sr-only" role="status" aria-live="polite"></span>
+				</div>
+			</div>
+
+			<ul class="mt-12" data-reveal-group>
+				{
+					t.social.map((item) => (
+						<li data-reveal>
+							<a
+								href={item.href}
+								target="_blank"
+								rel="noopener noreferrer"
+								class="group flex items-baseline justify-between gap-6 border-t border-line py-4 transition-colors duration-500 hover:border-ink"
+							>
+								<span class="label text-faint transition-colors duration-300 group-hover:text-ink">
+									{item.label}
+								</span>
+								<span class="flex items-center gap-3 text-sm font-medium">
+									{item.handle}
+									<span
+										class="transition-transform duration-500 ease-out-expo group-hover:translate-x-1 group-hover:-translate-y-0.5"
+										aria-hidden="true"
+									>
+										↗
+									</span>
+								</span>
+							</a>
+						</li>
+					))
+				}
+
+				<li data-reveal>
+					<a
+						href={t.cvHref}
+						download
+						class="group flex items-baseline justify-between gap-6 border-t border-b border-line py-4 transition-colors duration-500 hover:border-ink"
+					>
+						<span class="label text-faint transition-colors duration-300 group-hover:text-ink">
+							CV
+						</span>
+						<span class="flex items-center gap-3 text-sm font-medium">
+							{t.cvLabel}
+							<span
+								class="transition-transform duration-500 ease-out-expo group-hover:translate-y-0.5"
+								aria-hidden="true">↓</span
+							>
+						</span>
+					</a>
+				</li>
+			</ul>
+
+			<p class="mt-8 max-w-[46ch] text-sm text-faint text-pretty" data-reveal>{t.note}</p>
+		</div>
+	</div>
+</section>
+
+<script>
+	// ------------------------------------------------------------------
+	// Copiar el email. Sin formulario: una web estática no puede recibir
+	// envíos sin un servicio externo, y un campo que no envía nada es peor
+	// que no tenerlo. Esto funciona siempre y en un clic.
+	// ------------------------------------------------------------------
+	const btn = document.getElementById('copy-email') as HTMLButtonElement | null;
+	const status = document.getElementById('copy-status');
+
+	if (btn) {
+		let timer = 0;
+
+		btn.addEventListener('click', async () => {
+			const email = btn.dataset.email ?? '';
+			const done = btn.dataset.copied ?? 'Copied';
+			const idle = btn.dataset.copy ?? 'Copy';
+
+			try {
+				await navigator.clipboard.writeText(email);
+			} catch {
+				// Sin permiso de portapapeles: al menos abrimos el cliente.
+				window.location.href = `mailto:${email}`;
+				return;
+			}
+
+			btn.textContent = done;
+			btn.classList.add('border-accent', 'text-accent');
+			if (status) status.textContent = done;
+
+			window.clearTimeout(timer);
+			timer = window.setTimeout(() => {
+				btn.textContent = idle;
+				btn.classList.remove('border-accent', 'text-accent');
+				if (status) status.textContent = '';
+			}, 2200);
+		});
+	}
+</script>
