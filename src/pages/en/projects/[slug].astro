@@ -1,0 +1,24 @@
+---
+import Base from '../../../layouts/Base.astro';
+import CaseStudy from '../../../components/CaseStudy.astro';
+import { getDict, projectPath } from '../../../i18n/utils';
+
+export function getStaticPaths() {
+	return getDict('en').projects.items.map((project) => ({
+		params: { slug: project.slug },
+		props: { project },
+	}));
+}
+
+const { project } = Astro.props;
+---
+
+<Base
+	locale="en"
+	altPath={projectPath('es', project.slug)}
+	title={`${project.name} — Victor Extremera`}
+	description={project.tagline}
+	sectionNav={false}
+>
+	<CaseStudy locale="en" slug={project.slug} />
+</Base>

@@ -1,0 +1,153 @@
+---
+import ProjectCover from './ProjectCover.astro';
+import { getDict, projectPath, homePath } from '../i18n/utils';
+import type { Locale } from '../i18n/types';
+
+interface Props {
+	locale: Locale;
+	slug: string;
+}
+
+const { locale, slug } = Astro.props;
+const d = getDict(locale).projects;
+
+const index = d.items.findIndex((p) => p.slug === slug);
+const project = d.items[index];
+const next = d.items[(index + 1) % d.items.length];
+
+const blocks = [
+	{ label: d.labels.problem, body: project.problem },
+	{ label: d.labels.contribution, body: project.contribution },
+	{ label: d.labels.outcome, body: project.outcome },
+];
+---
+
+<article class="shell pt-28 pb-24 md:pt-36 md:pb-32">
+	<header>
+		<div class="flex flex-wrap items-center gap-3 border-t border-ink pt-6">
+			<span class="label text-accent tabular-nums" aria-hidden="true">{project.n}</span>
+			{
+				project.placeholder && (
+					<span class="label border border-dashed border-line px-2 py-1 text-faint">
+						{d.placeholderBadge}
+					</span>
+				)
+			}
+		</div>
+
+		<h1
+			class="mt-7 text-[clamp(2.5rem,8vw,6rem)] leading-[0.94] font-semibold tracking-[-0.04em] text-balance"
+			data-reveal
+		>
+			{project.name}
+		</h1>
+
+		<p class="mt-6 max-w-[48ch] text-lead text-muted text-pretty" data-reveal>{project.tagline}</p>
+	</header>
+
+	<div class="mt-12 md:mt-16" data-reveal>
+		<ProjectCover
+			n={project.n}
+			name={project.name}
+			cover={project.cover}
+			coverAlt={project.coverAlt}
+			ratio="aspect-4/3 md:aspect-16/9"
+			priority
+		/>
+	</div>
+
+	<div class="mt-16 grid grid-cols-12 gap-x-6 gap-y-14 md:mt-24">
+		{/* Ficha técnica: lo que un técnico mira primero */}
+		<aside class="col-span-12 lg:col-span-3">
+			<dl class="lg:sticky lg:top-32" data-reveal-group>
+				<div class="border-t border-line py-3" data-reveal>
+					<dt class="label text-faint">{d.labels.year}</dt>
+					<dd class="mt-1.5 text-sm font-medium">{project.year}</dd>
+				</div>
+				<div class="border-t border-line py-3" data-reveal>
+					<dt class="label text-faint">{d.labels.role}</dt>
+					<dd class="mt-1.5 text-sm font-medium">{project.role}</dd>
+				</div>
+				<div class="border-t border-line py-3" data-reveal>
+					<dt class="label text-faint">{d.labels.type}</dt>
+					<dd class="mt-1.5 text-sm font-medium">{project.type}</dd>
+				</div>
+				<div class="border-t border-b border-line py-3" data-reveal>
+					<dt class="label text-faint">{d.labels.stack}</dt>
+					<dd class="mt-2.5 flex flex-wrap gap-1.5">
+						{
+							project.stack.map((tech) => (
+								<span class="label border border-line px-2 py-1 text-muted">{tech}</span>
+							))
+						}
+					</dd>
+				</div>
+
+				{
+					(project.repo || project.demo) && (
+						<div class="mt-6 flex flex-wrap gap-2" data-reveal>
+							{project.repo && (
+								<a
+									href={project.repo}
+									target="_blank"
+									rel="noopener noreferrer"
+									class="label border border-line px-3 py-2 transition-colors duration-300 hover:border-ink"
+								>
+									{d.repo} ↗
+								</a>
+							)}
+							{project.demo && (
+								<a
+									href={project.demo}
+									target="_blank"
+									rel="noopener noreferrer"
+									class="label bg-ink px-3 py-2 text-bg transition-colors duration-300 hover:bg-accent hover:text-on-accent"
+								>
+									{d.demo} ↗
+								</a>
+							)}
+						</div>
+					)
+				}
+			</dl>
+		</aside>
+
+		<div class="col-span-12 lg:col-span-8 lg:col-start-5">
+			<div class="space-y-14" data-reveal-group>
+				{
+					blocks.map((block) => (
+						<section data-reveal>
+							<h2 class="label border-t border-line pt-5 text-accent">{block.label}</h2>
+							<p class="mt-5 max-w-[60ch] text-lead text-pretty">{block.body}</p>
+						</section>
+					))
+				}
+			</div>
+		</div>
+	</div>
+
+	<nav class="mt-24 grid grid-cols-12 gap-x-6 gap-y-6 border-t border-line pt-8 md:mt-32">
+		<a
+			href={`${homePath(locale)}#projects`}
+			class="label link-underline col-span-12 self-start text-muted hover:text-ink sm:col-span-4"
+		>
+			← {d.labels.back}
+		</a>
+
+		<a
+			href={projectPath(locale, next.slug)}
+			class="group col-span-12 sm:col-span-7 sm:col-start-6 sm:text-right"
+		>
+			<span class="label text-faint">{d.labels.next}</span>
+			<span
+				class="mt-2 block text-h3 font-semibold tracking-tight transition-colors duration-300 group-hover:text-accent"
+			>
+				{next.name}
+				<span
+					class="inline-block transition-transform duration-500 ease-out-expo group-hover:translate-x-1.5"
+					aria-hidden="true">→</span
+				>
+			</span>
+		</a>
+	</nav>
+</article>
