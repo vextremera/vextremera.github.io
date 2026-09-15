@@ -1,1 +1,738 @@
 @import "tailwindcss";
+
+/* ===========================================================================
+   FUENTES
+   Self-hosted, solo el subconjunto latino, desde /public/fonts.
+   Cero peticiones a terceros. Licencias OFL en public/fonts/LICENSE-*.txt
+   =========================================================================== */
+
+@font-face {
+	font-family: 'Inter';
+	font-style: normal;
+	font-weight: 100 900;
+	font-display: swap;
+	src: url('/fonts/inter-latin-wght-normal.woff2') format('woff2');
+	unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+		U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193,
+		U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+	font-family: 'JetBrains Mono';
+	font-style: normal;
+	font-weight: 100 800;
+	font-display: swap;
+	src: url('/fonts/jetbrains-mono-latin-wght-normal.woff2') format('woff2');
+	unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+		U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193,
+		U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+	font-family: 'Instrument Serif';
+	font-style: normal;
+	font-weight: 400;
+	font-display: swap;
+	src: url('/fonts/instrument-serif-latin-400-normal.woff2') format('woff2');
+	unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+		U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193,
+		U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+	font-family: 'Instrument Serif';
+	font-style: italic;
+	font-weight: 400;
+	font-display: swap;
+	src: url('/fonts/instrument-serif-latin-400-italic.woff2') format('woff2');
+	unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+		U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193,
+		U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+/* Modo oscuro por atributo en <html>, no por media query:
+   así el usuario puede forzarlo y persistirlo. */
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
+/* ===========================================================================
+   TOKENS — tema claro "Papel"
+   =========================================================================== */
+
+@theme {
+	--font-sans: 'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+	--font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+	--font-display: 'Instrument Serif', ui-serif, Georgia, 'Times New Roman', serif;
+
+	--color-bg: #f5f3ef;
+	--color-raise: #fbfaf8;
+	--color-ink: #14130f;
+	--color-muted: #6a665d;
+	--color-faint: #9c968b;
+	--color-line: #ded9cf;
+	--color-accent: #1b3bff;
+
+	/* Los tres tonos del degradado que revela el puntero sobre el nombre.
+	   Es el único sitio del sitio con más de un color. */
+	--color-spot-a: #1b3bff;
+	--color-spot-b: #8b5cf6;
+	--color-spot-c: #ff5b3e;
+	--color-on-accent: #ffffff;
+
+	/* Escala tipográfica fluida: una sola fuente de verdad para los tamaños */
+	--text-eyebrow: 0.6875rem;
+	--text-eyebrow--line-height: 1;
+	--text-eyebrow--letter-spacing: 0.18em;
+
+	--text-display: clamp(3.25rem, 12.5vw, 10.5rem);
+	--text-display--line-height: 0.84;
+	--text-display--letter-spacing: -0.045em;
+
+	--text-h2: clamp(2.25rem, 6vw, 4.5rem);
+	--text-h2--line-height: 0.94;
+	--text-h2--letter-spacing: -0.035em;
+
+	--text-h3: clamp(1.375rem, 2.4vw, 2rem);
+	--text-h3--line-height: 1.15;
+	--text-h3--letter-spacing: -0.02em;
+
+	--text-lead: clamp(1.0625rem, 1.45vw, 1.375rem);
+	--text-lead--line-height: 1.55;
+
+	--ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+	--ease-in-out-quart: cubic-bezier(0.76, 0, 0.24, 1);
+}
+
+/* ===========================================================================
+   TOKENS — tema oscuro "Tinta"
+   No es una inversión: cambia la temperatura, el acento se aclara para
+   mantener el contraste, y las superficies suben en vez de bajar.
+   =========================================================================== */
+
+[data-theme='dark'] {
+	--color-bg: #0d0c0a;
+	--color-raise: #171612;
+	--color-ink: #efebe3;
+	--color-muted: #9b958a;
+	--color-faint: #6b665c;
+	--color-line: #2b2924;
+	--color-accent: #a9b8ff;
+
+	--color-spot-a: #6d8bff;
+	--color-spot-b: #a78bfa;
+	--color-spot-c: #ff7a5c;
+	--color-on-accent: #0d0c0a;
+	color-scheme: dark;
+}
+
+:root {
+	color-scheme: light;
+}
+
+/* ===========================================================================
+   BASE
+   =========================================================================== */
+
+@layer base {
+	html {
+		scroll-behavior: smooth;
+
+		/* Sin desplazamiento de ancla a propósito. Cada sección lleva su
+		   propio ritmo vertical (py-24 / md:py-32) y ese relleno ya la separa
+		   de la cabecera fija. Añadiendo además scroll-padding-top aquí y
+		   scroll-mt en la sección, los tres se sumaban: el título caía 285 px
+		   por debajo de la cabecera y quedaba una banda vacía enorme.
+		   Si algún día se ancla algo SIN relleno superior propio, ese
+		   elemento necesita su propio scroll-margin-top. */
+		scroll-padding-top: 0;
+		-webkit-text-size-adjust: 100%;
+	}
+
+	body {
+		background-color: var(--color-bg);
+		color: var(--color-ink);
+		font-family: var(--font-sans);
+		font-synthesis-weight: none;
+		-webkit-font-smoothing: antialiased;
+		-moz-osx-font-smoothing: grayscale;
+	}
+
+	::selection {
+		background-color: var(--color-accent);
+		color: var(--color-on-accent);
+	}
+
+	:focus-visible {
+		outline: 2px solid var(--color-accent);
+		outline-offset: 3px;
+		border-radius: 1px;
+	}
+
+	:where(a) {
+		color: inherit;
+		text-decoration: none;
+	}
+
+	:where(h1, h2, h3) {
+		text-wrap: balance;
+	}
+
+	:where(p) {
+		text-wrap: pretty;
+	}
+
+	/* Transición de tema: se activa solo durante el cambio para no
+	   animar nada en la carga inicial. */
+	html.theme-anim,
+	html.theme-anim *,
+	html.theme-anim *::before,
+	html.theme-anim *::after {
+		transition:
+			background-color 0.45s var(--ease-out-expo),
+			border-color 0.45s var(--ease-out-expo),
+			color 0.45s var(--ease-out-expo),
+			fill 0.45s var(--ease-out-expo) !important;
+	}
+
+	/* Entradas al hacer scroll. Solo se ocultan si hay JS: sin JS
+	   el contenido se ve igual, nunca queda invisible. */
+	html.js [data-reveal] {
+		opacity: 0;
+		transform: translate3d(0, 1.75rem, 0);
+	}
+
+	html.js [data-reveal].is-visible {
+		opacity: 1;
+		transform: none;
+		transition:
+			opacity 0.9s var(--ease-out-expo) var(--reveal-delay, 0ms),
+			transform 0.9s var(--ease-out-expo) var(--reveal-delay, 0ms);
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		html {
+			scroll-behavior: auto;
+		}
+
+		html.js [data-reveal] {
+			opacity: 1;
+			transform: none;
+		}
+
+		*,
+		*::before,
+		*::after {
+			animation-duration: 0.01ms !important;
+			animation-iteration-count: 1 !important;
+			transition-duration: 0.01ms !important;
+			scroll-behavior: auto !important;
+		}
+	}
+}
+
+/* ===========================================================================
+   UTILIDADES
+   =========================================================================== */
+
+/* Contenedor editorial con márgenes generosos y crecientes */
+@utility shell {
+	width: 100%;
+	max-width: 90rem;
+	margin-inline: auto;
+	padding-inline: 1.25rem;
+}
+
+@media (width >= 48rem) {
+	.shell {
+		padding-inline: 2.5rem;
+	}
+}
+
+@media (width >= 80rem) {
+	.shell {
+		padding-inline: 4.5rem;
+	}
+}
+
+/* Etiqueta monoespaciada: metadatos, numeración, secciones */
+@utility label {
+	font-family: var(--font-mono);
+	font-size: var(--text-eyebrow);
+	line-height: 1;
+	letter-spacing: 0.18em;
+	text-transform: uppercase;
+	font-weight: 500;
+}
+
+/* Subrayado que crece desde la izquierda al hacer hover */
+@utility link-underline {
+	background-image: linear-gradient(currentColor, currentColor);
+	background-repeat: no-repeat;
+	background-position: 0 100%;
+	background-size: 0% 1px;
+	transition: background-size 0.45s var(--ease-out-expo);
+
+	&:hover,
+	&:focus-visible {
+		background-size: 100% 1px;
+	}
+}
+
+/* ===========================================================================
+   DETALLES
+   =========================================================================== */
+
+/* Foco de acento sobre el nombre del hero.
+   Registramos el radio como propiedad para poder transicionarlo. */
+@property --spot-r {
+	syntax: '<length>';
+	inherits: false;
+	initial-value: 0px;
+}
+
+/* El foco que revela el puntero ya no es un acento plano: es un degradado
+   de los tres tonos del hero recortado sobre las letras. El color aparece
+   solo donde apuntas. */
+[data-spot] {
+	--spot-x: 50%;
+	--spot-y: 50%;
+	background-image: linear-gradient(
+		100deg,
+		var(--color-spot-a) 0%,
+		var(--color-spot-b) 46%,
+		var(--color-spot-c) 100%
+	);
+	-webkit-background-clip: text;
+	background-clip: text;
+	color: transparent;
+	-webkit-mask-image: radial-gradient(
+		circle var(--spot-r) at var(--spot-x) var(--spot-y),
+		#000 0%,
+		#000 58%,
+		transparent 100%
+	);
+	mask-image: radial-gradient(
+		circle var(--spot-r) at var(--spot-x) var(--spot-y),
+		#000 0%,
+		#000 58%,
+		transparent 100%
+	);
+	transition: --spot-r 0.55s var(--ease-out-expo);
+}
+
+/* Punto de "disponible": un latido lento, no un parpadeo */
+.dot-live {
+	display: inline-block;
+	width: 0.375rem;
+	height: 0.375rem;
+	border-radius: 9999px;
+	background-color: var(--color-accent);
+	box-shadow: 0 0 0 0 color-mix(in oklab, var(--color-accent) 55%, transparent);
+	animation: dot-live 3.2s var(--ease-out-expo) infinite;
+}
+
+@keyframes dot-live {
+	0%,
+	70%,
+	100% {
+		box-shadow: 0 0 0 0 color-mix(in oklab, var(--color-accent) 55%, transparent);
+	}
+	35% {
+		box-shadow: 0 0 0 5px color-mix(in oklab, var(--color-accent) 0%, transparent);
+	}
+}
+
+/* Indicador de scroll: una línea que cae */
+.scroll-cue {
+	position: relative;
+	display: inline-block;
+	width: 1px;
+	height: 1.5rem;
+	overflow: hidden;
+	background-color: var(--color-line);
+	vertical-align: middle;
+}
+
+.scroll-cue::after {
+	content: '';
+	position: absolute;
+	inset-inline: 0;
+	top: 0;
+	height: 45%;
+	background-color: var(--color-accent);
+	animation: scroll-cue 2.6s var(--ease-in-out-quart) infinite;
+}
+
+@keyframes scroll-cue {
+	0% {
+		transform: translateY(-100%);
+	}
+	60%,
+	100% {
+		transform: translateY(240%);
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.dot-live,
+	.scroll-cue::after {
+		animation: none;
+	}
+}
+
+/* ===========================================================================
+   CAJA DE GRAVEDAD (sección Stack)
+   Las fichas son elementos del DOM, no un canvas: siguen siendo una lista
+   semántica y el SVG se ve nítido a cualquier escala. El dibujo viene de un
+   sprite externo cacheable que el script inyecta una vez.
+   =========================================================================== */
+
+.gravity {
+	/* Nada de texto seleccionable aquí dentro: al arrastrar una ficha el
+	   navegador empezaba a seleccionar las etiquetas y cancelaba los eventos
+	   de puntero, que es lo que rompía el arrastre. */
+	user-select: none;
+	-webkit-user-select: none;
+	cursor: pointer;
+}
+
+.chip {
+	--size: 2.5rem;
+	display: grid;
+	place-items: center;
+	width: var(--size);
+	height: var(--size);
+	flex: none;
+	border: 1px solid var(--color-line);
+	border-radius: 9999px;
+	background-color: var(--color-bg);
+	color: var(--color-muted);
+	touch-action: none;
+	will-change: transform;
+	/* Sin transición de width/height a propósito: el crecimiento lo anima el
+	   motor con scale(). Si el ancho se transicionara, la medida que toma al
+	   activar devolvería todavía el tamaño viejo y no habría crecimiento. */
+	transition:
+		border-color 0.35s var(--ease-out-expo),
+		background-color 0.35s var(--ease-out-expo),
+		color 0.35s var(--ease-out-expo);
+}
+
+@media (width >= 40rem) {
+	.chip {
+		--size: 2.75rem;
+	}
+}
+
+/* Al soltarlas crecen. El motor lee el tamaño nuevo del DOM y ajusta el
+   radio de colisión, así que chocan con el tamaño que se ve. */
+.gravity.is-live .chip {
+	--size: 3.125rem;
+}
+
+@media (width >= 40rem) {
+	.gravity.is-live .chip {
+		--size: 3.5rem;
+	}
+}
+
+.chip > svg {
+	width: 74%;
+	height: 74%;
+	transition:
+		opacity 0.3s var(--ease-out-expo),
+		filter 0.3s var(--ease-out-expo);
+}
+
+/* --- Siluetas de simple-icons (43 de 49) ---------------------------------
+   Sin `fill` propio: heredan currentColor. En reposo van en gris y al
+   interactuar toman el color de marca, ya ajustado al contraste de cada
+   tema. Todo el sitio es monocromo, así que el color es la recompensa. */
+.chip {
+	--c: var(--brand);
+}
+
+[data-theme='dark'] .chip {
+	--c: var(--brand-dark);
+}
+
+.chip:not(.chip-art) > svg {
+	fill: currentColor;
+}
+
+.chip:not(.chip-art):hover,
+.gravity.is-live .chip:not(.chip-art) {
+	color: var(--c);
+	border-color: color-mix(in oklab, var(--c) 45%, var(--color-line));
+}
+
+/* --- Arte a color de thesvg (Java, C#, AWS, VS Code, Photoshop, Canva) ---
+   Los que simple-icons no tiene porque sus dueños pidieron ser retirados.
+   Mismo comportamiento: gris en reposo, color al interactuar. */
+.chip-art > svg {
+	filter: grayscale(1) contrast(0.43) brightness(0.72);
+	opacity: 0.95;
+}
+
+[data-theme='dark'] .chip-art > svg {
+	filter: grayscale(1) contrast(0.3) brightness(1.45);
+	opacity: 0.8;
+}
+
+.chip-art:hover > svg,
+.gravity.is-live .chip-art > svg {
+	filter: none;
+	opacity: 1;
+}
+
+/* Si ese arte es monocromo, sobre su propio fondo desaparece: solo entonces
+   se invierte. Invertir un logo con color real le cambiaría el tono. */
+[data-theme='dark'] .chip-invert-dark:hover > svg,
+[data-theme='dark'] .gravity.is-live .chip-invert-dark > svg {
+	filter: invert(1);
+}
+
+:root:not([data-theme='dark']) .chip-invert-light:hover > svg,
+:root:not([data-theme='dark']) .gravity.is-live .chip-invert-light > svg {
+	filter: invert(1);
+}
+
+.chip:hover {
+	border-color: var(--color-ink);
+}
+
+/* Etiqueta con el nombre al pasar el ratón. El navegador ya trae tooltip
+   nativo con title=, pero tarda lo que quiere, no se puede estilar y en
+   móvil no existe. */
+.gravity-tip {
+	position: absolute;
+	z-index: 3;
+	left: 0;
+	top: 0;
+	pointer-events: none;
+	font-family: var(--font-mono);
+	font-size: 0.5625rem;
+	letter-spacing: 0.12em;
+	text-transform: uppercase;
+	line-height: 1;
+	white-space: nowrap;
+	padding: 0.3rem 0.45rem;
+
+	/* Fondo con el color de la marca. El motor copia estas variables desde la
+	   ficha que hay bajo el cursor; así el cambio de tema se resuelve solo. */
+	--b: var(--tip-bg, var(--color-ink));
+	--f: var(--tip-fg, var(--color-bg));
+	background-color: var(--b);
+	color: var(--f);
+
+	/* Sigue al cursor: el motor escribe left/top en coordenadas de la caja,
+	   sin centrar bajo la ficha. */
+	opacity: 0;
+	transition: opacity 0.18s var(--ease-out-expo);
+}
+
+[data-theme='dark'] .gravity-tip {
+	--b: var(--tip-bg-dark, var(--color-ink));
+	--f: var(--tip-fg-dark, var(--color-bg));
+}
+
+.gravity-tip.is-on {
+	opacity: 1;
+}
+
+/* Nombre escrito: solo si el sprite no llega a cargar. */
+.chip-word {
+	display: none;
+	grid-area: 1 / 1;
+	font-family: var(--font-mono);
+	font-size: 0.5rem;
+	font-weight: 600;
+	line-height: 1;
+	text-align: center;
+	color: var(--color-muted);
+	padding-inline: 0.2rem;
+}
+
+.gravity[data-nosprite] .chip > svg {
+	display: none;
+}
+
+.gravity[data-nosprite] .chip-word {
+	display: block;
+}
+
+.gravity.is-live .chip {
+	position: absolute;
+	top: 0;
+	left: 0;
+	margin: 0;
+	cursor: grab;
+	/* Mientras se simula, el transform lo escribe el motor en cada frame:
+	   cualquier transición aquí pelearía con él. */
+	transition:
+		border-color 0.35s var(--ease-out-expo),
+		background-color 0.35s var(--ease-out-expo);
+}
+
+.chip.is-held {
+	cursor: grabbing;
+	border-color: var(--color-ink);
+	background-color: var(--color-raise);
+}
+
+/* Al soltar, las categorías se disuelven */
+.gravity-label {
+	transition: opacity 0.5s var(--ease-out-expo);
+}
+
+.gravity.is-live .gravity-label {
+	opacity: 0;
+	pointer-events: none;
+}
+
+/* Pastilla de arranque: NO cubre la caja, o se comería el hover de las
+   fichas. El clic lo recoge la caja entera. */
+.gravity-start {
+	position: absolute;
+	bottom: 1rem;
+	left: 50%;
+	transform: translateX(-50%);
+	cursor: pointer;
+	background: none;
+	border: 0;
+	padding: 0;
+}
+
+.gravity-hint {
+	font-family: var(--font-mono);
+	font-size: var(--text-eyebrow);
+	letter-spacing: 0.18em;
+	text-transform: uppercase;
+	display: inline-flex;
+	align-items: center;
+	gap: 0.5rem;
+	padding: 0.5rem 0.9rem;
+	border: 1px solid var(--color-line);
+	background-color: var(--color-bg);
+	color: var(--color-muted);
+	transition:
+		color 0.4s var(--ease-out-expo),
+		border-color 0.4s var(--ease-out-expo);
+}
+
+.gravity:hover .gravity-hint,
+.gravity-start:focus-visible .gravity-hint {
+	color: var(--color-accent);
+	border-color: var(--color-accent);
+}
+
+.gravity-reset {
+	position: absolute;
+	top: 0.875rem;
+	right: 0.875rem;
+	z-index: 2;
+	cursor: pointer;
+	font-family: var(--font-mono);
+	font-size: var(--text-eyebrow);
+	letter-spacing: 0.18em;
+	text-transform: uppercase;
+	padding: 0.45rem 0.75rem;
+	border: 1px solid var(--color-line);
+	background-color: var(--color-bg);
+	color: var(--color-muted);
+	transition:
+		color 0.3s,
+		border-color 0.3s;
+}
+
+.gravity-reset:hover {
+	color: var(--color-ink);
+	border-color: var(--color-ink);
+}
+
+.gravity-drag,
+.gravity-calm {
+	position: absolute;
+	bottom: 1rem;
+	left: 1rem;
+	color: var(--color-faint);
+	opacity: 0;
+	transition: opacity 0.5s var(--ease-out-expo);
+	pointer-events: none;
+}
+
+.gravity.is-live .gravity-drag {
+	opacity: 1;
+}
+
+/* Sin JavaScript o con movimiento reducido: la rejilla se queda como está y
+   no se ofrece nada que no vaya a funcionar. */
+.gravity[data-calm],
+html:not(.js) .gravity {
+	cursor: default;
+}
+
+.gravity[data-calm] .gravity-start,
+html:not(.js) .gravity-start {
+	display: none;
+}
+
+.gravity[data-calm] .gravity-calm {
+	opacity: 1;
+	position: static;
+	margin: 0 1.25rem 1rem;
+}
+
+/* ===========================================================================
+   TITULILLO DE SECCIÓN
+   Mientras lees una sección, su número y su título se quedan justo bajo la
+   cabecera. Sin esto el encabezado se va por detrás al bajar y pierdes la
+   referencia de dónde estás.
+   =========================================================================== */
+
+.running-head {
+	position: fixed;
+	top: 4rem; /* alto de la cabecera en móvil */
+	inset-inline: 0;
+	z-index: 40;
+	pointer-events: none;
+	opacity: 0;
+	transform: translateY(-0.4rem);
+	transition:
+		opacity 0.35s var(--ease-out-expo),
+		transform 0.35s var(--ease-out-expo);
+}
+
+@media (width >= 48rem) {
+	.running-head {
+		top: 5rem;
+	}
+}
+
+.running-head.is-on {
+	opacity: 1;
+	transform: none;
+}
+
+.running-head-pill {
+	display: inline-flex;
+	align-items: baseline;
+	gap: 0.6rem;
+	font-family: var(--font-mono);
+	font-size: var(--text-eyebrow);
+	line-height: 1;
+	letter-spacing: 0.18em;
+	text-transform: uppercase;
+	font-weight: 500;
+	color: var(--color-muted);
+	padding: 0.5rem 0.75rem;
+	border: 1px solid var(--color-line);
+	border-top: 0;
+	background-color: color-mix(in oklab, var(--color-bg) 92%, transparent);
+	backdrop-filter: blur(8px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.running-head {
+		transition: none;
+	}
+}
