@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+	<rect width="1200" height="630" fill="#0d0c0a"/>
+	<g font-family="Helvetica Neue, Helvetica, Arial, sans-serif" fill="#efebe3">
+		<text x="80" y="104" font-size="20" letter-spacing="3.6" fill="#9b958a">WEB DEVELOPER / FRONTEND</text>
+		<text x="76" y="330" font-size="128" font-weight="600" letter-spacing="-5">Victor</text>
+		<text x="76" y="452" font-size="128" font-weight="600" letter-spacing="-5">Extremera</text>
+		<text x="80" y="560" font-size="24" fill="#9b958a">Interfaces rapidas, accesibles y cuidadas.</text>
+	</g>
+	<rect x="80" y="128" width="1040" height="1" fill="#2b2924"/>
+	<circle cx="1096" cy="96" r="9" fill="#a9b8ff"/>
+</svg>
