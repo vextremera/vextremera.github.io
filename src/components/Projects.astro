@@ -25,13 +25,12 @@ const rest = t.items.filter((p) => p !== featured);
 		<div class="col-span-12 lg:col-span-7">
 			{/* Sin enlace propio: el título usa el patrón de enlace extendido
 			    y cubre toda la tarjeta. Un solo destino por proyecto. */}
-			{/* Sin `cover` a propósito: en el listado manda la tipografía. La
-			    captura se guarda para la página de caso, que es donde se ve
-			    entera y sin estorbar al número ni al nombre. */}
 			<ProjectCover
 				n={featured.n}
 				name={featured.name}
+				cover={featured.cover}
 				ratio="aspect-4/3 lg:aspect-16/11"
+				framed
 			/>
 		</div>
 
@@ -102,7 +101,7 @@ const rest = t.items.filter((p) => p !== featured);
 					]}
 					data-reveal
 				>
-					<ProjectCover n={project.n} name={project.name} />
+					<ProjectCover n={project.n} name={project.name} cover={project.cover} framed />
 
 					<div class="mt-5 flex items-baseline justify-between gap-4">
 						<h3 class="text-lg leading-tight font-semibold tracking-tight">

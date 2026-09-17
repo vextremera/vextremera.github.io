@@ -7,9 +7,26 @@ interface Props {
 	/** Clase de proporción de Tailwind. */
 	ratio?: string;
 	priority?: boolean;
+	/**
+	 * Vista de tarjeta: la captura se coloca centrada y con aire dentro de la
+	 * portada tipográfica, en vez de ocupar la caja entera. Manda el número y
+	 * el nombre; la imagen acompaña.
+	 */
+	framed?: boolean;
 }
 
-const { n, name, cover, coverAlt, ratio = 'aspect-4/3', priority = false } = Astro.props;
+const {
+	n,
+	name,
+	cover,
+	coverAlt,
+	ratio = 'aspect-4/3',
+	priority = false,
+	framed = false,
+} = Astro.props;
+
+/* A sangre solo cuando se pide la caja entera, que es la página de caso. */
+const aSangre = Boolean(cover) && !framed;
 ---
 
 <div
@@ -19,7 +36,7 @@ const { n, name, cover, coverAlt, ratio = 'aspect-4/3', priority = false } = Ast
 	]}
 >
 	{
-		cover ? (
+		aSangre ? (
 			<img
 				src={cover}
 				alt={coverAlt ?? ''}
@@ -29,10 +46,9 @@ const { n, name, cover, coverAlt, ratio = 'aspect-4/3', priority = false } = Ast
 				class="size-full object-cover transition-transform duration-[900ms] ease-out-expo group-hover:scale-[1.025]"
 			/>
 		) : (
-			/* Portada tipográfica: cero peticiones, cero imágenes de stock.
-			   Es lo que llevan las tarjetas del listado, que no reciben
-			   `cover` a propósito. La captura se reserva para la página de
-			   caso, donde se ve entera y nítida. */
+			/* Portada tipográfica: cero imágenes de stock. Manda el número y el
+			   nombre, y la captura, si la hay, se posa encima con aire por los
+			   cuatro lados. */
 			<div class="absolute inset-0" aria-hidden="true">
 				<div class="absolute inset-0 grid grid-cols-4">
 					<div class="border-r border-line/60" />
@@ -46,6 +62,22 @@ const { n, name, cover, coverAlt, ratio = 'aspect-4/3', priority = false } = Ast
 				<span class="absolute right-5 bottom-3 font-display text-[clamp(4rem,14vw,9rem)] leading-none text-transparent transition-all duration-[900ms] ease-out-expo [-webkit-text-stroke:1px_var(--color-line)] group-hover:-translate-y-1 group-hover:[-webkit-text-stroke:1px_var(--color-accent)]">
 					{n}
 				</span>
+
+				{cover && (
+					/* Se da el ancho y la altura sale sola, así la captura
+					   conserva su proporción y el aire de arriba y abajo queda
+					   parejo sin cuadrar números a mano. El filete es necesario:
+					   la barra de navegación del sitio es casi del mismo crema
+					   que la tarjeta y, sin él, la imagen se deshilacha por el
+					   borde en el tema claro. */
+					<img
+						src={cover}
+						alt=""
+						loading="lazy"
+						decoding="async"
+						class="absolute top-1/2 left-1/2 w-[68%] -translate-x-1/2 -translate-y-1/2 border border-line transition-transform duration-[900ms] ease-out-expo group-hover:scale-[1.03]"
+					/>
+				)}
 
 				<span class="absolute bottom-5 left-5 max-w-[60%] text-sm leading-snug font-medium text-muted transition-colors duration-500 group-hover:text-ink">
 					{name}
