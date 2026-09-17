@@ -624,9 +624,15 @@
 }
 
 .chip.is-held {
-	cursor: var(--cur-grabbing);
 	border-color: var(--color-ink);
 	background-color: var(--color-raise);
+}
+
+/* La mano cerrada necesita ganarle a `.gravity.is-live .chip`, que vale
+   0-3-0 y le pisaba el cursor a un `.chip.is-held` pelado de 0-2-0. No se
+   notaba mientras las dos manos eran el mismo dibujo. */
+.gravity.is-live .chip.is-held {
+	cursor: var(--cur-grabbing);
 }
 
 /* Al soltar, las categorías se disuelven */
@@ -789,24 +795,26 @@ html:not(.js) .gravity-start {
 
 /* ===========================================================================
    CURSORES
-   Tema "Future Cursor" (yeyushengfan258, basado en capitaine-cursors).
+   Tema "Future Cursors" de yeyushengfan258, GPL-3.0, basado en
+   capitaine-cursors. Los SVG de /public/cursors son el fuente del propio
+   tema, limpiado de los restos de Inkscape; ver CREDITS.txt.
    ---------------------------------------------------------------------------
-   Vienen de un pack .cur de Windows y se sirven como PNG: Safari no admite
-   .cur y Chromium solo lo trata bien en Windows, mientras que PNG funciona en
-   los cuatro motores.
+   Cada cursor va dos veces, uno por tema. No hay forma de hacerlo con uno
+   solo: el navegador dibuja el cursor aislado, y ahí dentro no llega
+   currentColor ni el data-theme del sitio. El negro se lee sobre el fondo
+   claro y desaparece sobre el oscuro, y con el blanco pasa al revés.
 
-   Los dos números tras la url son el HOTSPOT: qué píxel de la imagen es la
-   punta que de verdad pulsa. Salen de la cabecera del .cur original, no están
-   puestos a ojo. Si se cambian las imágenes hay que volver a leerlos.
+   Los dos números tras cada url son el HOTSPOT: qué píxel del dibujo es la
+   punta que de verdad pulsa. Salen de los .cursor del repo original, que los
+   declara para la versión de 32 px, justo el viewBox de estos SVG.
 
-   image-set() sirve la versión de 64 px en pantallas de densidad doble. El
-   hotspot va en píxeles CSS y NO se duplica: se comprobó que en los 31
-   cursores del pack el hotspot de 64 es exactamente el doble del de 32, así
-   que un único par de coordenadas vale para las dos.
+   El SVG va primero y el PNG detrás porque WebKit no admite SVG de cursor:
+   quien no sabe con el primero pasa al siguiente, así que Safari acaba
+   viendo el mismo dibujo en mapa de bits. Donde sí funciona el SVG, el
+   cursor se dibuja a la resolución real de la pantalla sea cual sea.
 
    La palabra clave final (default, pointer, text…) es obligatoria: sin ella
-   la declaración entera es inválida. Además es lo que se usa si la imagen no
-   llega a cargar.
+   la declaración entera es inválida. Y es lo que se usa si no carga nada.
 
    Todo esto va SIN capa a propósito. Las utilidades de Tailwind viven en
    @layer utilities, y el CSS sin capa gana a cualquier capa pase lo que pase
@@ -815,17 +823,71 @@ html:not(.js) .gravity-start {
    =========================================================================== */
 
 :root {
-	--cur-normal: image-set(url('/cursors/normal-32.png') 1x, url('/cursors/normal-64.png') 2x) 6 4,
+	--cur-normal:
+		url('/cursors/default-light.svg') 6 4,
+		image-set(url('/cursors/default-light-32.png') 1x, url('/cursors/default-light-64.png') 2x) 6 4,
 		default;
-	--cur-text: image-set(url('/cursors/text-32.png') 1x, url('/cursors/text-64.png') 2x) 15 14, text;
-	--cur-link: image-set(url('/cursors/link-32.png') 1x, url('/cursors/link-64.png') 2x) 12 5,
+	--cur-text:
+		url('/cursors/text-light.svg') 16 16,
+		image-set(url('/cursors/text-light-32.png') 1x, url('/cursors/text-light-64.png') 2x) 16 16,
+		text;
+	--cur-link:
+		url('/cursors/pointer-light.svg') 13 7,
+		image-set(url('/cursors/pointer-light-32.png') 1x, url('/cursors/pointer-light-64.png') 2x) 13 7,
 		pointer;
-	--cur-grab: image-set(url('/cursors/move-32.png') 1x, url('/cursors/move-64.png') 2x) 16 16, grab;
-	--cur-grabbing: image-set(url('/cursors/move-32.png') 1x, url('/cursors/move-64.png') 2x) 16 16,
+	--cur-grab:
+		url('/cursors/grab-light.svg') 16 16,
+		image-set(url('/cursors/grab-light-32.png') 1x, url('/cursors/grab-light-64.png') 2x) 16 16,
+		grab;
+	--cur-grabbing:
+		url('/cursors/grabbing-light.svg') 16 16,
+		image-set(url('/cursors/grabbing-light-32.png') 1x, url('/cursors/grabbing-light-64.png') 2x) 16 16,
 		grabbing;
-	--cur-no: image-set(url('/cursors/notallowed-32.png') 1x, url('/cursors/notallowed-64.png') 2x) 6
-			4,
+	--cur-no:
+		url('/cursors/not-allowed-light.svg') 16 16,
+		image-set(url('/cursors/not-allowed-light-32.png') 1x, url('/cursors/not-allowed-light-64.png') 2x)
+			16 16,
 		not-allowed;
+	--cur-copy:
+		url('/cursors/copy-light.svg') 6 4,
+		image-set(url('/cursors/copy-light-32.png') 1x, url('/cursors/copy-light-64.png') 2x) 6 4,
+		copy;
+}
+
+/* Después de :root a propósito. Los dos selectores valen 0-1-0, así que aquí
+   no decide la especificidad sino el orden: si este bloque fuera antes, el
+   tema oscuro se quedaría con los cursores negros. Es el mismo tropiezo que
+   ya hubo con color-scheme más arriba. */
+[data-theme='dark'] {
+	--cur-normal:
+		url('/cursors/default-dark.svg') 6 4,
+		image-set(url('/cursors/default-dark-32.png') 1x, url('/cursors/default-dark-64.png') 2x) 6 4,
+		default;
+	--cur-text:
+		url('/cursors/text-dark.svg') 16 16,
+		image-set(url('/cursors/text-dark-32.png') 1x, url('/cursors/text-dark-64.png') 2x) 16 16,
+		text;
+	--cur-link:
+		url('/cursors/pointer-dark.svg') 13 7,
+		image-set(url('/cursors/pointer-dark-32.png') 1x, url('/cursors/pointer-dark-64.png') 2x) 13 7,
+		pointer;
+	--cur-grab:
+		url('/cursors/grab-dark.svg') 16 16,
+		image-set(url('/cursors/grab-dark-32.png') 1x, url('/cursors/grab-dark-64.png') 2x) 16 16,
+		grab;
+	--cur-grabbing:
+		url('/cursors/grabbing-dark.svg') 16 16,
+		image-set(url('/cursors/grabbing-dark-32.png') 1x, url('/cursors/grabbing-dark-64.png') 2x) 16 16,
+		grabbing;
+	--cur-no:
+		url('/cursors/not-allowed-dark.svg') 16 16,
+		image-set(url('/cursors/not-allowed-dark-32.png') 1x, url('/cursors/not-allowed-dark-64.png') 2x)
+			16 16,
+		not-allowed;
+	--cur-copy:
+		url('/cursors/copy-dark.svg') 6 4,
+		image-set(url('/cursors/copy-dark-32.png') 1x, url('/cursors/copy-dark-64.png') 2x) 6 4,
+		copy;
 }
 
 html {
@@ -866,6 +928,12 @@ html {
 	cursor: var(--cur-no);
 }
 
+/* El único sitio donde copiar es la acción, así que es el único que se lleva
+   el cursor de copia. */
+#copy-email {
+	cursor: var(--cur-copy);
+}
+
 /* El nombre del hero no se selecciona ni se pulsa: cursor normal y no la
    barra de texto que le tocaría por ser un h1. */
 #hero-name {
@@ -876,12 +944,14 @@ html {
    pura. Se desactivan desde las propias variables y no elemento a elemento,
    así cae también todo lo que las usa más arriba en este fichero. */
 @media (hover: none) {
-	:root {
+	:root,
+	[data-theme='dark'] {
 		--cur-normal: default;
 		--cur-text: text;
 		--cur-link: pointer;
 		--cur-grab: grab;
 		--cur-grabbing: grabbing;
 		--cur-no: not-allowed;
+		--cur-copy: copy;
 	}
 }
