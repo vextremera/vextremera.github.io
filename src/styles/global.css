@@ -440,10 +440,12 @@
 	   de puntero, que es lo que rompía el arrastre. */
 	user-select: none;
 	-webkit-user-select: none;
-	cursor: pointer;
+	cursor: var(--cur-link);
 }
 
 .chip {
+	/* Es un <li>: sin esto se llevaría la barra de texto en reposo. */
+	cursor: var(--cur-link);
 	--size: 2.5rem;
 	display: grid;
 	place-items: center;
@@ -613,7 +615,7 @@
 	top: 0;
 	left: 0;
 	margin: 0;
-	cursor: grab;
+	cursor: var(--cur-grab);
 	/* Mientras se simula, el transform lo escribe el motor en cada frame:
 	   cualquier transición aquí pelearía con él. */
 	transition:
@@ -622,7 +624,7 @@
 }
 
 .chip.is-held {
-	cursor: grabbing;
+	cursor: var(--cur-grabbing);
 	border-color: var(--color-ink);
 	background-color: var(--color-raise);
 }
@@ -644,7 +646,7 @@
 	bottom: 1rem;
 	left: 50%;
 	transform: translateX(-50%);
-	cursor: pointer;
+	cursor: var(--cur-link);
 	background: none;
 	border: 0;
 	padding: 0;
@@ -678,7 +680,7 @@
 	top: 0.875rem;
 	right: 0.875rem;
 	z-index: 2;
-	cursor: pointer;
+	cursor: var(--cur-link);
 	font-family: var(--font-mono);
 	font-size: var(--text-eyebrow);
 	letter-spacing: 0.18em;
@@ -716,7 +718,7 @@
    no se ofrece nada que no vaya a funcionar. */
 .gravity[data-calm],
 html:not(.js) .gravity {
-	cursor: default;
+	cursor: var(--cur-normal);
 }
 
 .gravity[data-calm] .gravity-start,
@@ -782,5 +784,104 @@ html:not(.js) .gravity-start {
 @media (prefers-reduced-motion: reduce) {
 	.running-head {
 		transition: none;
+	}
+}
+
+/* ===========================================================================
+   CURSORES
+   Tema "Future Cursor" (yeyushengfan258, basado en capitaine-cursors).
+   ---------------------------------------------------------------------------
+   Vienen de un pack .cur de Windows y se sirven como PNG: Safari no admite
+   .cur y Chromium solo lo trata bien en Windows, mientras que PNG funciona en
+   los cuatro motores.
+
+   Los dos números tras la url son el HOTSPOT: qué píxel de la imagen es la
+   punta que de verdad pulsa. Salen de la cabecera del .cur original, no están
+   puestos a ojo. Si se cambian las imágenes hay que volver a leerlos.
+
+   image-set() sirve la versión de 64 px en pantallas de densidad doble. El
+   hotspot va en píxeles CSS y NO se duplica: se comprobó que en los 31
+   cursores del pack el hotspot de 64 es exactamente el doble del de 32, así
+   que un único par de coordenadas vale para las dos.
+
+   La palabra clave final (default, pointer, text…) es obligatoria: sin ella
+   la declaración entera es inválida. Además es lo que se usa si la imagen no
+   llega a cargar.
+
+   Todo esto va SIN capa a propósito. Las utilidades de Tailwind viven en
+   @layer utilities, y el CSS sin capa gana a cualquier capa pase lo que pase
+   con la especificidad. Metido en @layer base, un simple cursor-pointer de
+   Tailwind dejaba fuera el cursor del tema.
+   =========================================================================== */
+
+:root {
+	--cur-normal: image-set(url('/cursors/normal-32.png') 1x, url('/cursors/normal-64.png') 2x) 6 4,
+		default;
+	--cur-text: image-set(url('/cursors/text-32.png') 1x, url('/cursors/text-64.png') 2x) 15 14, text;
+	--cur-link: image-set(url('/cursors/link-32.png') 1x, url('/cursors/link-64.png') 2x) 12 5,
+		pointer;
+	--cur-grab: image-set(url('/cursors/move-32.png') 1x, url('/cursors/move-64.png') 2x) 16 16, grab;
+	--cur-grabbing: image-set(url('/cursors/move-32.png') 1x, url('/cursors/move-64.png') 2x) 16 16,
+		grabbing;
+	--cur-no: image-set(url('/cursors/notallowed-32.png') 1x, url('/cursors/notallowed-64.png') 2x) 6
+			4,
+		not-allowed;
+}
+
+html {
+	cursor: var(--cur-normal);
+}
+
+/* Poner un cursor en <html> tapa la barra de texto que el navegador enseña
+   por su cuenta sobre contenido seleccionable, porque `cursor` se hereda.
+   Hay que devolverla a mano en lo que es texto. */
+:where(
+	p,
+	h1,
+	h2,
+	h3,
+	h4,
+	li,
+	dt,
+	dd,
+	blockquote,
+	figcaption,
+	time,
+	code,
+	input,
+	textarea,
+	[contenteditable]
+) {
+	cursor: var(--cur-text);
+}
+
+/* Después del texto a propósito: ambos selectores valen cero en especificidad
+   por el :where(), así que decide el orden y gana lo pulsable. Un enlace
+   dentro de un párrafo enseña la mano, no la barra. */
+:where(a, button, summary, label, [role='button']) {
+	cursor: var(--cur-link);
+}
+
+:where(:disabled, [aria-disabled='true']) {
+	cursor: var(--cur-no);
+}
+
+/* El nombre del hero no se selecciona ni se pulsa: cursor normal y no la
+   barra de texto que le tocaría por ser un h1. */
+#hero-name {
+	cursor: var(--cur-normal);
+}
+
+/* Sin puntero fino no hay cursor que dibujar y las imágenes serían descarga
+   pura. Se desactivan desde las propias variables y no elemento a elemento,
+   así cae también todo lo que las usa más arriba en este fichero. */
+@media (hover: none) {
+	:root {
+		--cur-normal: default;
+		--cur-text: text;
+		--cur-link: pointer;
+		--cur-grab: grab;
+		--cur-grabbing: grabbing;
+		--cur-no: not-allowed;
 	}
 }
