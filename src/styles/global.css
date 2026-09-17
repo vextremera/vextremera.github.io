@@ -108,6 +108,15 @@
    mantener el contraste, y las superficies suben en vez de bajar.
    =========================================================================== */
 
+/* El esquema por defecto va ANTES del bloque oscuro a propósito:
+   :root y [data-theme='dark'] tienen la misma especificidad, así que gana
+   el último del fichero. Declarado después, el tema oscuro se quedaba con
+   color-scheme: light y el navegador pintaba barra y controles nativos en
+   claro sobre fondo negro. */
+:root {
+	color-scheme: light;
+}
+
 [data-theme='dark'] {
 	--color-bg: #0d0c0a;
 	--color-raise: #171612;
@@ -122,10 +131,6 @@
 	--color-spot-c: #ff7a5c;
 	--color-on-accent: #0d0c0a;
 	color-scheme: dark;
-}
-
-:root {
-	color-scheme: light;
 }
 
 /* ===========================================================================
@@ -145,6 +150,20 @@
 		   elemento necesita su propio scroll-margin-top. */
 		scroll-padding-top: 0;
 		-webkit-text-size-adjust: 100%;
+
+		/* Barra de scroll fina y con los colores del tema. El estándar solo
+		   da dos mandos —grosor por preset y dos colores— pero funciona en los
+		   tres motores sin pseudo-elementos. El riel transparente deja ver el
+		   papel: la barra queda como una marca sobre el fondo, no como un
+		   carril puesto encima. */
+		scrollbar-width: thin;
+		scrollbar-color: var(--color-faint) transparent;
+
+		/* Reserva el hueco de la barra siempre. Sin esto, cada vez que el
+		   documento deja de desbordar —al abrir el menú móvil se le pone
+		   overflow:hidden— la barra desaparece y el contenido entero pega un
+		   salto lateral de unos 15 px. */
+		scrollbar-gutter: stable;
 	}
 
 	body {
@@ -154,6 +173,35 @@
 		font-synthesis-weight: none;
 		-webkit-font-smoothing: antialiased;
 		-moz-osx-font-smoothing: grayscale;
+	}
+
+	/* Safari anterior a 18.2 y Chromium anterior a 121 no entienden
+	   scrollbar-width. Para esos va la versión con pseudo-elementos, dentro
+	   de @supports not: donde el estándar existe gana él y estos se ignoran,
+	   así que no conviene declarar ambos sin guardia. */
+	@supports not (scrollbar-width: thin) {
+		::-webkit-scrollbar {
+			width: 10px;
+			height: 10px;
+		}
+
+		::-webkit-scrollbar-track {
+			background: transparent;
+		}
+
+		::-webkit-scrollbar-thumb {
+			/* El borde transparente recortado al contenido deja aire a los
+			   lados: el pulgar se ve más fino sin serlo, que es lo que lo
+			   mantiene agarrable con el ratón. */
+			background-color: var(--color-faint);
+			background-clip: content-box;
+			border: 3px solid transparent;
+			border-radius: 99px;
+		}
+
+		::-webkit-scrollbar-thumb:hover {
+			background-color: var(--color-muted);
+		}
 	}
 
 	::selection {
