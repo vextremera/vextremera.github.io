@@ -64,18 +64,24 @@ const aSangre = Boolean(cover) && !framed;
 				</span>
 
 				{cover && (
-					/* Se da el ancho y la altura sale sola, así la captura
-					   conserva su proporción y el aire de arriba y abajo queda
-					   parejo sin cuadrar números a mano. El filete es necesario:
-					   la barra de navegación del sitio es casi del mismo crema
-					   que la tarjeta y, sin él, la imagen se deshilacha por el
-					   borde en el tema claro. */
+					/* Recuadro cuadrado y object-cover: la captura llena el hueco
+					   recortándose por donde haga falta, nunca deformándose. Así
+					   todas las fichas enseñan el mismo cuadrado aunque cada
+					   proyecto traiga una foto de proporción distinta.
+
+					   El lado se mide sobre el alto de la tarjeta, que es la
+					   dimensión corta, para que el cuadrado quepa igual en la
+					   ficha ancha del caso principal y en las 4:3 del listado.
+
+					   El filete no es decorativo: la barra de navegación del
+					   propio ARCADIA es casi del mismo crema que la tarjeta y,
+					   sin él, la imagen se deshilacha por el borde en tema claro. */
 					<img
 						src={cover}
 						alt=""
 						loading="lazy"
 						decoding="async"
-						class="absolute top-1/2 left-1/2 w-[68%] -translate-x-1/2 -translate-y-1/2 border border-line transition-transform duration-[900ms] ease-out-expo group-hover:scale-[1.03]"
+						class="absolute top-1/2 left-1/2 aspect-square h-[70%] -translate-x-1/2 -translate-y-1/2 border border-line object-cover transition-transform duration-[900ms] ease-out-expo group-hover:scale-[1.03]"
 					/>
 				)}
 
