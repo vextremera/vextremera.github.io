@@ -331,7 +331,8 @@ export const en: Dict = {
 				/* Formación profesional española. Se deja el nombre original
 				   entre paréntesis: traducido a secas no le dice gran cosa a
 				   quien contrata fuera, y sin traducir tampoco. */
-				title: 'Higher Vocational Diploma in Web Application Development',
+				level: 'Higher Vocational Diploma',
+				title: 'Web Application Development',
 				school: 'Institut Sa Palomera',
 				period: '2024 — 2026',
 				location: 'Blanes, Spain',
@@ -348,7 +349,8 @@ export const en: Dict = {
 				],
 			},
 			{
-				title: 'Intermediate Vocational Diploma in Computer Systems and Networks',
+				level: 'Intermediate Vocational Diploma',
+				title: 'Computer Systems and Networks',
 				school: 'Institut Sa Palomera',
 				period: '2022 — 2024',
 				location: 'Blanes, Spain',

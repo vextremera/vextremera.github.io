@@ -32,8 +32,17 @@ const badge = getDict(locale).projects.placeholderBadge;
 						<p class="label text-faint">{study.location}</p>
 					</div>
 
-					<h3 class="mt-5 text-h3 font-semibold tracking-tight text-balance">{study.title}</h3>
-					<p class="label mt-2 text-accent">{study.school}</p>
+					{/* La categoría, en recuadro, para que se lea como clasificación
+					    y no como parte del nombre del título. */}
+					<p class="label mt-5 inline-block border border-line px-2 py-1 text-accent transition-colors duration-500 group-hover:border-accent">
+						{study.level}
+					</p>
+
+					{/* El titular es solo la materia: es lo que alguien busca al
+					    recorrer la lista con la vista. */}
+					<h3 class="mt-4 text-h3 font-semibold tracking-tight text-balance">{study.title}</h3>
+
+					<p class="label mt-2.5 text-faint">{study.school}</p>
 
 					<p class="mt-4 max-w-[48ch] text-sm leading-relaxed text-muted text-pretty">
 						{study.detail}

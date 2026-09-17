@@ -334,7 +334,8 @@ export const es: Dict = {
 		labels: { topics: 'Contenidos', more: 'Formación adicional' },
 		items: [
 			{
-				title: 'Grado Superior en Desarrollo de Aplicaciones Web',
+				level: 'Grado Superior',
+				title: 'Desarrollo de Aplicaciones Web',
 				school: 'Institut Sa Palomera',
 				period: '2024 — 2026',
 				location: 'Blanes, España',
@@ -351,7 +352,8 @@ export const es: Dict = {
 				],
 			},
 			{
-				title: 'Grado Medio en Sistemas Microinformáticos y Redes',
+				level: 'Grado Medio',
+				title: 'Sistemas Microinformáticos y Redes',
 				school: 'Institut Sa Palomera',
 				period: '2022 — 2024',
 				location: 'Blanes, España',

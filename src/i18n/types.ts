@@ -73,6 +73,13 @@ export interface Job {
 }
 
 export interface Study {
+	/**
+	 * Categoría del título: «Grado Superior», «Grado Medio», y mañana
+	 * «Curso» o «Certificación». Va aparte del nombre para que el titular
+	 * sea solo la materia y la categoría se lea de un vistazo.
+	 */
+	level: string;
+	/** Solo la materia. La categoría va en `level`. */
 	title: string;
 	school: string;
 	period: string;
