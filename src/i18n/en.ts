@@ -100,7 +100,7 @@ export const en: Dict = {
 		},
 	},
 	method: {
-		n: '03',
+		n: '05',
 		title: 'How I work',
 		lead: 'Fewer adjectives, more examples.',
 		items: [
@@ -148,7 +148,7 @@ export const en: Dict = {
 	},
 
 	projects: {
-		n: '04',
+		n: '03',
 		title: 'Projects',
 		lead: 'Each one solves something different. Open whichever interests you — inside is the problem, what I actually did, and what I took away.',
 		featuredLabel: 'Lead case',
@@ -258,7 +258,7 @@ export const en: Dict = {
 	},
 
 	experience: {
-		n: '05',
+		n: '04',
 		title: 'Experience',
 		lead: 'Not a long list yet, but every place left me with something specific.',
 		labels: {

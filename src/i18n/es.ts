@@ -12,7 +12,6 @@ import type { Dict } from './types';
      · projects.items[1..3]   huecos anunciados con soon: true. Para publicar
                               uno, rellénalo y quita ese soon: entonces se le
                               genera su página de caso y la ficha enlaza.
-     · contact.social         tus URLs de LinkedIn y GitHub
    Mantén el mismo slug, el mismo n y el mismo orden en es.ts y en.ts.
    =========================================================================== */
 
@@ -106,7 +105,7 @@ export const es: Dict = {
 		},
 	},
 	method: {
-		n: '03',
+		n: '05',
 		title: 'Cómo trabajo',
 		lead: 'Menos adjetivos, más ejemplos.',
 		items: [
@@ -154,7 +153,7 @@ export const es: Dict = {
 	},
 
 	projects: {
-		n: '04',
+		n: '03',
 		title: 'Proyectos',
 		lead: 'Cada uno resuelve algo distinto. Entra en el que te interese: dentro está el problema, qué hice exactamente y qué me llevé.',
 		featuredLabel: 'Caso principal',
@@ -264,7 +263,7 @@ export const es: Dict = {
 	},
 
 	experience: {
-		n: '05',
+		n: '04',
 		title: 'Experiencia',
 		lead: 'Poca todavía, pero cada sitio me dejó algo concreto.',
 		labels: {

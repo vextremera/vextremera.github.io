@@ -18,19 +18,32 @@ const t = getDict(locale).method;
 		{
 			t.items.map((item, i) => (
 				<li
-					class="group col-span-12 border-t border-line py-7 transition-colors duration-500 ease-out-expo hover:border-accent sm:col-span-6 lg:col-span-3"
+					class="group relative col-span-12 border-t border-line pt-6 pb-9 sm:col-span-6 lg:col-span-3"
 					data-reveal
 				>
-					<div class="flex items-baseline justify-between gap-3">
-						<span class="label text-faint tabular-nums" aria-hidden="true">
-							{String(i + 1).padStart(2, '0')}
-						</span>
-						<span class="label text-right text-faint transition-colors duration-500 group-hover:text-accent">
-							{item.tag}
-						</span>
-					</div>
+					{/* La línea recorre el borde superior al pasar por encima, igual
+					    que en experiencia y formación. */}
+					<span
+						class="absolute top-0 left-0 h-px w-0 bg-accent transition-[width] duration-[900ms] ease-out-expo group-hover:w-full"
+						aria-hidden="true"
+					/>
 
-					<h3 class="mt-6 text-lg leading-tight font-semibold tracking-tight text-balance">
+					{/* El numeral en trazo hueco, el mismo recurso que las portadas
+					    de proyecto. Va en posición absoluta para que no empuje el
+					    texto, y hueco para que no compita con él. */}
+					<span
+						class="pointer-events-none absolute top-4 right-0 font-display text-[3.5rem] leading-none text-transparent tabular-nums transition-all duration-[900ms] ease-out-expo [-webkit-text-stroke:1px_var(--color-line)] group-hover:-translate-y-1 group-hover:[-webkit-text-stroke:1px_var(--color-accent)]"
+						aria-hidden="true"
+					>
+						{String(i + 1).padStart(2, '0')}
+					</span>
+
+					<span class="label text-faint transition-colors duration-500 group-hover:text-accent">
+						{item.tag}
+					</span>
+
+					{/* Deja pasar el numeral antes de empezar a escribir. */}
+					<h3 class="mt-14 text-lg leading-tight font-semibold tracking-tight text-balance">
 						{item.title}
 					</h3>
 
