@@ -92,7 +92,15 @@ const rest = t.items.filter((p) => p !== featured);
 	<div class="mt-20 grid grid-cols-12 gap-x-6 gap-y-14 md:mt-28" data-reveal-group>
 		{
 			rest.map((project) => (
-				<article class="group relative col-span-12 sm:col-span-6 lg:col-span-4" data-reveal>
+				<article
+					class:list={[
+						'group relative col-span-12 sm:col-span-6 lg:col-span-4',
+						/* Un hueco anunciado pesa menos que un caso real, pero
+						   sigue estando: se atenúa, no se esconde. */
+						project.soon && 'opacity-60',
+					]}
+					data-reveal
+				>
 					<ProjectCover
 						n={project.n}
 						name={project.name}
@@ -102,26 +110,38 @@ const rest = t.items.filter((p) => p !== featured);
 
 					<div class="mt-5 flex items-baseline justify-between gap-4">
 						<h3 class="text-lg leading-tight font-semibold tracking-tight">
-							<a
-								href={projectPath(locale, project.slug)}
-								class="after:absolute after:inset-0 after:content-['']"
-							>
-								{project.name}
-							</a>
+							{project.soon ? (
+								project.name
+							) : (
+								<a
+									href={projectPath(locale, project.slug)}
+									class="after:absolute after:inset-0 after:content-['']"
+								>
+									{project.name}
+								</a>
+							)}
 						</h3>
-						<span
-							class="text-sm opacity-0 transition-all duration-500 ease-out-expo group-hover:translate-x-0.5 group-hover:opacity-100"
-							aria-hidden="true">→</span
-						>
+						{/* La flecha promete que hay algo al otro lado. Sin
+						    destino, sobra. */}
+						{!project.soon && (
+							<span
+								class="text-sm opacity-0 transition-all duration-500 ease-out-expo group-hover:translate-x-0.5 group-hover:opacity-100"
+								aria-hidden="true"
+							>
+								→
+							</span>
+						)}
 					</div>
 
-					<p class="mt-2 text-sm text-muted text-pretty">{project.tagline}</p>
+					{project.tagline && <p class="mt-2 text-sm text-muted text-pretty">{project.tagline}</p>}
 
-					<ul class="mt-4 flex flex-wrap gap-x-3 gap-y-1">
-						{project.stack.map((tech) => (
-							<li class="label text-faint">{tech}</li>
-						))}
-					</ul>
+					{project.stack.length > 0 && (
+						<ul class="mt-4 flex flex-wrap gap-x-3 gap-y-1">
+							{project.stack.map((tech) => (
+								<li class="label text-faint">{tech}</li>
+							))}
+						</ul>
+					)}
 
 					{project.placeholder && (
 						<p class="label mt-4 inline-block border border-dashed border-line px-2 py-1 text-faint">

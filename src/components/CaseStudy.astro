@@ -13,7 +13,14 @@ const d = getDict(locale).projects;
 
 const index = d.items.findIndex((p) => p.slug === slug);
 const project = d.items[index];
-const next = d.items[(index + 1) % d.items.length];
+
+/* El salto al siguiente caso solo recorre los que tienen página. Ciclando
+   por todos acababa enlazando a huecos «próximamente», que ya no se generan:
+   un 404 dentro del propio portfolio. Y si no hay otro caso publicado, no
+   hay salto que ofrecer. */
+const publicados = d.items.filter((p) => !p.soon);
+const posicion = publicados.findIndex((p) => p.slug === slug);
+const next = publicados.length > 1 ? publicados[(posicion + 1) % publicados.length] : null;
 
 const blocks = [
 	{ label: d.labels.problem, body: project.problem },
@@ -134,20 +141,24 @@ const blocks = [
 			← {d.labels.back}
 		</a>
 
-		<a
-			href={projectPath(locale, next.slug)}
-			class="group col-span-12 sm:col-span-7 sm:col-start-6 sm:text-right"
-		>
-			<span class="label text-faint">{d.labels.next}</span>
-			<span
-				class="mt-2 block text-h3 font-semibold tracking-tight transition-colors duration-300 group-hover:text-accent"
-			>
-				{next.name}
-				<span
-					class="inline-block transition-transform duration-500 ease-out-expo group-hover:translate-x-1.5"
-					aria-hidden="true">→</span
+		{
+			next && (
+				<a
+					href={projectPath(locale, next.slug)}
+					class="group col-span-12 sm:col-span-7 sm:col-start-6 sm:text-right"
 				>
-			</span>
-		</a>
+					<span class="label text-faint">{d.labels.next}</span>
+					<span class="mt-2 block text-h3 font-semibold tracking-tight transition-colors duration-300 group-hover:text-accent">
+						{next.name}
+						<span
+							class="inline-block transition-transform duration-500 ease-out-expo group-hover:translate-x-1.5"
+							aria-hidden="true"
+						>
+							→
+						</span>
+					</span>
+				</a>
+			)
+		}
 	</nav>
 </article>

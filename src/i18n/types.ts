@@ -46,6 +46,12 @@ export interface Project {
 	featured?: boolean;
 	/** Muestra el distintivo de contenido pendiente. Ponlo a false al rellenarlo. */
 	placeholder?: boolean;
+	/**
+	 * Hueco anunciado pero todavía sin contenido. La ficha se pinta sin
+	 * enlace y no se le genera página de caso: enlazar a una página vacía
+	 * es peor que no enlazar.
+	 */
+	soon?: boolean;
 	/** Ruta a una captura en /public. Vacío = portada tipográfica generada. */
 	cover: string;
 	coverAlt: string;
