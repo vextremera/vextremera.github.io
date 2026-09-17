@@ -1,0 +1,43 @@
+Cursores — procedencia y atribución
+===================================
+
+Tema:   Future Cursor
+Autor:  yeyushengfan258
+Origen: pack .cur para Windows, descargado de Cursors-4U.com
+Basado en: capitaine-cursors (Keefer Rourke)
+
+Qué hay aquí
+------------
+Los PNG de esta carpeta se han extraído de los .cur originales. Un .cur de
+Windows es un contenedor tipo ICO, y los de este pack llevan PNG dentro en
+cuatro tamaños (32, 40, 48 y 64 px) con el hotspot guardado en la cabecera.
+Aquí solo están los cinco que usa la web, en 32 y 64 px:
+
+  normal      hotspot  6,4    (CSS: default)
+  link        hotspot 12,5    (CSS: pointer)
+  text        hotspot 15,14   (CSS: text)
+  move        hotspot 16,16   (CSS: grab y grabbing)
+  notallowed  hotspot  6,4    (CSS: not-allowed)
+
+Los hotspots están leídos de la cabecera de cada .cur, no puestos a ojo. Si se
+sustituyen las imágenes hay que volver a leerlos, o el punto que realmente
+pulsa dejará de coincidir con la punta del dibujo.
+
+Se sirven como PNG y no como .cur porque Safari no admite .cur y Chromium solo
+lo trata bien en Windows.
+
+Licencia — PENDIENTE DE CONFIRMAR
+---------------------------------
+El pack descargado NO incluye fichero de licencia. Declara estar basado en
+capitaine-cursors, que se publica bajo GPL-3.0, y los temas de cursores de
+yeyushengfan258 suelen publicarse también bajo GPL-3.0.
+
+Publicar la web es distribuir estas imágenes, así que conviene confirmarlo
+antes de sacarla a producción: localizar el repositorio original del tema,
+comprobar su licencia y, si es GPL-3.0, acompañar los archivos del texto de la
+licencia y de un enlace a la fuente.
+
+Si no se puede confirmar, la alternativa limpia es sustituir estos cinco PNG
+por cursores propios o por unos de licencia permisiva. El CSS no cambiaría:
+basta con reemplazar los archivos y actualizar los hotspots en las variables
+--cur-* de src/styles/global.css.
