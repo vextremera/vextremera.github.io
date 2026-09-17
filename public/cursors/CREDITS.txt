@@ -1,41 +1,79 @@
-Cursores — procedencia y atribución
-===================================
+Cursores — procedencia, licencia y cómo están hechos
+====================================================
 
-Tema:   Future Cursor
-Autor:  yeyushengfan258
-Origen: pack .cur para Windows, descargado de Cursors-4U.com
-Basado en: capitaine-cursors (Keefer Rourke)
+Tema:    Future Cursors
+Autor:   yeyushengfan258
+Fuente:  https://github.com/yeyushengfan258/Future-cursors
+Basado:  capitaine-cursors, de Keefer Rourke
+Licencia: GPL-3.0 — texto completo en LICENSE.txt, en esta misma carpeta
 
-Qué hay aquí
-------------
-Los PNG de esta carpeta se han extraído de los .cur originales. Un .cur de
-Windows es un contenedor tipo ICO, y los de este pack llevan PNG dentro en
-cuatro tamaños (32, 40, 48 y 64 px) con el hotspot guardado en la cabecera.
-Aquí solo están los cinco que usa la web, en 32 y 64 px:
-
-  normal      hotspot  6,4    (CSS: default)
-  link        hotspot 12,5    (CSS: pointer)
-  text        hotspot 15,14   (CSS: text)
-  move        hotspot 16,16   (CSS: grab y grabbing)
-  notallowed  hotspot  6,4    (CSS: not-allowed)
-
-Los hotspots están leídos de la cabecera de cada .cur, no puestos a ojo. Si se
-sustituyen las imágenes hay que volver a leerlos, o el punto que realmente
-pulsa dejará de coincidir con la punta del dibujo.
-
-Se sirven como PNG y no como .cur porque Safari no admite .cur y Chromium solo
-lo trata bien en Windows.
 
 Licencia
 --------
-Freeware (free to use), según la ficha del set en Cursors-4U: ID #246326,
-creador yeyushengfan258, tamaños 32/40/48/64 px — que coincide con lo que
-traen los .cur.
+El repositorio original incluye la GPL-3.0 y aquí se distribuye bajo esa
+misma licencia. Los .svg de esta carpeta SON el fuente: quien reciba la web
+recibe con ella el material con el que se hicieron los PNG, que es lo que
+pide la licencia.
 
-Esa etiqueta la pone el sitio de descarga. El pack en sí no incluye fichero
-de licencia y su readme dice estar basado en capitaine-cursors, que es
-GPL-3.0. Por eso se mantiene la atribución al autor aquí y en el CSS.
+(Una descarga de este mismo tema circula por Cursors-4U etiquetada como
+"Freeware". Esa etiqueta la pone el sitio de descarga; la del autor es la
+GPL-3.0 y es la que vale.)
 
-Si alguna vez hay que sustituirlos, el CSS no se toca: basta con reemplazar
-los cinco PNG y actualizar los hotspots en las variables --cur-* de
-src/styles/global.css.
+Cambios respecto al original: se quitaron de los SVG los restos de Inkscape
+—namespaces propios, el bloque <metadata> RDF, un rectángulo guía invisible
+y las propiedades tipográficas de las cadenas style, que no pintan nada en
+un dibujo sin texto—. Los trazados, filtros y colores están intactos. Los
+PNG se rasterizaron de esos mismos SVG.
+
+
+Qué hay aquí
+------------
+Siete cursores, cada uno en dos versiones. El navegador dibuja el cursor
+aislado: ahí dentro no llega currentColor ni el data-theme del sitio, así
+que no hay manera de recolorearlo desde el CSS y hace falta un fichero por
+tema.
+
+  -light   variante svg-black del repo, cursor negro, para el tema claro
+  -dark    variante svg-dark del repo, cursor blanco, para el tema oscuro
+
+Es al revés de lo que sugieren los nombres del repo, pero es lo que se lee:
+el negro desaparece sobre el fondo oscuro del sitio y el blanco sobre el
+claro. De las tres variantes blancas se eligió svg-dark porque lleva el
+acento en gris neutro; svg lo trae ámbar y svg-cyan cian, y el acento del
+sitio es azul.
+
+De cada uno hay un .svg y dos .png (32 y 64 px).
+
+
+Hotspots
+--------
+El hotspot es qué píxel del dibujo es la punta que de verdad pulsa. Están
+tomados de los ficheros config/*.cursor del repo original, de la línea que
+corresponde al render de 32 px, que es justo el viewBox de estos SVG.
+
+  default      6,4     pointer     13,7    text         16,16
+  grab        16,16    grabbing    16,16   not-allowed  16,16
+  copy         6,4
+
+Si se sustituyen los dibujos hay que volver a mirarlos, o el punto que pulsa
+dejará de coincidir con la punta.
+
+
+Por qué SVG y PNG a la vez
+--------------------------
+WebKit no admite SVG como cursor. En la lista de `cursor` va primero el SVG
+y detrás el PNG: el navegador que no sabe con el primero pasa al siguiente,
+así que Safari acaba viendo el mismo dibujo en mapa de bits y el resto lo
+dibuja vectorial, nítido a cualquier densidad de pantalla.
+
+En (hover: none) las variables vuelven a las palabras clave del sistema: sin
+puntero fino no hay cursor que dibujar y las imágenes serían descarga pura.
+
+
+Qué NO está puesto
+------------------
+El repo trae 93 dibujos. Aquí solo están los siete que el sitio dispara de
+verdad. Quedan disponibles, entre otros, help, crosshair, zoom-in/zoom-out,
+context-menu, cell, vertical-text y los de redimensionar; ninguno tiene hoy
+nada en la web que lo active. Los animados (progress y wait, 23 fotogramas
+cada uno) no sirven: CSS no admite cursores animados.
