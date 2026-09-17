@@ -381,12 +381,15 @@ export const es: Dict = {
 		social: [
 			{
 				label: 'LinkedIn',
-				href: 'https://www.linkedin.com/in/[tu-usuario]',
-				handle: '[tu-usuario]',
+				href: 'https://www.linkedin.com/in/victor-extremera-7b461229a',
+				/* El enlace lleva el identificador completo que genera LinkedIn,
+				   con su ristra de caracteres al final. Aquí se enseña solo el
+				   nombre: esa ristra no la va a teclear nadie y ensucia. */
+				handle: 'victor-extremera',
 			},
-			{ label: 'GitHub', href: 'https://github.com/[tu-usuario]', handle: '[tu-usuario]' },
+			{ label: 'GitHub', href: 'https://github.com/vextremera', handle: 'vextremera' },
 		],
-		note: 'También me interesan prácticas, becas o proyectos pequeños si encajan.',
+		note: 'Busco un puesto con contrato, no prácticas ni becas: esas ya las hice y están ahí arriba.',
 	},
 
 	footer: {

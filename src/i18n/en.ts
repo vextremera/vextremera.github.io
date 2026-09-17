@@ -378,12 +378,15 @@ export const en: Dict = {
 		social: [
 			{
 				label: 'LinkedIn',
-				href: 'https://www.linkedin.com/in/[your-handle]',
-				handle: '[your-handle]',
+				href: 'https://www.linkedin.com/in/victor-extremera-7b461229a',
+				/* The link carries the full id LinkedIn generates, trailing
+				   gibberish and all. What is shown is just the name: nobody is
+				   going to type that tail, and it only adds noise. */
+				handle: 'victor-extremera',
 			},
-			{ label: 'GitHub', href: 'https://github.com/[your-handle]', handle: '[your-handle]' },
+			{ label: 'GitHub', href: 'https://github.com/vextremera', handle: 'vextremera' },
 		],
-		note: 'I am also open to internships, placements or small projects if they fit.',
+		note: 'I am looking for a proper contract, not an internship or a traineeship. I have done those already, and they are listed above.',
 	},
 
 	footer: {
