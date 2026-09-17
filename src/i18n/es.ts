@@ -7,9 +7,8 @@ import type { Dict } from './types';
    Los componentes no llevan texto dentro.
 
    PENDIENTE DE RELLENAR — busca los corchetes [ ]:
-     · projects.items[0]      de ARCADIA solo faltan dos cosas: el tipo de
-                              encargo y tu reflexión final. El resto sale del
-                              repositorio y es real.
+     · projects.items[0]      de ARCADIA solo falta el tipo de encargo
+                              (personal, académico o cliente). El resto está.
      · projects.items[1..3]   huecos anunciados con soon: true. Para publicar
                               uno, rellénalo y quita ese soon: entonces se le
                               genera su página de caso y la ficha enlaza.
@@ -187,17 +186,27 @@ export const es: Dict = {
 				role: 'En solitario · Full-stack',
 				type: '[personal · académico · cliente]',
 				stack: ['Astro', 'TypeScript', 'Preact', 'Tailwind CSS', 'Astro DB', 'Redis', 'Vercel'],
-				problem:
-					'Un bar-restaurante que quiere vender online necesita bastante más que una carta en PDF: catálogo con alérgenos, productos que se configuran al gusto, pedidos con recogida o envío, y alguien de la casa que pueda cambiar precios, horarios o cupones sin tocar código. ARCADIA cubre ese recorrido entero, desde la carta pública hasta la pantalla de cocina.',
-				contribution:
-					'El proyecto entero, del esquema de base de datos al último botón: 149 de los 150 commits son míos. El front público, con carrito que sobrevive a la sesión y un checkout que valida disponibilidad y cupones antes de dejarte pagar. Un configurador de producto por pasos para quitar ingredientes base y añadir extras y salsas. Y un backoffice de dieciocho áreas —catálogo, alérgenos, compatibilidades, modificadores, horarios, métodos de pago, cupones, upsell, loyalty, cocina y auditoría, entre otras— para que el negocio no dependa de mí para operar. Por debajo, Astro DB para el esquema, Redis para las sesiones en producción y almacenamiento de blobs para las imágenes de producto.',
-				outcome:
-					'Está en una versión avanzada y funcional: se puede pedir de principio a fin y administrarlo todo desde el panel. Antes de producción me quedan tres cosas, y las tengo identificadas: la estrategia de sembrado de la base remota —el seed actual es destructivo y no puede acercarse a datos reales—, endurecer el deploy y unas pruebas de humo completas de compra y administración. [Una o dos frases tuyas: qué te llevaste de construirlo y qué harías distinto hoy.]',
+				problem: [
+					'Un bar-restaurante que quiere vender online necesita bastante más que una carta en PDF: catálogo con alérgenos, productos que se configuran al gusto, pedidos con recogida o envío, y alguien de la casa que pueda cambiar precios, horarios o cupones sin tocar código.',
+					'ARCADIA cubre ese recorrido entero, desde la carta pública hasta la pantalla de cocina.',
+				],
+				contribution: [
+					'Lo hice entero y solo. De los 150 commits del repositorio, 149 son míos; el otro es del bot de Astro.',
+					'La parte que más me costó no se ve. Un producto no es una fila con un precio: es una base a la que quitas ingredientes, añades extras y eliges salsas, y cada combinación tiene que cuadrar en precio y arrastrar sus alérgenos. Todo eso vive en el esquema de Astro DB, repartido entre productos, ingredientes, modificadores y las compatibilidades que dicen qué puede ir con qué. El configurador por pasos es solo la cara visible de esa tabla de decisiones.',
+					'Por delante, Astro sirviendo HTML y Preact únicamente en las tres islas que de verdad necesitan estado: el carrito, el configurador y el upsell. El carrito sobrevive a la sesión con Redis, y el checkout vuelve a validar disponibilidad y cupones en el servidor antes de crear el pedido, porque de lo que llega del navegador no me fío.',
+					'Detrás está el backoffice: dieciocho áreas que no lucen nada y lo deciden todo, de catálogo y alérgenos a horarios, métodos de pago, cupones, upsell, loyalty, cocina y auditoría. Si el dueño no puede cambiar un precio sin llamarme, el proyecto ha fracasado por bonito que sea el front.',
+				],
+				outcome: [
+					'Terminado y funcionando: se pide de principio a fin, el negocio lo administra entero desde el panel y la cocina trabaja con su propia pantalla.',
+					'Lo que me llevo es la experiencia de desarrollar contra un problema real en vez de contra un enunciado. Los casos raros no te los plantea nadie, aparecen solos, y cada decisión que tomas la acabas pagando o cobrando semanas después.',
+					'Lo que haría distinto: hoy lo montaría con React en lugar de Preact.',
+				],
 				repo: 'https://github.com/vextremera/arcadia',
 				demo: '',
 				featured: true,
-				cover: '',
-				coverAlt: '',
+				cover: '/proyectos/arcadia.webp',
+				coverAlt:
+					'Portada de ARCADIA: un cocinero termina de emplatar mientras vierte aceite con una cuchara, con el nombre del restaurante superpuesto.',
 			},
 			{
 				slug: 'proyecto-dos',
@@ -208,9 +217,9 @@ export const es: Dict = {
 				role: '',
 				type: '',
 				stack: [],
-				problem: '',
-				contribution: '',
-				outcome: '',
+				problem: [],
+				contribution: [],
+				outcome: [],
 				repo: '',
 				demo: '',
 				soon: true,
@@ -226,9 +235,9 @@ export const es: Dict = {
 				role: '',
 				type: '',
 				stack: [],
-				problem: '',
-				contribution: '',
-				outcome: '',
+				problem: [],
+				contribution: [],
+				outcome: [],
 				repo: '',
 				demo: '',
 				soon: true,
@@ -244,9 +253,9 @@ export const es: Dict = {
 				role: '',
 				type: '',
 				stack: [],
-				problem: '',
-				contribution: '',
-				outcome: '',
+				problem: [],
+				contribution: [],
+				outcome: [],
 				repo: '',
 				demo: '',
 				soon: true,

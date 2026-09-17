@@ -37,9 +37,11 @@ export interface Project {
 	role: string;
 	type: string;
 	stack: string[];
-	problem: string;
-	contribution: string;
-	outcome: string;
+	/* Un párrafo por elemento. Igual que about.body: un caso bien contado
+	   necesita respirar, y en un solo bloque no hay quien lo lea. */
+	problem: string[];
+	contribution: string[];
+	outcome: string[];
 	/** Vacío = no se muestra el enlace. */
 	repo: string;
 	demo: string;

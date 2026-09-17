@@ -125,7 +125,9 @@ const blocks = [
 					blocks.map((block) => (
 						<section data-reveal>
 							<h2 class="label border-t border-line pt-5 text-accent">{block.label}</h2>
-							<p class="mt-5 max-w-[60ch] text-lead text-pretty">{block.body}</p>
+							{block.body.map((parrafo) => (
+								<p class="mt-5 max-w-[60ch] text-lead text-pretty">{parrafo}</p>
+							))}
 						</section>
 					))
 				}
