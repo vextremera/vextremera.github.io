@@ -16,7 +16,6 @@ import type { Dict } from './types';
      · experience.items       tus puestos reales
      · education.items        tu formación real
      · contact.social         tus URLs de LinkedIn y GitHub
-     · contact.cvHref         deja tu CV en public/ con ese nombre
    Mantén el mismo slug, el mismo n y el mismo orden en es.ts y en.ts.
    =========================================================================== */
 
@@ -337,7 +336,9 @@ export const es: Dict = {
 		copy: 'Copiar',
 		copied: 'Copiado',
 		cvLabel: 'Descargar CV',
-		cvHref: '/cv-victor-extremera.pdf',
+		/* Cada idioma se lleva su PDF: quien lee la web en español se
+		   descarga el CV en español. */
+		cvHref: '/cv-victor-extremera-es.pdf',
 		social: [
 			{
 				label: 'LinkedIn',

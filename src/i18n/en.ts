@@ -327,7 +327,9 @@ export const en: Dict = {
 		copy: 'Copy',
 		copied: 'Copied',
 		cvLabel: 'Download CV',
-		cvHref: '/cv-victor-extremera.pdf',
+		/* Each language gets its own PDF: reading the site in English
+		   downloads the English CV. */
+		cvHref: '/cv-victor-extremera-en.pdf',
 		social: [
 			{
 				label: 'LinkedIn',
