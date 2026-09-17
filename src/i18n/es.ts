@@ -12,7 +12,6 @@ import type { Dict } from './types';
      · projects.items[1..3]   huecos anunciados con soon: true. Para publicar
                               uno, rellénalo y quita ese soon: entonces se le
                               genera su página de caso y la ficha enlaza.
-     · education.items        tu formación real
      · contact.social         tus URLs de LinkedIn y GitHub
    Mantén el mismo slug, el mismo n y el mismo orden en es.ts y en.ts.
    =========================================================================== */
@@ -335,26 +334,34 @@ export const es: Dict = {
 		labels: { topics: 'Contenidos', more: 'Formación adicional' },
 		items: [
 			{
-				title: '[Titulación]',
-				school: '[Centro educativo]',
-				period: '[año] — [año]',
-				location: '[Ciudad, País]',
-				detail: '[Qué cubría y qué parte te marcó más.]',
-				topics: ['[Materia]', '[Materia]', '[Materia]'],
-				placeholder: true,
+				title: 'Grado Superior en Desarrollo de Aplicaciones Web',
+				school: 'Institut Sa Palomera',
+				period: '2024 — 2026',
+				location: 'Blanes, España',
+				detail:
+					'Los dos lados de una aplicación web: del lenguaje de marcas y el diseño accesible al backend y la base de datos. Es la formación que hay detrás de casi todo lo que se ve en este portfolio.',
+				topics: [
+					'Frontend',
+					'Backend',
+					'Bases de datos',
+					'Diseño',
+					'Accesibilidad',
+					'Lenguajes de marcas',
+					'Entornos de desarrollo',
+				],
 			},
 			{
-				title: '[Curso o certificación]',
-				school: '[Plataforma o centro]',
-				period: '[año]',
-				location: 'Online',
-				detail: '[Qué aprendiste y dónde lo has aplicado después.]',
-				topics: ['[Materia]', '[Materia]'],
-				placeholder: true,
+				title: 'Grado Medio en Sistemas Microinformáticos y Redes',
+				school: 'Institut Sa Palomera',
+				period: '2022 — 2024',
+				location: 'Blanes, España',
+				detail:
+					'La capa de debajo del desarrollo: hardware, sistemas operativos y redes. Saber qué hay ahí abajo cuando algo falla es de las cosas que no se aprenden programando.',
+				topics: ['Sistemas operativos', 'Redes', 'Hardware', 'Ofimática', 'Empresa'],
 			},
 		],
 		moreNote:
-			'Añade aquí cursos, certificaciones o formación suelta a medida que la hagas: la lista crece sola.',
+			'Cuatro años seguidos en el mismo instituto: el grado medio primero y el superior justo después, sin parar entre medias.',
 	},
 
 	contact: {

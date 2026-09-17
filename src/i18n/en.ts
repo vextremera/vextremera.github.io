@@ -328,26 +328,37 @@ export const en: Dict = {
 		labels: { topics: 'Covered', more: 'Further training' },
 		items: [
 			{
-				title: '[Qualification]',
-				school: '[Institution]',
-				period: '[year] — [year]',
-				location: '[City, Country]',
-				detail: '[What it covered and which part stuck with you.]',
-				topics: ['[Subject]', '[Subject]', '[Subject]'],
-				placeholder: true,
+				/* Formación profesional española. Se deja el nombre original
+				   entre paréntesis: traducido a secas no le dice gran cosa a
+				   quien contrata fuera, y sin traducir tampoco. */
+				title: 'Higher Vocational Diploma in Web Application Development',
+				school: 'Institut Sa Palomera',
+				period: '2024 — 2026',
+				location: 'Blanes, Spain',
+				detail:
+					'Both sides of a web application: from markup and accessible design through to the back end and the database. Spanish “Grado Superior en Desarrollo de Aplicaciones Web”. It is the training behind nearly everything on this site.',
+				topics: [
+					'Frontend',
+					'Backend',
+					'Databases',
+					'Design',
+					'Accessibility',
+					'Markup languages',
+					'Development environments',
+				],
 			},
 			{
-				title: '[Course or certification]',
-				school: '[Platform or institution]',
-				period: '[year]',
-				location: 'Online',
-				detail: '[What you learned and where you have applied it since.]',
-				topics: ['[Subject]', '[Subject]'],
-				placeholder: true,
+				title: 'Intermediate Vocational Diploma in Computer Systems and Networks',
+				school: 'Institut Sa Palomera',
+				period: '2022 — 2024',
+				location: 'Blanes, Spain',
+				detail:
+					'The layer underneath development: hardware, operating systems and networks. Spanish “Grado Medio en Sistemas Microinformáticos y Redes”. Knowing what is down there when something breaks is not something you pick up by writing code.',
+				topics: ['Operating systems', 'Networks', 'Hardware', 'Office software', 'Business'],
 			},
 		],
 		moreNote:
-			'Add courses, certifications and one-off training here as you go — the list grows on its own.',
+			'Four straight years at the same school: the intermediate diploma first, then the higher one right after it, with no gap in between.',
 	},
 
 	contact: {
