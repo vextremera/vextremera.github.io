@@ -269,32 +269,53 @@ export const en: Dict = {
 		},
 		items: [
 			{
-				company: '[Company]',
-				role: '[Job title]',
-				period: '[month year] — [month year or Present]',
-				location: '[City, Country]',
+				company: '[Company name]',
+				role: 'Web developer',
+				period: '[month year] — [month year]',
+				location: 'Malta',
 				summary:
-					'[Two or three sentences on what the company did and what your part in the team was.]',
+					'An Erasmus+ placement in Malta, working for real clients, in English, a long way from home. The first place where what I wrote was going to be used by someone who was paying for it.',
 				duties: [
-					'[Specific responsibility]',
-					'[Specific responsibility]',
-					'[Specific responsibility]',
+					'Designing and building websites in WordPress',
+					'Fixing problems in code and in plugins',
+					'Walking new interns through how the work got done',
 				],
-				learned: '[What you learned there that you would not have learned alone.]',
-				stack: ['[Technology]', '[Technology]'],
+				learned:
+					'How to deal with real clients, who do not hand you a specification, they hand you a result, and change their mind halfway through. Also how to organise myself alone in another country, and how not to freeze when something breaks and there is nobody to ask.',
+				stack: ['WordPress'],
 				international: true,
-				placeholder: true,
 			},
 			{
-				company: '[Company or project]',
-				role: '[Job title]',
-				period: '[month year] — [month year]',
-				location: '[City, Country]',
-				summary: '[Context and your part in it.]',
-				duties: ['[Specific responsibility]', '[Specific responsibility]'],
-				learned: '[What you learned.]',
-				stack: ['[Technology]'],
-				placeholder: true,
+				company: 'Institut Escola',
+				role: 'IT technician · Placement',
+				period: 'September 2023 — January 2024',
+				location: 'Lloret de Mar, Spain',
+				summary:
+					'A placement looking after the school’s IT: the devices handed out by the regional government, the school’s own hardware, and every software problem the teaching staff ran into.',
+				duties: [
+					'Administering the Chromebooks issued to the school under the government programme',
+					'Repairing the school’s hardware',
+					'Handling the teaching staff’s software issues through an internal mail inbox',
+				],
+				learned:
+					'Persistence: the tickets never stop and you take them one at a time. And how to explain technical things without technical words, because on the other end of that inbox were teachers who wanted to teach their lesson, not understand the problem.',
+				stack: ['Chromebooks', 'Hardware'],
+			},
+			{
+				company: '[Restaurant name]',
+				role: 'Front of house manager',
+				period: 'Summer 2022 — January 2026',
+				location: 'Lloret de Mar, Spain',
+				summary:
+					'Part time, weekends, alongside my studies and alongside everything else on this list. Running the floor on the busiest shifts.',
+				duties: [
+					'Running the workflow of the whole floor team',
+					'Managing the orders for every table',
+					'Making sure the service went out properly',
+				],
+				learned:
+					'Responsibility, teamwork and empathy. A full service teaches you quickly that the work only gets done when the team moves in step, and that keeping it in step means looking at how each person is coping before you hand anything out.',
+				stack: [],
 			},
 		],
 	},
