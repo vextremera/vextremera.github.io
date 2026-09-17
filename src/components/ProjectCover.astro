@@ -7,9 +7,29 @@ interface Props {
 	/** Clase de proporción de Tailwind. */
 	ratio?: string;
 	priority?: boolean;
+	/**
+	 * Vista de tarjeta. Manda la tipografía: el número y el nombre se ven
+	 * siempre, y la captura pasa detrás desenfocada y con margen, que es lo
+	 * que hace de marco. Sin esto la imagen ocupa la caja entera, que es lo
+	 * que quiere la página de caso.
+	 */
+	framed?: boolean;
 }
 
-const { n, name, cover, coverAlt, ratio = 'aspect-4/3', priority = false } = Astro.props;
+const {
+	n,
+	name,
+	cover,
+	coverAlt,
+	ratio = 'aspect-4/3',
+	priority = false,
+	framed = false,
+} = Astro.props;
+
+/* La portada tipográfica no es un respaldo de cuando falta la captura: es
+   la vista por defecto de las tarjetas. Solo se pinta la foto sola cuando
+   se pide la caja entera. */
+const soloFoto = Boolean(cover) && !framed;
 ---
 
 <div
@@ -19,7 +39,7 @@ const { n, name, cover, coverAlt, ratio = 'aspect-4/3', priority = false } = Ast
 	]}
 >
 	{
-		cover ? (
+		soloFoto ? (
 			<img
 				src={cover}
 				alt={coverAlt ?? ''}
@@ -29,8 +49,6 @@ const { n, name, cover, coverAlt, ratio = 'aspect-4/3', priority = false } = Ast
 				class="size-full object-cover transition-transform duration-[900ms] ease-out-expo group-hover:scale-[1.025]"
 			/>
 		) : (
-			/* Portada tipográfica: cero peticiones, cero imágenes de stock.
-			   Al poner `cover` en el contenido, se sustituye por la captura. */
 			<div class="absolute inset-0" aria-hidden="true">
 				<div class="absolute inset-0 grid grid-cols-4">
 					<div class="border-r border-line/60" />
@@ -39,9 +57,27 @@ const { n, name, cover, coverAlt, ratio = 'aspect-4/3', priority = false } = Ast
 					<div />
 				</div>
 
+				{cover && (
+					/* El recuadro interior deja ver el fondo de la tarjeta por los
+					   cuatro lados: ese margen es el marco. Va con overflow oculto
+					   y la imagen un poco escalada porque el desenfoque difumina
+					   los bordes y, sin ese margen de sobra, se transparentarían.
+					   Queda tenue en reposo y sube al pasar por encima, como ya
+					   hacen el borde y el número. */
+					<div class="absolute inset-5 overflow-hidden sm:inset-6">
+						<img
+							src={cover}
+							alt=""
+							loading="lazy"
+							decoding="async"
+							class="size-full scale-110 object-cover opacity-40 blur-[10px] transition-all duration-[900ms] ease-out-expo group-hover:scale-[1.16] group-hover:opacity-65 group-hover:blur-[7px]"
+						/>
+					</div>
+				)}
+
 				<span class="label absolute top-5 left-5 text-faint">{n}</span>
 
-				<span class="absolute right-5 bottom-3 font-display text-[clamp(4rem,14vw,9rem)] leading-none text-transparent transition-all duration-[900ms] ease-out-expo [-webkit-text-stroke:1px_var(--color-line)] group-hover:[-webkit-text-stroke:1px_var(--color-accent)] group-hover:-translate-y-1">
+				<span class="absolute right-5 bottom-3 font-display text-[clamp(4rem,14vw,9rem)] leading-none text-transparent transition-all duration-[900ms] ease-out-expo [-webkit-text-stroke:1px_var(--color-line)] group-hover:-translate-y-1 group-hover:[-webkit-text-stroke:1px_var(--color-accent)]">
 					{n}
 				</span>
 
