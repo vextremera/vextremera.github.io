@@ -194,7 +194,7 @@ export const en: Dict = {
 					'What I would do differently: today I would build it with React rather than Preact.',
 				],
 				repo: 'https://github.com/vextremera/arcadia',
-				demo: '',
+				demo: 'https://victorextremera.cat',
 				featured: true,
 				cover: '/proyectos/arcadia.webp',
 				coverAlt:

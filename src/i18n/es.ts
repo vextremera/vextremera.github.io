@@ -202,7 +202,7 @@ export const es: Dict = {
 					'Lo que haría distinto: hoy lo montaría con React en lugar de Preact.',
 				],
 				repo: 'https://github.com/vextremera/arcadia',
-				demo: '',
+				demo: 'https://victorextremera.cat',
 				featured: true,
 				cover: '/proyectos/arcadia.webp',
 				coverAlt:
