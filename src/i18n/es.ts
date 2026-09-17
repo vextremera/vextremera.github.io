@@ -12,8 +12,6 @@ import type { Dict } from './types';
      · projects.items[1..3]   huecos anunciados con soon: true. Para publicar
                               uno, rellénalo y quita ese soon: entonces se le
                               genera su página de caso y la ficha enlaza.
-     · experience.items       falta el nombre del restaurante, y el nombre y
-                              las fechas de la empresa de Malta
      · education.items        tu formación real
      · contact.social         tus URLs de LinkedIn y GitHub
    Mantén el mismo slug, el mismo n y el mismo orden en es.ts y en.ts.
@@ -278,40 +276,25 @@ export const es: Dict = {
 		},
 		items: [
 			{
-				company: '[Nombre de la empresa]',
-				role: 'Desarrollador web',
-				period: '[mes año] — [mes año]',
+				company: 'Agencia web',
+				role: 'Desarrollador web · Erasmus+',
+				period: 'Febrero 2026 — Mayo 2026',
 				location: 'Malta',
 				summary:
-					'Estancia de Erasmus+ en Malta, trabajando para clientes reales en inglés y lejos de casa. Mi primer sitio donde lo que escribía lo iba a usar alguien que pagaba por ello.',
+					'Estancia de Erasmus+ trabajando para clientes reales, en inglés y lejos de casa. Lo que salía de mis manos lo iba a usar alguien que había pagado por ello.',
 				duties: [
 					'Diseño y montaje de páginas web en WordPress',
 					'Resolución de problemas de código y de plugins',
+					'Edición profesional de imágenes',
 					'Enseñar el flujo de trabajo a los becarios que iban entrando',
 				],
 				learned:
-					'A tratar con clientes de verdad, que no piden especificaciones sino resultados y cambian de idea a mitad. También a organizarme solo en otro país y a no bloquearme cuando algo se rompe y no hay a quién preguntar.',
-				stack: ['WordPress'],
+					'A tratar con clientes de verdad, que no traen una especificación sino un resultado en la cabeza y cambian de idea a mitad. También a organizarme solo en otro país y a no bloquearme cuando algo se rompe y no hay a quién preguntar.',
+				stack: ['WordPress', 'Photoshop'],
 				international: true,
 			},
 			{
-				company: 'Institut Escola',
-				role: 'Técnico informático · Prácticas',
-				period: 'Septiembre 2023 — Enero 2024',
-				location: 'Lloret de Mar, España',
-				summary:
-					'Prácticas como responsable del parque informático del centro: los equipos que reparte la Generalitat, el material del colegio y las incidencias de todo el profesorado.',
-				duties: [
-					'Administrar los Chromebook entregados al centro por el programa del gobierno',
-					'Reparar el material hardware del colegio',
-					'Atender las incidencias de software del profesorado desde una bandeja de correo interna',
-				],
-				learned:
-					'Constancia: las incidencias no se acaban nunca y hay que ir una por una. Y a explicar lo técnico sin tecnicismos, porque al otro lado del correo había profesores que querían dar su clase, no entender el problema.',
-				stack: ['Chromebooks', 'Hardware'],
-			},
-			{
-				company: '[Nombre del restaurante]',
+				company: 'Restaurante',
 				role: 'Jefe de sala',
 				period: 'Verano 2022 — Enero 2026',
 				location: 'Lloret de Mar, España',
@@ -325,6 +308,22 @@ export const es: Dict = {
 				learned:
 					'Responsabilidad, equipo y empatía. Un servicio lleno enseña rápido que el trabajo sale cuando el equipo va acompasado, y que para eso hay que mirar cómo va cada uno antes de repartir.',
 				stack: [],
+			},
+			{
+				company: 'Institut Escola',
+				role: 'Técnico informático · Prácticas',
+				period: 'Septiembre 2023 — Enero 2024',
+				location: 'Lloret de Mar, España',
+				summary:
+					'Prácticas como responsable del parque informático del centro: los equipos que reparte el gobierno, el material del colegio y las incidencias de todo el profesorado.',
+				duties: [
+					'Administrar los Chromebook entregados al centro por el programa del gobierno',
+					'Reparar el material hardware del colegio',
+					'Atender las incidencias de software del profesorado desde una bandeja de correo interna',
+				],
+				learned:
+					'Constancia: las incidencias no se acaban nunca y hay que ir una por una. Y a explicar lo técnico sin tecnicismos, porque al otro lado del correo había profesores que querían dar su clase, no entender el problema.',
+				stack: ['Chromebooks', 'Hardware'],
 			},
 		],
 	},

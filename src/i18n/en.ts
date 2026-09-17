@@ -269,40 +269,25 @@ export const en: Dict = {
 		},
 		items: [
 			{
-				company: '[Company name]',
-				role: 'Web developer',
-				period: '[month year] — [month year]',
+				company: 'Web agency',
+				role: 'Web developer · Erasmus+',
+				period: 'February 2026 — May 2026',
 				location: 'Malta',
 				summary:
-					'An Erasmus+ placement in Malta, working for real clients, in English, a long way from home. The first place where what I wrote was going to be used by someone who was paying for it.',
+					'An Erasmus+ placement working for real clients, in English, a long way from home. What left my hands was going to be used by someone who had paid for it.',
 				duties: [
 					'Designing and building websites in WordPress',
 					'Fixing problems in code and in plugins',
+					'Professional image editing',
 					'Walking new interns through how the work got done',
 				],
 				learned:
-					'How to deal with real clients, who do not hand you a specification, they hand you a result, and change their mind halfway through. Also how to organise myself alone in another country, and how not to freeze when something breaks and there is nobody to ask.',
-				stack: ['WordPress'],
+					'How to deal with real clients, who do not bring you a specification, they bring you a result they have in mind, and change it halfway through. Also how to organise myself alone in another country, and how not to freeze when something breaks and there is nobody to ask.',
+				stack: ['WordPress', 'Photoshop'],
 				international: true,
 			},
 			{
-				company: 'Institut Escola',
-				role: 'IT technician · Placement',
-				period: 'September 2023 — January 2024',
-				location: 'Lloret de Mar, Spain',
-				summary:
-					'A placement looking after the school’s IT: the devices handed out by the regional government, the school’s own hardware, and every software problem the teaching staff ran into.',
-				duties: [
-					'Administering the Chromebooks issued to the school under the government programme',
-					'Repairing the school’s hardware',
-					'Handling the teaching staff’s software issues through an internal mail inbox',
-				],
-				learned:
-					'Persistence: the tickets never stop and you take them one at a time. And how to explain technical things without technical words, because on the other end of that inbox were teachers who wanted to teach their lesson, not understand the problem.',
-				stack: ['Chromebooks', 'Hardware'],
-			},
-			{
-				company: '[Restaurant name]',
+				company: 'Restaurant',
 				role: 'Front of house manager',
 				period: 'Summer 2022 — January 2026',
 				location: 'Lloret de Mar, Spain',
@@ -316,6 +301,22 @@ export const en: Dict = {
 				learned:
 					'Responsibility, teamwork and empathy. A full service teaches you quickly that the work only gets done when the team moves in step, and that keeping it in step means looking at how each person is coping before you hand anything out.',
 				stack: [],
+			},
+			{
+				company: 'Institut Escola',
+				role: 'IT technician · Placement',
+				period: 'September 2023 — January 2024',
+				location: 'Lloret de Mar, Spain',
+				summary:
+					'A placement looking after the school’s IT: the devices handed out by the government, the school’s own hardware, and every software problem the teaching staff ran into.',
+				duties: [
+					'Administering the Chromebooks issued to the school under the government programme',
+					'Repairing the school’s hardware',
+					'Handling the teaching staff’s software issues through an internal mail inbox',
+				],
+				learned:
+					'Persistence: the tickets never stop and you take them one at a time. And how to explain technical things without technical words, because on the other end of that inbox were teachers who wanted to teach their lesson, not understand the problem.',
+				stack: ['Chromebooks', 'Hardware'],
 			},
 		],
 	},
