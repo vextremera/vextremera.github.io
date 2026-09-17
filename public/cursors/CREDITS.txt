@@ -26,18 +26,16 @@ pulsa dejará de coincidir con la punta del dibujo.
 Se sirven como PNG y no como .cur porque Safari no admite .cur y Chromium solo
 lo trata bien en Windows.
 
-Licencia — PENDIENTE DE CONFIRMAR
----------------------------------
-El pack descargado NO incluye fichero de licencia. Declara estar basado en
-capitaine-cursors, que se publica bajo GPL-3.0, y los temas de cursores de
-yeyushengfan258 suelen publicarse también bajo GPL-3.0.
+Licencia
+--------
+Freeware (free to use), según la ficha del set en Cursors-4U: ID #246326,
+creador yeyushengfan258, tamaños 32/40/48/64 px — que coincide con lo que
+traen los .cur.
 
-Publicar la web es distribuir estas imágenes, así que conviene confirmarlo
-antes de sacarla a producción: localizar el repositorio original del tema,
-comprobar su licencia y, si es GPL-3.0, acompañar los archivos del texto de la
-licencia y de un enlace a la fuente.
+Esa etiqueta la pone el sitio de descarga. El pack en sí no incluye fichero
+de licencia y su readme dice estar basado en capitaine-cursors, que es
+GPL-3.0. Por eso se mantiene la atribución al autor aquí y en el CSS.
 
-Si no se puede confirmar, la alternativa limpia es sustituir estos cinco PNG
-por cursores propios o por unos de licencia permisiva. El CSS no cambiaría:
-basta con reemplazar los archivos y actualizar los hotspots en las variables
---cur-* de src/styles/global.css.
+Si alguna vez hay que sustituirlos, el CSS no se toca: basta con reemplazar
+los cinco PNG y actualizar los hotspots en las variables --cur-* de
+src/styles/global.css.
