@@ -10,6 +10,15 @@ interface Props {
 const { locale } = Astro.props;
 const t = getDict(locale).education;
 const badge = getDict(locale).projects.placeholderBadge;
+
+/* Primero las titulaciones y después los certificados, cada grupo en el orden
+   del diccionario. Se ordena aquí y no a mano en el contenido para que la
+   regla no se rompa al añadir uno nuevo: ordenados solo por fecha, un
+   certificado de 2025 se colaba entre los grados de 2026 y 2024 y parecía un
+   error. filter conserva el orden original, así que la mezcla es estable. */
+const titulaciones = t.items.filter((e) => !e.certificate);
+const certificados = t.items.filter((e) => e.certificate);
+const estudios = [...titulaciones, ...certificados];
 ---
 
 <section id="education" class="shell py-24 md:py-32">
@@ -17,7 +26,7 @@ const badge = getDict(locale).projects.placeholderBadge;
 
 	<ul class="mt-14 grid grid-cols-12 gap-x-6 gap-y-10 md:mt-20" data-reveal-group>
 		{
-			t.items.map((study) => (
+			estudios.map((study) => (
 				<li
 					class="group relative col-span-12 border-t border-line pt-6 md:col-span-6"
 					data-reveal
@@ -54,6 +63,22 @@ const badge = getDict(locale).projects.placeholderBadge;
 							<li class="label border border-line px-2 py-1 text-muted">{topic}</li>
 						))}
 					</ul>
+
+					{study.doc && (
+						/* Abre en pestaña nueva porque es un PDF: dejarlo en la
+						   misma saca al visitante de la web y lo deja con el botón
+						   de atrás como única salida. El icono queda oculto para
+						   lectores de pantalla; lo que anuncia es el texto. */
+						<a
+							href={study.doc}
+							target="_blank"
+							rel="noopener noreferrer"
+							class="label mt-6 inline-flex items-center gap-2 border border-line px-3 py-2 text-muted transition-colors duration-300 hover:border-ink hover:text-ink"
+						>
+							{t.labels.doc}
+							<span aria-hidden="true">↗</span>
+						</a>
+					)}
 
 					{study.placeholder && (
 						<p class="label mt-5 inline-block border border-dashed border-line px-2 py-1 text-faint">

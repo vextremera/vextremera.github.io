@@ -325,7 +325,7 @@ export const en: Dict = {
 		n: '06',
 		title: 'Education',
 		lead: 'The formal grounding, plus what I have added on my own since.',
-		labels: { topics: 'Covered', more: 'Further training' },
+		labels: { topics: 'Covered', more: 'Further training', doc: 'View the certificate' },
 		items: [
 			{
 				/* Formación profesional española. Se deja el nombre original
@@ -358,9 +358,25 @@ export const en: Dict = {
 					'The layer underneath development: hardware, operating systems and networks. Spanish “Grado Medio en Sistemas Microinformáticos y Redes”. Knowing what is down there when something breaks is not something you pick up by writing code.',
 				topics: ['Operating systems', 'Networks', 'Hardware', 'Office software', 'Business'],
 			},
+			{
+				level: 'Language certificate',
+				title: 'English',
+				school: 'EOI Blanes',
+				period: '2025',
+				location: 'Blanes, Spain',
+				detail:
+					'B2 level certificate in English, taken through the school’s cultural exchange programme. EOI is the Spanish state language school.',
+				topics: [
+					'Reading comprehension',
+					'Listening comprehension',
+					'Written expression',
+					'Spoken expression',
+				],
+				certificate: true,
+			},
 		],
 		moreNote:
-			'Four straight years at the same school: the intermediate diploma first, then the higher one right after it, with no gap in between.',
+			'Both diplomas back to back and at the same school: the intermediate one first, then the higher one right after it, with no gap in between.',
 	},
 
 	contact: {

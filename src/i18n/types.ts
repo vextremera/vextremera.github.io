@@ -86,6 +86,23 @@ export interface Study {
 	location: string;
 	detail: string;
 	topics: string[];
+	/**
+	 * Un certificado, no una titulación. Se agrupan todos al final de la
+	 * sección, detrás de los estudios principales: mezclarlos por fecha
+	 * dejaba un certificado suelto entre dos grados y parecía un descuido.
+	 * Dentro de cada grupo manda el orden del array, del más reciente al
+	 * más antiguo.
+	 */
+	certificate?: boolean;
+	/**
+	 * Ruta dentro de /public al documento que acredita el título. Si está,
+	 * la ficha enseña un botón para abrirlo. Ausente = sin botón.
+	 *
+	 * OJO: lo que se ponga aquí queda descargable por cualquiera. Los
+	 * certificados oficiales suelen llevar DNI, fecha de nacimiento y un
+	 * código de verificación; conviene mirarlos antes de publicarlos.
+	 */
+	doc?: string;
 	placeholder?: boolean;
 }
 
@@ -180,7 +197,7 @@ export interface Dict {
 		n: string;
 		title: string;
 		lead: string;
-		labels: { topics: string; more: string };
+		labels: { topics: string; more: string; doc: string };
 		items: Study[];
 		moreNote: string;
 	};

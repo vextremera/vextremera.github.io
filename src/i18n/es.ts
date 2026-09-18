@@ -330,7 +330,7 @@ export const es: Dict = {
 		n: '06',
 		title: 'Formación',
 		lead: 'La base académica y lo que he ido sumando por mi cuenta.',
-		labels: { topics: 'Contenidos', more: 'Formación adicional' },
+		labels: { topics: 'Contenidos', more: 'Formación adicional', doc: 'Ver el certificado' },
 		items: [
 			{
 				level: 'Grado Superior',
@@ -360,9 +360,25 @@ export const es: Dict = {
 					'La capa de debajo del desarrollo: hardware, sistemas operativos y redes. Saber qué hay ahí abajo cuando algo falla es de las cosas que no se aprenden programando.',
 				topics: ['Sistemas operativos', 'Redes', 'Hardware', 'Ofimática', 'Empresa'],
 			},
+			{
+				level: 'Certificado Idiomas',
+				title: 'Inglés',
+				school: 'EOI Blanes',
+				period: '2025',
+				location: 'Blanes, España',
+				detail:
+					'Certificado de nivel B2 en inglés, obtenido a través del programa de intercambio cultural del instituto.',
+				topics: [
+					'Comprensión lectora',
+					'Comprensión auditiva',
+					'Expresión escrita',
+					'Expresión oral',
+				],
+				certificate: true,
+			},
 		],
 		moreNote:
-			'Cuatro años seguidos en el mismo instituto: el grado medio primero y el superior justo después, sin parar entre medias.',
+			'Los dos ciclos, seguidos y en el mismo instituto: el grado medio primero y el superior justo después, sin parar entre medias.',
 	},
 
 	contact: {
