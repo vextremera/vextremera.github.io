@@ -27,9 +27,10 @@ const canonical = new URL(Astro.url.pathname, Astro.site).href;
 const esUrl = new URL(locale === 'es' ? Astro.url.pathname : altPath, Astro.site).href;
 const enUrl = new URL(locale === 'en' ? Astro.url.pathname : altPath, Astro.site).href;
 
-// TODO: exportar public/og.svg a public/og.png (1200×630) — es el único
-// recurso gráfico que falta por generar.
-const ogImage = new URL('/og.png', Astro.site).href;
+// Una tarjeta por idioma: quien comparta /en/ enseña la inglesa. El SVG que
+// las genera está al lado, en public/og-<idioma>.svg; ninguna red social
+// acepta SVG como og:image, de ahí el PNG.
+const ogImage = new URL(`/og-${locale}.png`, Astro.site).href;
 
 // Solo enlazamos perfiles reales: los placeholders no entran en los datos
 // estructurados.

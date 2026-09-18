@@ -20,12 +20,12 @@ Todo el texto vive en dos ficheros. **No hay copy dentro de los componentes.**
 | `src/i18n/en.ts` | Lo mismo en inglés |
 | `src/i18n/types.ts` | La forma de los datos. Si añado un campo, va aquí primero |
 
-Los huecos pendientes están marcados **entre corchetes**: `[tu ciudad]`, `[Proyecto destacado]`,
-`[Empresa]`… Busca `[` en los dos ficheros y no te dejarás ninguno.
+Los huecos pendientes van **entre corchetes**. Busca `[` en los dos ficheros y no se te
+escapará ninguno: a día de hoy solo queda uno.
 
 Mientras un proyecto, empleo o titulación tenga `placeholder: true`, la web muestra un
 distintivo *Pendiente de rellenar*. **Ponlo a `false` cuando lo completes** y el distintivo
-desaparece.
+desaparece. Ahora mismo no lo lleva ninguno.
 
 Lo que hay que mantener sincronizado entre `es.ts` y `en.ts`:
 
@@ -36,15 +36,40 @@ TypeScript avisa si falta una clave, pero no puede comprobar que el orden coinci
 
 ### Pendientes concretos
 
-1. **Dominio** — `astro.config.mjs` (`site`) y `public/robots.txt`. Lo usan el sitemap,
-   la URL canónica y las Open Graph.
-2. **CV** — deja el PDF en `public/cv-victor-extremera.pdf`, o cambia `contact.cvHref`.
-3. **Imagen social** — `public/og.svg` es el diseño; hay que exportarlo a
-   `public/og.png` a 1200×630. Es el único recurso gráfico que falta.
-4. **Perfiles** — LinkedIn y GitHub en `contact.social`. Los que llevan `[` no entran
-   en los datos estructurados de Schema.org, así que no hay riesgo de publicar una URL falsa.
-5. **Capturas de proyecto** — opcional. Rellena `cover` (ruta dentro de `public/`) y
-   `coverAlt`; si lo dejas vacío se genera una portada tipográfica.
+1. **El tipo de encargo de ARCADIA** — `projects.items[0].type`, en los dos idiomas.
+   Es el último corchete que queda en toda la web.
+2. **Los tres proyectos anunciados** — llevan `soon: true` y salen como *Próximamente*,
+   sin enlace y sin página de caso. Rellena uno y quítale el `soon`: entonces se le
+   genera la página y la ficha enlaza.
+
+---
+
+## Publicación
+
+Se publica en **GitHub Pages** desde `.github/workflows/deploy.yml`. Cada empujón a
+`main` reconstruye y publica; también se puede lanzar a mano desde la pestaña Actions.
+
+Para que funcione hay que dejar Pages en modo Actions: *Settings › Pages › Build and
+deployment › Source: **GitHub Actions***. Solo se hace una vez.
+
+### La web vive en la raíz del dominio
+
+No es una preferencia, es un requisito. El CSS, los cursores, el sprite de logos y los
+PDF se piden con rutas absolutas (`/cursors/…`, `/logos.svg`, `/cv-…pdf`): medio centenar
+de rutas que desde una subcarpeta darían 404. En GitHub Pages eso significa que **el
+repositorio tiene que llamarse `<usuario>.github.io`**.
+
+`astro.config.mjs` lo comprueba durante el build y **falla con instrucciones** si el
+nombre no cuadra, para que nadie lo descubra con la web ya publicada y sin estilos.
+
+Para un dominio propio: define `SITE_URL` en el workflow y añade `public/CNAME`.
+
+### Cosas que se generan solas
+
+- `robots.txt` sale de `src/pages/robots.txt.ts` y toma la URL del sitemap del mismo
+  `site` que usan los canonical. Escrito a mano se quedaba apuntando al dominio viejo.
+- Las imágenes de compartir (`public/og-es.png` y `og-en.png`) se rasterizan del SVG
+  que está al lado. Si cambias el texto, edita el `.svg` y vuelve a exportarlo a 1200×630.
 
 ---
 

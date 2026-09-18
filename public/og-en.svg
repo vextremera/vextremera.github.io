@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+	<rect width="1200" height="630" fill="#0d0c0a"/>
+	<g font-family="Segoe UI, Helvetica Neue, Helvetica, Arial, sans-serif">
+		<text x="80" y="102" font-size="19" letter-spacing="3.4" fill="#8a8377">FULL-STACK WEB DEVELOPER</text>
+		<text x="76" y="318" font-size="126" font-weight="600" letter-spacing="-5" fill="#efebe3">Victor</text>
+		<text x="76" y="438" font-size="126" font-weight="600" letter-spacing="-5" fill="#efebe3">Extremera</text>
+		<text x="80" y="552" font-size="25" fill="#8a8377">I build the part people see and the part that holds it up.</text>
+	</g>
+	<rect x="80" y="126" width="1040" height="1" fill="#2b2924"/>
+	<circle cx="1096" cy="95" r="9" fill="#a9b8ff"/>
+</svg>
