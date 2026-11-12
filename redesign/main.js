@@ -7,31 +7,14 @@
   const clamp = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v));
   const lerp = (a, b, t) => a + (b - a) * t;
 
-  /* ─── HUD: la página se mide a sí misma ─── */
-  const hud = {
-    fps: $('[data-hud=fps]'), kb: $('[data-hud=kb]'),
-    dom: $('[data-hud=dom]'), scroll: $('[data-hud=scroll]'),
+  // Tiempo real que ha tardado esta página en abrirse en este navegador (demo "Abre al instante").
+  const loadEl = $('[data-load]');
+  const showLoad = () => {
+    const n = performance.getEntriesByType('navigation')[0];
+    const ms = n && n.loadEventEnd ? n.loadEventEnd : performance.now();
+    loadEl.textContent = Math.max(.1, ms / 1000).toFixed(1).replace('.', ',');
   };
-  hud.dom.textContent = document.getElementsByTagName('*').length;
-  // Peso real: el HTML más todo lo que ha descargado (CSS, JS, fuentes, imágenes).
-  const sizeOf = e => e.encodedBodySize || e.transferSize || 0;
-  const updateWeight = () => {
-    try {
-      const nav = performance.getEntriesByType('navigation')[0];
-      const total = (nav ? sizeOf(nav) : 0) + performance.getEntriesByType('resource').reduce((a, e) => a + sizeOf(e), 0);
-      if (total) hud.kb.textContent = Math.round(total / 1024) + ' KB';
-    } catch { /* sin Performance API se queda en "--" */ }
-  };
-  updateWeight();
-  try { new PerformanceObserver(updateWeight).observe({ type: 'resource', buffered: true }); } catch { addEventListener('load', updateWeight); }
-
-  let frames = 0, last = performance.now();
-  const fpsLoop = (t) => {
-    frames++;
-    if (t - last >= 500) { hud.fps.textContent = Math.round(frames * 1000 / (t - last)); frames = 0; last = t; }
-    requestAnimationFrame(fpsLoop);
-  };
-  requestAnimationFrame(fpsLoop);
+  if (loadEl) document.readyState === 'complete' ? setTimeout(showLoad, 0) : addEventListener('load', () => setTimeout(showLoad, 0));
 
   /* ─── Cursor ─── */
   const cursor = $('.cursor');
@@ -71,7 +54,7 @@
     const t0 = performance.now(), dur = 1600;
     (function step(t) {
       const p = clamp((t - t0) / dur);
-      el.textContent = Math.round(to * (1 - Math.pow(1 - p, 4)));
+      el.textContent = Math.round(+el.dataset.count * (1 - Math.pow(1 - p, 4))); // relee el objetivo: GitHub puede actualizarlo a mitad
       if (p < 1) requestAnimationFrame(step);
     })(t0);
   };
@@ -81,8 +64,24 @@
     $$('[data-count]', en.target).forEach(countUp);
     io.unobserve(en.target);
   }), { threshold: .25 });
-  $$('.title, .eyebrow, .steps li, .panel, .lab__p').forEach(el => el.classList.add('reveal'));
+  $$('.title, .eyebrow, .steps li, .panel, .lab__p, .case, .case__facts, .more-row').forEach(el => el.classList.add('reveal'));
   $$('.reveal, .card').forEach(el => io.observe(el));
+
+  /* ─── Cifras de GitHub: las del HTML son de respaldo; si la API pública responde, se actualizan ─── */
+  const ghStat = (key, url, pick) => {
+    const el = $(`[data-gh=${key}]`); if (!el) return;
+    fetch(url, { headers: { Accept: 'application/vnd.github+json' } })
+      .then(r => r.ok ? r.json() : null)
+      .then(d => {
+        const v = d && pick(d);
+        if (!Number.isFinite(v) || v <= 0) return;
+        el.dataset.count = v;
+        if (el.closest('.is-in')) el.textContent = v;
+      })
+      .catch(() => {});
+  };
+  ghStat('commits', 'https://api.github.com/search/commits?q=author:vextremera&per_page=1', d => d.total_count);
+  ghStat('repos', 'https://api.github.com/users/vextremera', d => d.public_repos);
 
   /* ─── Texto que se ilumina palabra a palabra ─── */
   const st = $('[data-words]');
@@ -103,7 +102,7 @@
   }
 
   /* ─── Navegación: sección activa, se esconde al bajar, color sobre el acento ─── */
-  const nav = $('[data-nav]'), navLinks = $$('.nav__links a'), contact = $('#contacto');
+  const nav = $('[data-nav]'), navLinks = $$('.nav__links a'), accentZones = $$('[data-accent-zone]');
   const secIO = new IntersectionObserver(entries => entries.forEach(en => {
     if (!en.isIntersecting) return;
     navLinks.forEach(a => a.getAttribute('href') === '#' + en.target.id ? a.setAttribute('aria-current', 'true') : a.removeAttribute('aria-current'));
@@ -140,44 +139,33 @@
     }
   });
 
-  /* ─── Scroll: progreso, nav, texto, tarjetas, horizontal, proceso ─── */
+  /* ─── Scroll: progreso, nav, texto, tarjetas, imagen del caso, proceso ─── */
   const stack = $('.stack'), cards = $$('.card', stack);
   let tab = 92;
   const bar = $('.progress');
-  const work = $('.work'), track = $('.work__track'), wbar = $('.work__bar i'), wn = $('[data-work-n]');
-  const projs = $$('.proj');
+  const parallax = $('[data-parallax]');
   const steps = $('.steps'), stepEls = $$('li', steps);
-  let workH = 0, maxX = 0;
 
   const isMobile = () => matchMedia('(max-width: 900px)') /* mismo corte que styles.css */.matches;
   const measure = () => {
     tab = parseFloat(getComputedStyle(stack).getPropertyValue('--tab')) || 92;
-    if (isMobile()) {
-      work.style.removeProperty('--work-h'); maxX = 0; track.style.transform = '';
-      projs.forEach(pj => $('img', pj).style.translate = '');
-      cards.forEach(c => { c.style.transform = ''; c.style.filter = ''; });
-      return;
-    }
+    if (isMobile()) { cards.forEach(c => { c.style.transform = ''; c.style.filter = ''; }); return; }
     if (menuOpen) closeMenu(false);
-    maxX = Math.max(0, track.scrollWidth - innerWidth);
-    workH = maxX + innerHeight;
-    work.style.setProperty('--work-h', workH + 'px');
   };
 
   const onScroll = () => {
     const y = scrollY, H = innerHeight;
     const max = document.documentElement.scrollHeight - H;
     bar.style.transform = `scaleX(${max > 0 ? y / max : 0})`;
-    hud.scroll.textContent = Math.round((max > 0 ? y / max : 0) * 100) + '%';
 
-    // nav: se esconde al bajar y vuelve al subir; cambia de color sobre el bloque de contacto
+    // nav: se esconde al bajar y vuelve al subir; cambia de color sobre los bloques con fondo de acento
     if (!menuOpen) {
       if (y > lastY + 6 && y > 300) nav.classList.add('is-hidden');
       else if (y < lastY - 6 || y <= 300) nav.classList.remove('is-hidden');
     }
     lastY = y;
-    const cr = contact.getBoundingClientRect();
-    nav.classList.toggle('is-on-accent', cr.top <= nav.offsetHeight * .6 && cr.bottom > 0);
+    const navMid = nav.offsetHeight * .5;
+    nav.classList.toggle('is-on-accent', accentZones.some(z => { const r = z.getBoundingClientRect(); return r.top <= navMid && r.bottom > navMid; }));
 
     // tarjetas: cada una se encoge y se apaga un poco cuando las siguientes la van tapando
     if (!isMobile() && !reduce) {
@@ -196,20 +184,10 @@
     const lit = Math.floor(sp * wEls.length * 1.15);
     wEls.forEach((w, i) => w.classList.toggle('is-on', i < lit));
 
-    // horizontal
-    if (maxX > 0) {
-      const wr = work.getBoundingClientRect();
-      const p = clamp(-wr.top / (workH - H));
-      track.style.transform = `translate3d(${-p * maxX}px,0,0)`;
-      wbar.style.transform = `scaleX(${p})`;
-      const idx = Math.min(projs.length, Math.round(p * (projs.length - 1)) + 1);
-      wn.textContent = String(idx).padStart(2, '0');
-      // parallax interno de cada imagen
-      projs.forEach(pj => {
-        const r = pj.getBoundingClientRect();
-        const c = (r.left + r.width / 2 - innerWidth / 2) / innerWidth;
-        $('img', pj).style.translate = `${c * -50}px 0`;
-      });
+    // la imagen del caso se desplaza un poco más despacio que la página
+    if (parallax && !reduce) {
+      const r = parallax.parentElement.getBoundingClientRect();
+      if (r.bottom > 0 && r.top < H) parallax.style.translate = `0 ${((r.top + r.height / 2 - H / 2) / H * -5).toFixed(2)}%`;
     }
 
     // proceso
@@ -225,12 +203,11 @@
   measure(); onScroll();
 
   /* ─── Laboratorio: reescribe los tokens de toda la página ─── */
-  const defaults = { h: 78, r: 18, rhythm: 100 };
-  const fmt = { h: v => v, r: v => v + 'px', rhythm: v => (v / 100).toFixed(2) + '×' };
+  const defaults = { h: 78, r: 18 };
+  const fmt = { h: v => v, r: v => v + 'px' };
   const apply = (k, v) => {
     if (k === 'h') root.style.setProperty('--hue', v);
     if (k === 'r') root.style.setProperty('--radius', v + 'px');
-    if (k === 'rhythm') root.style.setProperty('--rhythm', v / 100);
     window.dispatchEvent(new Event('tokens'));
   };
   $$('[data-var]').forEach(inp => {
@@ -262,12 +239,66 @@
     measure(); onScroll();
   });
 
+  /* ─── Demo "Habla idiomas": la misma mini web en español, catalán e inglés ─── */
+  const langs = $('[data-langs]');
+  if (langs) {
+    const TEXTS = {
+      es: { title: 'Bienvenidos', text: 'Reserva tu mesa en un minuto.', cta: 'Reservar' },
+      ca: { title: 'Benvinguts', text: 'Reserva la teva taula en un minut.', cta: 'Reservar' },
+      en: { title: 'Welcome', text: 'Book your table in a minute.', cta: 'Book now' },
+    };
+    const order = Object.keys(TEXTS);
+    const site = $('.langs__site', langs), btns = $$('[data-lang]', langs), slots = $$('[data-l]', site);
+    let cur = 'es', auto = !reduce; // va rotando solo hasta que alguien elige un idioma
+    const setLang = k => {
+      cur = k; site.lang = k;
+      slots.forEach(el => el.textContent = TEXTS[k][el.dataset.l]);
+      btns.forEach(b => b.setAttribute('aria-pressed', b.dataset.lang === k));
+      site.classList.remove('is-swap'); void site.offsetWidth; site.classList.add('is-swap');
+    };
+    btns.forEach(b => b.addEventListener('click', () => { auto = false; site.setAttribute('aria-live', 'polite'); setLang(b.dataset.lang); }));
+    setInterval(() => { if (auto && !document.hidden) setLang(order[(order.indexOf(cur) + 1) % order.length]); }, 2600);
+  }
+
+  /* ─── Formulario de contacto ───
+     Se envía por fetch a la dirección de data-endpoint (Formspree) sin salir de la página.
+     Si el envío falla, se avisa y se ofrece el email directo. */
+  const form = $('[data-form]');
+  if (form) {
+    const MAIL = 'vicres43@gmail.com';
+    const err = $('[data-form-err]', form), done = $('[data-form-done]', form), send = $('[data-form-send]', form);
+    const val = n => form.elements[n].value.trim();
+    const fail = (name, msg) => { const f = form.elements[name]; f.setAttribute('aria-invalid', 'true'); err.textContent = msg; f.focus(); };
+    const finish = (title, text) => {
+      $('[data-form-done-title]', form).textContent = title; $('[data-form-done-text]', form).textContent = text;
+      form.classList.add('is-done'); done.hidden = false; done.focus();
+    };
+    form.addEventListener('input', e => { e.target.removeAttribute('aria-invalid'); err.textContent = ''; });
+    form.addEventListener('submit', async e => {
+      e.preventDefault();
+      if (val('_gotcha')) return; // campo trampa: solo lo rellenan los bots
+      if (!val('nombre')) return fail('nombre', 'Dime cómo te llamas.');
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val('email'))) return fail('email', 'Revisa el email: lo necesito para contestarte.');
+      if (!val('mensaje')) return fail('mensaje', 'Cuéntame aunque sea en una línea qué necesitas.');
+      form.elements._subject.value = `Nuevo proyecto · ${val('tipo')} · ${val('nombre')}`;
+      const label = send.innerHTML; send.disabled = true; send.textContent = 'Enviando…';
+      try {
+        const r = await fetch(form.dataset.endpoint, { method: 'POST', headers: { Accept: 'application/json' }, body: new FormData(form) });
+        if (!r.ok) throw new Error(r.status);
+        finish('Mensaje enviado.', 'Gracias. Te contesto en cuanto lo lea.');
+      } catch {
+        err.textContent = `No se ha podido enviar. Escríbeme directamente a ${MAIL}.`;
+        send.disabled = false; send.innerHTML = label;
+      }
+    });
+  }
+
   /* ─── Hero: tu nombre hecho de partículas que huyen del cursor ─── */
   const cv = $('.hero__canvas'), ctx = cv.getContext('2d');
   const hero = $('.hero');
   let parts = [], W = 0, H = 0, dpr = 1, visible = true, color = '#c6ff3d';
   const ptr = { x: -9999, y: -9999 };
-  const hint = $('[data-hint]');
+  const hint = $('[data-hint]'), slot = $('[data-name-slot]');
   let ripples = [], lastMove = 0, lastRipple = 0;
 
   const readColor = () => { color = getComputedStyle(root).getPropertyValue('--accent-text').trim() || color; };
@@ -282,17 +313,19 @@
 
     const off = document.createElement('canvas'); off.width = W; off.height = H;
     const o = off.getContext('2d');
-    const lines = W < 700 ? ['VICTOR', 'EXTREMERA'] : ['VICTOR', 'EXTREMERA'];
-    const wide = W >= 700;
-    let fs = Math.min(H * (wide ? .27 : .2), 300);
-    const family = '800 ' + fs + 'px "Bricolage Grotesque", system-ui, sans-serif';
-    o.font = family;
+    // El nombre se dibuja dentro de .hero__name: en una línea si el hueco es ancho, en dos si no.
+    const cr = cv.getBoundingClientRect(), sr = slot.getBoundingClientRect();
+    const box = { x: sr.left - cr.left, y: sr.top - cr.top, w: sr.width, h: sr.height };
+    const lines = box.w / box.h > 5 ? ['VICTOR EXTREMERA'] : ['VICTOR', 'EXTREMERA'];
+    const font = s => `800 ${s}px "Bricolage Grotesque", system-ui, sans-serif`;
+    let fs = box.h / lines.length * 1.18;
+    o.font = font(fs);
     const widest = Math.max(...lines.map(l => o.measureText(l).width));
-    fs = Math.min(fs, fs * (W * .9) / widest);
-    o.font = '800 ' + fs + 'px "Bricolage Grotesque", system-ui, sans-serif';
+    fs = Math.min(fs, fs * box.w / widest);
+    o.font = font(fs);
     o.textAlign = 'center'; o.textBaseline = 'middle'; o.fillStyle = '#fff';
-    const lh = fs * .92, cy = H * .5 - 6;
-    lines.forEach((l, i) => o.fillText(l, W / 2, cy + (i - (lines.length - 1) / 2) * lh));
+    const lh = fs * .9, cy = box.y + box.h / 2;
+    lines.forEach((l, i) => o.fillText(l, box.x + box.w / 2, cy + (i - (lines.length - 1) / 2) * lh));
 
     const gap = Math.max(4, Math.round(fs / 34));
     const data = o.getImageData(0, 0, W, H).data;

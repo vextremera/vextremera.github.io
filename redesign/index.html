@@ -16,15 +16,6 @@
 <div class="progress" aria-hidden="true"></div>
 <div class="cursor" aria-hidden="true"><i class="cursor__dot"></i><i class="cursor__ring"></i></div>
 
-<!-- HUD: la web se mide a sí misma -->
-<aside class="hud" aria-label="Métricas en vivo de esta página">
-  <span class="hud__live"></span>
-  <span>FPS <b data-hud="fps">--</b></span>
-  <span>Peso <b data-hud="kb">--</b></span>
-  <span>Nodos <b data-hud="dom">--</b></span>
-  <span>Scroll <b data-hud="scroll">0%</b></span>
-</aside>
-
 <header class="nav" data-nav>
   <a href="#inicio" class="nav__logo" data-cursor="link" aria-label="Inicio">VE<span>.</span></a>
   <nav class="nav__links" aria-label="Principal">
@@ -57,47 +48,49 @@
 <!-- 01 HERO -->
 <section class="hero" id="inicio">
   <canvas class="hero__canvas" aria-hidden="true"></canvas>
-  <h1 class="sr-only">Victor Extremera, desarrollador web freelance</h1>
 
-  <div class="hero__top">
-    <p class="pill pill--glass"><span class="dot"></span> Disponible para nuevos proyectos</p>
-    <p class="mono hero__hint" data-hint>Mueve el cursor. Haz clic. Esto no es una imagen.</p>
+  <div class="hero__main">
+    <div class="hero__copy">
+      <p class="pill pill--glass"><span class="dot"></span> Disponible para nuevos proyectos</p>
+      <h1 class="hero__title"><span class="sr-only">Victor Extremera, desarrollador web freelance. </span>Hago la web de tu <em>negocio.</em></h1>
+      <p class="hero__lead">Soy Victor, de Lloret de Mar. Diseño y programo tu web o tu tienda online de principio a fin.</p>
+      <div class="hero__cta">
+        <a href="#contacto" class="btn magnetic" data-cursor="link">Hablemos <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 19 19 5M8 5h11v11" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+        <a href="#proyectos" class="btn btn--ghost" data-cursor="link">Ver mi trabajo</a>
+      </div>
+    </div>
+    <figure class="hero__photo" data-tilt>
+      <div class="hero__clip"><img src="assets/victor.webp" alt="Retrato de Victor Extremera, sonriendo, con americana oscura y camisa blanca" width="960" height="1286" fetchpriority="high"></div>
+      <figcaption class="pill pill--sm pill--solid mono hero__tag">Lloret de Mar · ES</figcaption>
+    </figure>
   </div>
 
-  <div class="hero__bottom">
-    <p class="hero__lead">Construyo la parte que se ve y la que la <em>sostiene</em>: webs y tiendas online para negocios, de la base de datos al último botón.</p>
-    <a href="#servicios" class="scroll" data-cursor="link"><span>Scroll</span><i></i></a>
+  <div class="hero__band" aria-hidden="true">
+    <p class="mono hero__hint" data-hint>Mueve el cursor sobre mi nombre. Haz clic.</p>
+    <div class="hero__name" data-name-slot></div>
   </div>
 </section>
 
 <!-- Marquee -->
 <div class="marquee" aria-hidden="true">
   <div class="marquee__track">
-    <span>Webs a medida</span><span class="star">✦</span><span>Tiendas online</span><span class="star">✦</span><span>WordPress</span><span class="star">✦</span><span>Paneles de gestión</span><span class="star">✦</span>
-    <span>Webs a medida</span><span class="star">✦</span><span>Tiendas online</span><span class="star">✦</span><span>WordPress</span><span class="star">✦</span><span>Paneles de gestión</span><span class="star">✦</span>
+    <span>Webs a medida</span><span class="star">✦</span><span>Tiendas online</span><span class="star">✦</span><span>Optimización</span><span class="star">✦</span><span>Paneles de gestión</span><span class="star">✦</span>
+    <span>Webs a medida</span><span class="star">✦</span><span>Tiendas online</span><span class="star">✦</span><span>Optimización</span><span class="star">✦</span><span>Paneles de gestión</span><span class="star">✦</span>
   </div>
 </div>
 
 <!-- 02 SOBRE MÍ -->
-<section class="about" id="sobre-mi">
-  <div class="wrap about__grid">
-    <div class="about__photo reveal" data-tilt>
-      <img src="assets/victor.webp" alt="Retrato de Victor Extremera, sonriendo, con americana oscura y camisa blanca" width="960" height="1286" loading="lazy">
-      <span class="pill pill--sm pill--solid about__tag mono">Lloret de Mar · ES</span>
-      <span class="about__badge">Full<br>stack</span>
-    </div>
+<section class="about tone-alt" id="sobre-mi">
+  <div class="wrap">
+    <p class="eyebrow mono">01 — Quién soy</p>
+    <p class="statement" data-words>Soy Victor, desarrollador web en Lloret de Mar. Monto la interfaz y también la API y la base de datos que hay debajo, así que no prometo cosas imposibles. Trabajo en español, catalán e inglés, y cuido los detalles que casi nadie mira.</p>
 
-    <div class="about__text">
-      <p class="eyebrow mono">01 — Quién soy</p>
-      <p class="statement" data-words>Soy Victor, desarrollador web en Lloret de Mar. Monto la interfaz y también la API y la base de datos que hay debajo, así que no prometo cosas imposibles. Trabajo en español, catalán e inglés, y cuido los detalles que casi nadie mira.</p>
-
-      <dl class="facts">
-        <div class="reveal"><dt class="mono">Idiomas</dt><dd><span data-count="3">0</span></dd></div>
-        <div class="reveal"><dt class="mono">Meses en Malta</dt><dd><span data-count="4">0</span></dd></div>
-        <div class="reveal"><dt class="mono">Commits en ARCADIA</dt><dd><span data-count="149">0</span></dd></div>
-        <div class="reveal"><dt class="mono">Titulaciones</dt><dd><span data-count="2">0</span></dd></div>
-      </dl>
-    </div>
+    <dl class="facts">
+      <div class="reveal"><dt class="mono">Commits en GitHub</dt><dd><span data-count="268" data-gh="commits">0</span></dd></div>
+      <div class="reveal"><dt class="mono">Repositorios</dt><dd><span data-count="4" data-gh="repos">0</span></dd></div>
+      <div class="reveal"><dt class="mono">Titulaciones</dt><dd>+<span data-count="4">0</span></dd></div>
+      <div class="reveal"><dt class="mono">Idiomas</dt><dd class="facts__list"><span lang="es">Español</span><span lang="ca">Català</span><span lang="en">English</span></dd></div>
+    </dl>
   </div>
 </section>
 
@@ -105,7 +98,7 @@
 <section class="services" id="servicios">
   <div class="wrap">
     <p class="eyebrow mono">02 — Qué hago diferente</p>
-    <h2 class="title">Lo que hago,<br><em>en marcha.</em></h2>
+    <h2 class="title">Lo que te llevas,<br><em>funcionando.</em></h2>
   </div>
 
   <div class="wrap stack">
@@ -113,9 +106,9 @@
     <article class="card" style="--i: 0">
       <div class="card__info">
         <span class="card__n mono">A</span>
-        <h3>Webs a medida</h3>
-        <p>Diseño y monto la web entera, y se adapta sola a cada pantalla. El recuadro de al lado lo está haciendo ahora mismo.</p>
-        <ul class="tags mono"><li class="pill pill--sm">Astro</li><li class="pill pill--sm">WordPress</li><li class="pill pill--sm">Tailwind CSS</li></ul>
+        <h3>Se adapta sola</h3>
+        <p>Tu web se recoloca sola para verse bien en el móvil, en una tablet y en el ordenador. Mira el recuadro: lo está haciendo ahora.</p>
+        <ul class="tags mono"><li class="pill pill--sm">Móvil</li><li class="pill pill--sm">Tablet</li><li class="pill pill--sm">Ordenador</li></ul>
       </div>
       <div class="card__demo">
         <!-- demo real: un contenedor que se redimensiona y se reorganiza solo -->
@@ -127,6 +120,7 @@
               <div class="rsz__c"></div><div class="rsz__c"></div><div class="rsz__c"></div>
             </div>
           </div>
+          <p class="mono rsz__cap">Ordenador ⇄ móvil</p>
         </div>
       </div>
     </article>
@@ -134,9 +128,9 @@
     <article class="card" style="--i: 1">
       <div class="card__info">
         <span class="card__n mono">B</span>
-        <h3>Carga rápida</h3>
-        <p>La portada de mi portfolio pesa 26 KB comprimida, con HTML, CSS y JavaScript incluidos, y no hace ninguna petición a terceros.</p>
-        <ul class="tags mono"><li class="pill pill--sm">HTML</li><li class="pill pill--sm">CSS</li><li class="pill pill--sm">WebP</li></ul>
+        <h3>Abre al instante</h3>
+        <p>El círculo marca lo que ha tardado esta página en abrirse en tu pantalla, medido ahora mismo. La tuya la hago igual de ligera.</p>
+        <ul class="tags mono"><li class="pill pill--sm">Ligera</li><li class="pill pill--sm">Sin esperas</li></ul>
       </div>
       <div class="card__demo">
         <div class="gauge">
@@ -144,8 +138,8 @@
             <circle class="gauge__bg" cx="60" cy="60" r="52"/>
             <circle class="gauge__fg" cx="60" cy="60" r="52" pathLength="100"/>
           </svg>
-          <b class="gauge__n" data-count="26">0</b>
-          <span class="mono gauge__l">KB en total</span>
+          <b class="gauge__n" data-load>–</b>
+          <span class="mono gauge__l">segundos</span>
         </div>
       </div>
     </article>
@@ -153,9 +147,9 @@
     <article class="card" style="--i: 2">
       <div class="card__info">
         <span class="card__n mono">C</span>
-        <h3>Interacción</h3>
-        <p>Animaciones escritas a mano en CSS y JavaScript, sin librerías. Mi portfolio lleva un motor de físicas propio de 2,8 KB.</p>
-        <ul class="tags mono"><li class="pill pill--sm">CSS</li><li class="pill pill--sm">JavaScript</li><li class="pill pill--sm">SVG</li></ul>
+        <h3>Se nota viva</h3>
+        <p>Detalles que responden cuando pasas el ratón o tocas la pantalla. Sube arriba del todo y mueve el cursor sobre mi nombre.</p>
+        <ul class="tags mono"><li class="pill pill--sm">Ratón</li><li class="pill pill--sm">Táctil</li></ul>
       </div>
       <div class="card__demo">
         <div class="orbit">
@@ -170,17 +164,24 @@
     <article class="card" style="--i: 3">
       <div class="card__info">
         <span class="card__n mono">D</span>
-        <h3>Panel de gestión</h3>
-        <p>Tiendas y webs con su panel, para que cambies precios, horarios o cupones sin llamarme. El de ARCADIA tiene dieciocho áreas.</p>
-        <ul class="tags mono"><li class="pill pill--sm">TypeScript</li><li class="pill pill--sm">Astro DB</li><li class="pill pill--sm">Redis</li></ul>
+        <h3>Habla idiomas</h3>
+        <p>Hago tu web en varios idiomas para que te entienda quien viene de fuera. Trabajo en español, catalán e inglés. Cambia el idioma del recuadro.</p>
+        <ul class="tags mono"><li class="pill pill--sm">Turismo</li><li class="pill pill--sm">Clientes de fuera</li></ul>
       </div>
       <div class="card__demo">
-        <pre class="code" aria-hidden="true"><span style="--n:27;--d:0s">const pedido = nuevo(mesa);</span>
-<span style="--n:27;--d:1.3s">if (!pedido.valido) return;</span>
-<span style="--n:21;--d:2.6s">await cocina.enviar({</span>
-<span style="--n:9;--d:3.6s">  pedido,</span>
-<span style="--n:15;--d:4.1s">  avisar: true,</span>
-<span style="--n:3;--d:4.9s">});</span><i class="caret"></i></pre>
+        <div class="langs" data-langs>
+          <div class="langs__tabs" role="group" aria-label="Idioma de la demostración">
+            <button type="button" class="pill pill--sm langs__btn" data-lang="es" aria-pressed="true" data-cursor="link">Español</button>
+            <button type="button" class="pill pill--sm langs__btn" data-lang="ca" aria-pressed="false" data-cursor="link">Català</button>
+            <button type="button" class="pill pill--sm langs__btn" data-lang="en" aria-pressed="false" data-cursor="link">English</button>
+          </div>
+          <div class="langs__site" lang="es" aria-live="off">
+            <p class="mono langs__label" lang="es">Tu web</p>
+            <b data-l="title">Bienvenidos</b>
+            <p data-l="text">Reserva tu mesa en un minuto.</p>
+            <span class="btn btn--small langs__cta" data-l="cta">Reservar</span>
+          </div>
+        </div>
       </div>
     </article>
 
@@ -189,23 +190,40 @@
 
 <!-- 04 PROYECTOS: scroll horizontal -->
 <section class="work" id="proyectos">
-  <div class="work__sticky">
-    <div class="work__head wrap">
+  <div class="wrap">
+    <div class="work__head">
       <p class="eyebrow mono">03 — Trabajo seleccionado</p>
-      <p class="mono work__count"><span data-work-n>01</span> / 04</p>
+      <p class="mono work__count">Caso principal</p>
     </div>
-    <div class="work__track">
-      <a href="https://victorextremera.cat" target="_blank" rel="noopener" class="proj" data-cursor="view"><div class="proj__img"><img src="assets/arcadia.webp" alt="Portada de ARCADIA: un cocinero termina de emplatar mientras vierte aceite con una cuchara, con el nombre del restaurante superpuesto." loading="lazy"></div><div class="proj__meta"><span class="mono">01</span><h3>ARCADIA</h3><span class="mono">Carta, pedido online y backoffice · 2026</span></div></a>
-      <a href="https://vextremera.github.io" target="_blank" rel="noopener" class="proj" data-cursor="view"><div class="proj__img"><img src="assets/portfolio.webp" alt="Imagen de portada del portfolio de Victor Extremera" loading="lazy"></div><div class="proj__meta"><span class="mono">02</span><h3>Portfolio</h3><span class="mono">Web personal bilingüe · 2026</span></div></a>
-      <div class="proj proj--soon" style="--tone: 140deg"><div class="proj__img"><img src="assets/placeholder.svg" alt="" loading="lazy"></div><div class="proj__meta"><span class="mono">03</span><h3>Próximamente</h3><span class="mono">En preparación</span></div></div>
-      <a href="#contacto" class="proj proj--soon" style="--tone: 220deg" data-cursor="link"><div class="proj__img"><img src="assets/placeholder.svg" alt="" loading="lazy"></div><div class="proj__meta"><span class="mono">04</span><h3>¿El tuyo?</h3><span class="mono">Hablemos</span></div></a>
+
+    <a href="https://victorextremera.cat" target="_blank" rel="noopener" class="case" data-cursor="view">
+      <img src="assets/arcadia.webp" alt="Portada de ARCADIA: un cocinero termina de emplatar mientras vierte aceite con una cuchara, con el nombre del restaurante superpuesto." width="1600" height="812" loading="lazy" data-parallax>
+      <div class="case__body">
+        <h3 class="case__title">ARCADIA · Bar-restaurante</h3>
+        <p class="case__tag">Carta, pedido online y panel de gestión.</p>
+      </div>
+      <span class="case__go" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 19 19 5M8 5h11v11" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+    </a>
+
+    <div class="case__facts">
+      <p class="case__result">Terminado y funcionando: se pide de principio a fin, el negocio lo administra entero desde su panel y la cocina trabaja con su propia pantalla.</p>
+      <dl class="case__meta mono">
+        <div><dt>Año</dt><dd>2026</dd></div>
+        <div><dt>Mi parte</dt><dd>Todo, en solitario</dd></div>
+        <div><dt>Web</dt><dd><a href="https://victorextremera.cat" target="_blank" rel="noopener" data-cursor="link">victorextremera.cat ↗</a></dd></div>
+      </dl>
     </div>
-    <div class="work__bar" aria-hidden="true"><i></i></div>
+
+    <a href="https://vextremera.github.io" target="_blank" rel="noopener" class="more-row" data-cursor="link">
+      <span class="mono">También</span>
+      <span class="more-row__t">Mi portfolio anterior, bilingüe y hecho desde cero</span>
+      <span class="mono">2026 ↗</span>
+    </a>
   </div>
 </section>
 
 <!-- 05 LABORATORIO: la web se re-diseña en directo -->
-<section class="lab" id="laboratorio">
+<section class="lab" id="laboratorio" data-accent-zone>
   <div class="wrap lab__grid">
     <div>
       <p class="eyebrow mono">04 — Cómo soy</p>
@@ -221,9 +239,6 @@
 
       <label class="ctl"><span class="mono">--radio</span>
         <input type="range" min="0" max="48" value="18" data-var="r"><output>18px</output></label>
-
-      <label class="ctl"><span class="mono">--ritmo</span>
-        <input type="range" min="60" max="140" value="100" data-var="rhythm"><output>1.00×</output></label>
 
       <div class="ctl ctl--switch"><span class="mono">--tema</span>
         <button type="button" class="switch" role="switch" aria-checked="false" data-theme-toggle data-cursor="link"><i></i><span class="sr-only">Cambiar tema claro u oscuro</span></button>
@@ -256,14 +271,48 @@
 </section>
 
 <!-- 07 CONTACTO -->
-<section class="contact" id="contacto">
-  <div class="wrap">
-    <p class="eyebrow mono">06 — Siguiente paso</p>
-    <a href="mailto:vicres43@gmail.com" class="contact__big magnetic" data-cursor="link">
-      <span>Hablemos</span>
-      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 19 19 5M8 5h11v11" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-    </a>
-    <p class="contact__mail mono">vicres43@gmail.com</p>
+<section class="contact" id="contacto" data-accent-zone>
+  <div class="wrap contact__grid">
+    <div class="contact__intro">
+      <p class="eyebrow mono">06 — Siguiente paso</p>
+      <h2 class="contact__big">Hablemos</h2>
+      <p class="contact__p">Cuéntame qué necesitas. Leo y contesto yo todos los mensajes.</p>
+      <ul class="contact__alt mono">
+        <li><span>Email</span><a href="mailto:vicres43@gmail.com" data-cursor="link">vicres43@gmail.com</a></li>
+        <li><span>LinkedIn</span><a href="https://www.linkedin.com/in/victor-extremera-7b461229a" target="_blank" rel="noopener" data-cursor="link">victor-extremera ↗</a></li>
+        <li><span>GitHub</span><a href="https://github.com/vextremera" target="_blank" rel="noopener" data-cursor="link">vextremera ↗</a></li>
+      </ul>
+    </div>
+
+    <!-- Envía a Formspree. main.js lo manda por fetch (data-endpoint) para no salir de la página;
+         el action es el respaldo si el JavaScript no carga. -->
+    <form class="form" data-form data-endpoint="https://formspree.io/f/xjywkeoq" action="https://formspree.io/f/xjywkeoq" method="post" novalidate aria-label="Formulario de contacto">
+      <input type="hidden" name="_subject" value="Nuevo mensaje desde tu web">
+      <div class="form__row">
+        <label class="field"><span class="mono">Nombre</span><input name="nombre" autocomplete="name" required></label>
+        <label class="field"><span class="mono">Email</span><input name="email" type="email" autocomplete="email" required></label>
+      </div>
+      <fieldset class="field">
+        <legend class="mono">¿Qué necesitas?</legend>
+        <div class="opts">
+          <label class="opt"><input type="radio" name="tipo" value="Web nueva" checked><span class="pill">Web nueva</span></label>
+          <label class="opt"><input type="radio" name="tipo" value="Tienda online"><span class="pill">Tienda online</span></label>
+          <label class="opt"><input type="radio" name="tipo" value="Rediseño"><span class="pill">Rediseño</span></label>
+          <label class="opt"><input type="radio" name="tipo" value="Otra cosa"><span class="pill">Otra cosa</span></label>
+        </div>
+      </fieldset>
+      <label class="field"><span class="mono">Cuéntame un poco</span><textarea name="mensaje" rows="4" required></textarea></label>
+      <input type="text" name="_gotcha" class="sr-only" tabindex="-1" autocomplete="off" aria-hidden="true">
+      <p class="form__err" role="alert" data-form-err></p>
+      <div class="form__foot">
+        <p class="form__note">Solo uso estos datos para responderte.</p>
+        <button type="submit" class="btn" data-form-send data-cursor="link">Enviar mensaje <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 19 19 5M8 5h11v11" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      </div>
+      <div class="form__done" data-form-done hidden tabindex="-1">
+        <b data-form-done-title>Mensaje enviado.</b>
+        <p data-form-done-text>Gracias. Te contesto en cuanto lo lea.</p>
+      </div>
+    </form>
   </div>
   <footer class="foot wrap mono">
     <span>© 2026 Victor Extremera</span>
