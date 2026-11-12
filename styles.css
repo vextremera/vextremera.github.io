@@ -370,11 +370,6 @@ section { position: relative; }
 .case__meta dt { color: var(--muted); }
 .case__meta a { text-underline-offset: 4px; }
 .case__meta a:hover { text-decoration: underline; }
-.more-row { display: grid; grid-template-columns: auto 1fr auto; align-items: baseline; gap: var(--sp-6); margin-top: var(--sp-14); padding: var(--sp-6) 0; border-block: 1px solid var(--line); }
-.more-row .mono { color: var(--muted); }
-.more-row__t { font-size: var(--text-2xl); font-weight: var(--fw-heavy); letter-spacing: var(--track-tight); line-height: 1; transition: translate var(--t-base) var(--ease), color var(--t-fast); }
-.more-row:hover .more-row__t, .more-row:focus-visible .more-row__t { translate: var(--sp-3) 0; color: var(--accent-text); }
-.more-row:active .more-row__t { opacity: .7; }
 
 /* ───────── Laboratorio ───────── */
 .lab { padding-block: var(--sec); background: var(--accent); color: var(--accent-ink); }
@@ -506,8 +501,6 @@ body::after { content: ""; position: fixed; inset: 0; z-index: var(--z-grain); p
   .card__info p { padding-top: var(--sp-6); }
   .card__demo { margin-top: 0; border-left: 0; border-top: 1px solid var(--line); min-height: 280px; }
   .case { aspect-ratio: 4 / 5; }
-  .more-row { grid-template-columns: 1fr auto; gap: var(--sp-2) var(--sp-4); }
-  .more-row__t { grid-column: 1 / -1; grid-row: 2; }
 }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: .001ms !important; animation-iteration-count: 1 !important; transition-duration: .001ms !important; }

@@ -21,25 +21,32 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  construir:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Traer el repositorio
-        uses: actions/checkout@v4
-
-      - name: Construir el sitio
-        uses: withastro/action@v3
-        with:
-          # El proyecto declara engines.node >= 22.12.
-          node-version: 22
-
   publicar:
-    needs: construir
     runs-on: ubuntu-latest
     environment:
       name: github-pages
       url: ${{ steps.despliegue.outputs.page_url }}
     steps:
+      - name: Traer el repositorio
+        uses: actions/checkout@v4
+
+      # La web es HTML, CSS y JS sin compilar. Se copia a _site solo lo que
+      # tiene que verse desde fuera, para no publicar el README ni la
+      # configuración del repositorio.
+      - name: Reunir los archivos de la web
+        run: |
+          mkdir _site
+          cp index.html styles.css main.js _site/
+          cp -r assets _site/
+
+      - name: Preparar Pages
+        uses: actions/configure-pages@v5
+
+      - name: Subir la web
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
       - name: Publicar
         id: despliegue
         uses: actions/deploy-pages@v4

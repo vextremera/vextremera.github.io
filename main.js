@@ -64,7 +64,7 @@
     $$('[data-count]', en.target).forEach(countUp);
     io.unobserve(en.target);
   }), { threshold: .25 });
-  $$('.title, .eyebrow, .steps li, .panel, .lab__p, .case, .case__facts, .more-row').forEach(el => el.classList.add('reveal'));
+  $$('.title, .eyebrow, .steps li, .panel, .lab__p, .case, .case__facts').forEach(el => el.classList.add('reveal'));
   $$('.reveal, .card').forEach(el => io.observe(el));
 
   /* ─── Cifras de GitHub: las del HTML son de respaldo; si la API pública responde, se actualizan ─── */
