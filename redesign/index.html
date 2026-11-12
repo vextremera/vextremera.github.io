@@ -1,0 +1,280 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Victor Extremera — Desarrollador web freelance</title>
+<meta name="description" content="Lorem ipsum dolor sit amet, consectetur adipiscing elit.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%230a0a0d'/%3E%3Ccircle cx='32' cy='32' r='12' fill='%23c6ff3d'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,700;12..96,800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<div class="progress" aria-hidden="true"></div>
+<div class="cursor" aria-hidden="true"><i class="cursor__dot"></i><i class="cursor__ring"></i></div>
+
+<!-- HUD: la web se mide a sí misma -->
+<aside class="hud" aria-label="Métricas en vivo de esta página">
+  <span class="hud__live"></span>
+  <span>FPS <b data-hud="fps">--</b></span>
+  <span>Peso <b data-hud="kb">--</b></span>
+  <span>Nodos <b data-hud="dom">--</b></span>
+  <span>Scroll <b data-hud="scroll">0%</b></span>
+</aside>
+
+<header class="nav" data-nav>
+  <a href="#inicio" class="nav__logo" data-cursor="link" aria-label="Inicio">VE<span>.</span></a>
+  <nav class="nav__links" aria-label="Principal">
+    <a href="#sobre-mi" data-cursor="link">Sobre mí</a>
+    <a href="#servicios" data-cursor="link">Servicios</a>
+    <a href="#proyectos" data-cursor="link">Proyectos</a>
+    <a href="#laboratorio" data-cursor="link">Laboratorio</a>
+  </nav>
+  <div class="nav__right">
+    <a href="#contacto" class="btn btn--small magnetic nav__cta" data-cursor="link">Hablemos</a>
+    <button type="button" class="burger" aria-expanded="false" aria-controls="menu" data-burger>
+      <span class="sr-only">Abrir menú</span><i></i><i></i>
+    </button>
+  </div>
+</header>
+
+<div class="menu" id="menu" hidden>
+  <nav aria-label="Menú móvil">
+    <a href="#sobre-mi"><span class="mono">01</span>Sobre mí</a>
+    <a href="#servicios"><span class="mono">02</span>Servicios</a>
+    <a href="#proyectos"><span class="mono">03</span>Proyectos</a>
+    <a href="#laboratorio"><span class="mono">04</span>Laboratorio</a>
+    <a href="#contacto"><span class="mono">05</span>Hablemos</a>
+  </nav>
+  <p class="mono menu__foot">hola@lorem-ipsum.dev</p>
+</div>
+
+<main>
+
+<!-- 01 HERO -->
+<section class="hero" id="inicio">
+  <canvas class="hero__canvas" aria-hidden="true"></canvas>
+  <h1 class="sr-only">Victor Extremera, desarrollador web freelance</h1>
+
+  <div class="hero__top">
+    <p class="chip"><span class="dot"></span> Disponible para nuevos proyectos</p>
+    <p class="mono hero__hint" data-hint>Mueve el cursor. Haz clic. Esto no es una imagen.</p>
+  </div>
+
+  <div class="hero__bottom">
+    <p class="hero__lead">Lorem ipsum dolor sit amet, <em>consectetur</em> adipiscing elit, sed do eiusmod tempor incididunt ut labore.</p>
+    <a href="#servicios" class="scroll" data-cursor="link"><span>Scroll</span><i></i></a>
+  </div>
+</section>
+
+<!-- Marquee -->
+<div class="marquee" aria-hidden="true">
+  <div class="marquee__track">
+    <span>Lorem ipsum</span><span class="star">✦</span><span>Dolor sit amet</span><span class="star">✦</span><span>Consectetur</span><span class="star">✦</span><span>Adipiscing elit</span><span class="star">✦</span>
+    <span>Lorem ipsum</span><span class="star">✦</span><span>Dolor sit amet</span><span class="star">✦</span><span>Consectetur</span><span class="star">✦</span><span>Adipiscing elit</span><span class="star">✦</span>
+  </div>
+</div>
+
+<!-- 02 SOBRE MÍ -->
+<section class="about" id="sobre-mi">
+  <div class="wrap about__grid">
+    <div class="about__photo reveal" data-tilt>
+      <img src="assets/placeholder.svg" alt="Retrato de Victor Extremera (imagen de ejemplo)" loading="lazy">
+      <span class="about__tag mono">Lloret de Mar · ES</span>
+      <span class="about__badge">Full<br>stack</span>
+    </div>
+
+    <div class="about__text">
+      <p class="eyebrow mono">01 — Quién soy</p>
+      <p class="statement" data-words>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+
+      <dl class="facts">
+        <div class="reveal"><dt class="mono">Años</dt><dd><span data-count="3">0</span>+</dd></div>
+        <div class="reveal"><dt class="mono">Proyectos</dt><dd><span data-count="24">0</span></dd></div>
+        <div class="reveal"><dt class="mono">Idiomas</dt><dd><span data-count="3">0</span></dd></div>
+        <div class="reveal"><dt class="mono">Café / día</dt><dd><span data-count="4">0</span></dd></div>
+      </dl>
+    </div>
+  </div>
+</section>
+
+<!-- 03 SERVICIOS: se demuestran, no se explican -->
+<section class="services" id="servicios">
+  <div class="wrap">
+    <p class="eyebrow mono">02 — Qué hago diferente</p>
+    <h2 class="title">Lorem ipsum <em>dolor</em><br>sit amet.</h2>
+  </div>
+
+  <div class="wrap stack">
+
+    <article class="card card--1">
+      <div class="card__info">
+        <span class="card__n mono">A</span>
+        <h3>Lorem ipsum</h3>
+        <p>Dolor sit amet, consectetur adipiscing elit sed do eiusmod tempor.</p>
+        <ul class="tags mono"><li>Lorem</li><li>Ipsum</li><li>Dolor</li></ul>
+      </div>
+      <div class="card__demo">
+        <!-- demo real: un contenedor que se redimensiona y se reorganiza solo -->
+        <div class="rsz">
+          <div class="rsz__bar"><i></i><i></i><i></i></div>
+          <div class="rsz__frame">
+            <div class="rsz__in">
+              <div class="rsz__hero"></div>
+              <div class="rsz__c"></div><div class="rsz__c"></div><div class="rsz__c"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <article class="card card--2">
+      <div class="card__info">
+        <span class="card__n mono">B</span>
+        <h3>Consectetur</h3>
+        <p>Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+        <ul class="tags mono"><li>Lorem</li><li>Ipsum</li><li>Dolor</li></ul>
+      </div>
+      <div class="card__demo">
+        <div class="gauge">
+          <svg viewBox="0 0 120 120" aria-hidden="true">
+            <circle class="gauge__bg" cx="60" cy="60" r="52"/>
+            <circle class="gauge__fg" cx="60" cy="60" r="52" pathLength="100"/>
+          </svg>
+          <b class="gauge__n" data-count="100">0</b>
+          <span class="mono gauge__l">Lorem score</span>
+        </div>
+      </div>
+    </article>
+
+    <article class="card card--3">
+      <div class="card__info">
+        <span class="card__n mono">C</span>
+        <h3>Adipiscing</h3>
+        <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.</p>
+        <ul class="tags mono"><li>Lorem</li><li>Ipsum</li><li>Dolor</li></ul>
+      </div>
+      <div class="card__demo">
+        <div class="orbit">
+          <i class="orbit__core"></i>
+          <span class="orbit__r orbit__r--1"><i></i></span>
+          <span class="orbit__r orbit__r--2"><i></i></span>
+          <span class="orbit__r orbit__r--3"><i></i></span>
+        </div>
+      </div>
+    </article>
+
+    <article class="card card--4">
+      <div class="card__info">
+        <span class="card__n mono">D</span>
+        <h3>Eiusmod</h3>
+        <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum.</p>
+        <ul class="tags mono"><li>Lorem</li><li>Ipsum</li><li>Dolor</li></ul>
+      </div>
+      <div class="card__demo">
+        <pre class="code" aria-hidden="true"><span style="--n:22;--d:0s">const lorem = ipsum(dolor);</span>
+<span style="--n:30;--d:1.1s">if (sit.amet) consectetur();</span>
+<span style="--n:24;--d:2.2s">await adipiscing.elit({</span>
+<span style="--n:22;--d:3.3s">  tempor: "incididunt",</span>
+<span style="--n:20;--d:4.2s">  labore: true,</span>
+<span style="--n:4;--d:5s">});</span><i class="caret"></i></pre>
+      </div>
+    </article>
+
+  </div>
+</section>
+
+<!-- 04 PROYECTOS: scroll horizontal -->
+<section class="work" id="proyectos">
+  <div class="work__sticky">
+    <div class="work__head wrap">
+      <p class="eyebrow mono">03 — Trabajo seleccionado</p>
+      <p class="mono work__count"><span data-work-n>01</span> / 05</p>
+    </div>
+    <div class="work__track">
+      <a href="#" class="proj" data-cursor="view"><div class="proj__img"><img src="assets/placeholder.svg" alt="Proyecto de ejemplo 1" loading="lazy"></div><div class="proj__meta"><span class="mono">01</span><h3>Lorem Ipsum</h3><span class="mono">Web · 2025</span></div></a>
+      <a href="#" class="proj proj--b" data-cursor="view"><div class="proj__img"><img src="assets/placeholder.svg" alt="Proyecto de ejemplo 2" loading="lazy"></div><div class="proj__meta"><span class="mono">02</span><h3>Dolor Sit</h3><span class="mono">App · 2025</span></div></a>
+      <a href="#" class="proj proj--c" data-cursor="view"><div class="proj__img"><img src="assets/placeholder.svg" alt="Proyecto de ejemplo 3" loading="lazy"></div><div class="proj__meta"><span class="mono">03</span><h3>Amet Elit</h3><span class="mono">E-commerce · 2024</span></div></a>
+      <a href="#" class="proj proj--d" data-cursor="view"><div class="proj__img"><img src="assets/placeholder.svg" alt="Proyecto de ejemplo 4" loading="lazy"></div><div class="proj__meta"><span class="mono">04</span><h3>Tempor Magna</h3><span class="mono">Web · 2024</span></div></a>
+      <a href="#" class="proj proj--e" data-cursor="view"><div class="proj__img"><img src="assets/placeholder.svg" alt="Proyecto de ejemplo 5" loading="lazy"></div><div class="proj__meta"><span class="mono">05</span><h3>Labore Dolore</h3><span class="mono">Branding · 2023</span></div></a>
+    </div>
+    <div class="work__bar" aria-hidden="true"><i></i></div>
+  </div>
+</section>
+
+<!-- 05 LABORATORIO: la web se re-diseña en directo -->
+<section class="lab" id="laboratorio">
+  <div class="wrap lab__grid">
+    <div>
+      <p class="eyebrow mono">04 — Cómo soy</p>
+      <h2 class="title">Toca <em>algo.</em><br>Lo digo en serio.</h2>
+      <p class="lab__p">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cada control de aquí reescribe el diseño de toda la página en tiempo real.</p>
+    </div>
+
+    <form class="panel" onsubmit="return false" aria-label="Panel de diseño en vivo">
+      <div class="panel__head mono"><span>design-tokens.css</span><button type="button" class="panel__reset" data-reset data-cursor="link">reset</button></div>
+
+      <label class="ctl"><span class="mono">--color</span>
+        <input type="range" min="0" max="360" value="78" data-var="h"><output>78</output></label>
+
+      <label class="ctl"><span class="mono">--radio</span>
+        <input type="range" min="0" max="48" value="18" data-var="r"><output>18px</output></label>
+
+      <label class="ctl"><span class="mono">--ritmo</span>
+        <input type="range" min="60" max="140" value="100" data-var="rhythm"><output>1.00×</output></label>
+
+      <div class="ctl ctl--switch"><span class="mono">--tema</span>
+        <button type="button" class="switch" role="switch" aria-checked="false" data-theme-toggle data-cursor="link"><i></i><span class="sr-only">Cambiar tema claro u oscuro</span></button>
+        <output>oscuro</output></div>
+
+      <div class="panel__preview">
+        <div class="mini">
+          <div class="mini__img"></div>
+          <div><b>Lorem ipsum</b><p>Dolor sit amet consectetur.</p></div>
+          <button type="button" class="btn btn--small" data-cursor="link">Lorem</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</section>
+
+<!-- 06 PROCESO -->
+<section class="process" id="proceso">
+  <div class="wrap">
+    <p class="eyebrow mono">05 — Cómo trabajamos</p>
+    <h2 class="title">Cuatro pasos.<br><em>Cero</em> sorpresas.</h2>
+
+    <ol class="steps">
+      <li><span class="mono">01</span><div><h3>Lorem ipsum</h3><p>Dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.</p></div></li>
+      <li><span class="mono">02</span><div><h3>Dolor sit</h3><p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip.</p></div></li>
+      <li><span class="mono">03</span><div><h3>Consectetur</h3><p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore.</p></div></li>
+      <li><span class="mono">04</span><div><h3>Adipiscing</h3><p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia.</p></div></li>
+    </ol>
+  </div>
+</section>
+
+<!-- 07 CONTACTO -->
+<section class="contact" id="contacto">
+  <div class="wrap">
+    <p class="eyebrow mono">06 — Siguiente paso</p>
+    <a href="mailto:hola@lorem-ipsum.dev" class="contact__big magnetic" data-cursor="link">
+      <span>Hablemos</span>
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 19 19 5M8 5h11v11" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </a>
+    <p class="contact__mail mono">hola@lorem-ipsum.dev</p>
+  </div>
+  <footer class="foot wrap mono">
+    <span>© 2026 Victor Extremera</span>
+    <span>Lorem ipsum dolor sit amet</span>
+    <a href="#inicio" data-cursor="link">Volver arriba ↑</a>
+  </footer>
+</section>
+
+</main>
+
+<script src="main.js"></script>
+</body>
+</html>
