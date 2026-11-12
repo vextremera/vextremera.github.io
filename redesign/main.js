@@ -77,7 +77,7 @@
   };
   const io = new IntersectionObserver(entries => entries.forEach(en => {
     if (!en.isIntersecting) return;
-    en.target.classList.add('in');
+    en.target.classList.add('is-in');
     $$('[data-count]', en.target).forEach(countUp);
     io.unobserve(en.target);
   }), { threshold: .25 });
@@ -86,9 +86,9 @@
 
   /* ─── Texto que se ilumina palabra a palabra ─── */
   const st = $('[data-words]');
-  const words = st.textContent.trim().split(/\s+/).map(w => `<span class="w">${w}</span>`);
+  const words = st.textContent.trim().split(/\s+/).map(w => `<span class="statement__word">${w}</span>`);
   st.innerHTML = words.join(' ');
-  const wEls = $$('.w', st);
+  const wEls = $$('.statement__word', st);
 
   /* ─── Tilt 3D en la foto ─── */
   const tilt = $('[data-tilt]');
@@ -117,13 +117,13 @@
   const openMenu = () => {
     menuOpen = true; menu.hidden = false; nav.classList.remove('is-hidden');
     requestAnimationFrame(() => menu.classList.add('is-open'));
-    document.body.classList.add('menu-open');
+    document.body.classList.add('is-menu-open');
     burger.setAttribute('aria-expanded', 'true'); $('.sr-only', burger).textContent = 'Cerrar menú';
     menuLinks[0].focus();
   };
   const closeMenu = (refocus = true) => {
     menuOpen = false; menu.classList.remove('is-open');
-    document.body.classList.remove('menu-open');
+    document.body.classList.remove('is-menu-open');
     burger.setAttribute('aria-expanded', 'false'); $('.sr-only', burger).textContent = 'Abrir menú';
     setTimeout(() => { if (!menuOpen) menu.hidden = true; }, 350);
     if (refocus) burger.focus();
@@ -149,7 +149,7 @@
   const steps = $('.steps'), stepEls = $$('li', steps);
   let workH = 0, maxX = 0;
 
-  const isMobile = () => matchMedia('(max-width: 900px)').matches;
+  const isMobile = () => matchMedia('(max-width: 900px)') /* mismo corte que styles.css */.matches;
   const measure = () => {
     tab = parseFloat(getComputedStyle(stack).getPropertyValue('--tab')) || 92;
     if (isMobile()) {
@@ -177,7 +177,7 @@
     }
     lastY = y;
     const cr = contact.getBoundingClientRect();
-    nav.classList.toggle('on-accent', cr.top <= nav.offsetHeight * .6 && cr.bottom > 0);
+    nav.classList.toggle('is-on-accent', cr.top <= nav.offsetHeight * .6 && cr.bottom > 0);
 
     // tarjetas: cada una se encoge y se apaga un poco cuando las siguientes la van tapando
     if (!isMobile() && !reduce) {
@@ -194,7 +194,7 @@
     const sr = st.getBoundingClientRect();
     const sp = clamp((H * .85 - sr.top) / (sr.height + H * .45));
     const lit = Math.floor(sp * wEls.length * 1.15);
-    wEls.forEach((w, i) => w.classList.toggle('on', i < lit));
+    wEls.forEach((w, i) => w.classList.toggle('is-on', i < lit));
 
     // horizontal
     if (maxX > 0) {
@@ -216,7 +216,7 @@
     const pr = steps.getBoundingClientRect();
     const pp = clamp((H * .6 - pr.top) / pr.height);
     steps.style.setProperty('--p', pp.toFixed(3));
-    stepEls.forEach((li, i) => li.classList.toggle('on', pp >= (i / stepEls.length) + .02));
+    stepEls.forEach((li, i) => li.classList.toggle('is-on', pp >= (i / stepEls.length) + .02));
   };
   let ticking = false;
   addEventListener('scroll', () => { if (!ticking) { ticking = true; requestAnimationFrame(() => { onScroll(); ticking = false; }); } }, { passive: true });
@@ -228,8 +228,8 @@
   const defaults = { h: 78, r: 18, rhythm: 100 };
   const fmt = { h: v => v, r: v => v + 'px', rhythm: v => (v / 100).toFixed(2) + '×' };
   const apply = (k, v) => {
-    if (k === 'h') root.style.setProperty('--h', v);
-    if (k === 'r') root.style.setProperty('--r', v + 'px');
+    if (k === 'h') root.style.setProperty('--hue', v);
+    if (k === 'r') root.style.setProperty('--radius', v + 'px');
     if (k === 'rhythm') root.style.setProperty('--rhythm', v / 100);
     window.dispatchEvent(new Event('tokens'));
   };
